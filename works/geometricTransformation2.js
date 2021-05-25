@@ -119,6 +119,7 @@ function buildInterface()
       angle[1] = degreesToRadians(this.joint2);
       angle[2] = degreesToRadians(this.joint3);
       angleY[0] = degreesToRadians(this.joint1y);
+      console.log(angleY[0]);
       rotateCylinder();
     };
   };
