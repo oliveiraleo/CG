@@ -19,7 +19,7 @@ var trackballControls = new TrackballControls( camera, renderer.domElement );
 
 // Set angles of rotation
 var angle = [-1.57, 0, 0]; // In degreesToRadians
-var angleY = [0, 0, 0]; // 
+var angleY = [0, 0, 0]; // Angles for Y axis
 
 // Show world axes
 var axesHelper = new THREE.AxesHelper( 12 );
@@ -37,7 +37,7 @@ c1.add(s2);
 var c2 = createCylinder();
 s2.add(c2);
 
-// Adiciona o terceiro slider com a sua esfera
+// Adds the third slider and one more sphere
 var s3 = createSphere();
 c2.add(s3);
 
@@ -70,6 +70,7 @@ function rotateCylinder()
 {
   // More info:
   // https://threejs.org/docs/#manual/en/introduction/Matrix-transformations
+  s1.matrixAutoUpdate = false;
   c1.matrixAutoUpdate = false;
   s2.matrixAutoUpdate = false;
   c2.matrixAutoUpdate = false;
@@ -79,6 +80,7 @@ function rotateCylinder()
   var mat4 = new THREE.Matrix4();
 
   // resetting matrices
+  s1.matrix.identity();
   c1.matrix.identity();
   s2.matrix.identity();
   c2.matrix.identity();
@@ -88,7 +90,7 @@ function rotateCylinder()
   // Will execute T1 and then R1
   c1.matrix.multiply(mat4.makeRotationZ(angle[0])); // R1
   c1.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1
-  c1.matrix.multiply(mat4.makeRotationY(angleY[0])); // R2 (Y)
+  s1.matrix.multiply(mat4.makeRotationY(angleY[0])); // R2 (Y) - Rotates the sphere 1 on Y axis
   
   // Just need to translate the sphere to the right position
   s2.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
@@ -118,8 +120,7 @@ function buildInterface()
       angle[0] = degreesToRadians(this.joint1);
       angle[1] = degreesToRadians(this.joint2);
       angle[2] = degreesToRadians(this.joint3);
-      angleY[0] = degreesToRadians(this.joint1y);
-      console.log(angleY[0]);
+      angleY[0] = degreesToRadians(this.joint1y); // For Y axis
       rotateCylinder();
     };
   };
