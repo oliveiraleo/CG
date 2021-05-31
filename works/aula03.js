@@ -38,7 +38,11 @@ var renderer = initRenderer();    // View function in util/utils
 var keyboard = new KeyboardState();
 
 // Show axes (parameter is size of each axis)
-var axesHelper = new THREE.AxesHelper( 12 );
+var axesHelper = new THREE.AxesHelper( 15 );
+// Reposition of helper to better visualization of it
+axesHelper.translateZ(-2);
+axesHelper.translateY(20);
+axesHelper.translateX(2);
 scene.add( axesHelper );
 
 // create the ground plane
@@ -54,7 +58,8 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);*/
 var vecTest = new THREE.Vector3(0, 1, 0);
 plane.set(vecTest);*/
 
-var groundPlaneWired = createGroundPlaneWired(50, 50, 100, 100, "grey");
+var groundPlaneWired = createGroundPlaneWired(100, 100, 100, 100, "grey");
+groundPlaneWired.translateY(2);
 groundPlaneWired.rotateX(degreesToRadians(90));
 scene.add(groundPlaneWired);
 
