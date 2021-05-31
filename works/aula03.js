@@ -10,12 +10,21 @@ import {initRenderer,
         onWindowResize, 
         degreesToRadians} from "../libs/util/util.js";
 
-var scene = new THREE.Scene();
+var scene = new THREE.Scene(); //create scene
+//Camera configs
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-camera.position.set(0.0, 2.0, 0.0);
-camera.up.set(0, 1, 0);
+camera.position.set(0.0, 0.0, 0.0);
 camera.lookAt(0, 0, 0); // Set look at origin
-var clock = new THREE.Clock();
+camera.up.set(0, 1, 0);
+//var clock = new THREE.Clock();
+//Config camera holder
+var cameraHolder = new THREE.Object3D();
+cameraHolder.position.set(0.0, 2.0, 0.0);
+cameraHolder.up.set(0, 1, 0);
+cameraHolder.lookAt(0, 0, 0);
+scene.add(cameraHolder);
+cameraHolder.add(camera);
+//scene.add(camera);
 
 //const renderer = new THREE.WebGLRenderer();
 var renderer = initRenderer();    // View function in util/utils
@@ -39,27 +48,64 @@ var planeMaterial = new THREE.MeshBasicMaterial({
     color: "rgba(150, 150, 150)",
     side: THREE.DoubleSide,
 });
-var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);*/
 // add the plane to the scene
-scene.add(plane);*/
+/*scene.add(plane);
+var vecTest = new THREE.Vector3(0, 1, 0);
+plane.set(vecTest);*/
 
-var groundPlaneWired = createGroundPlaneWired(50, 50, 100, 50, "grey");
+var groundPlaneWired = createGroundPlaneWired(50, 50, 100, 100, "grey");
+groundPlaneWired.rotateX(degreesToRadians(90));
 scene.add(groundPlaneWired);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
-//Config camera holder
-var cameraHolder = new THREE.Object3D();
-cameraHolder.position.set(0.0, 2.0, 0.0);
-cameraHolder.lookAt(0, 0, 0);
-cameraHolder.up.set(0, 1, 0);
-scene.add(cameraHolder);
-cameraHolder.add(camera);
-
 // Adds light
 scene.add(new THREE.HemisphereLight());
 
+// Testing new controls (wrong way acconding to the exercise)
+function keyboardUpdateTest() {
+
+    keyboard.update();
+    var angle = degreesToRadians(1);
+    var camX = new THREE.Vector3(1, 0, 0); // Set X axis
+    var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
+    var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
+
+    if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camZ, angle);
+    if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed("up")) cameraHolder.rotateOnAxis(camX, -angle);
+    if (keyboard.pressed("down")) cameraHolder.rotateOnAxis(camX, angle);
+    //if (keyboard.pressed("<")) cameraHolder.rotateOnAxis(camZ, angle);
+    //if (keyboard.pressed(">")) cameraHolder.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camY, angle);
+    if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camY, -angle);
+    if (keyboard.pressed("space")) cameraHolder.translateY(-0.2)
+    //if (keyboard.pressed("R")) cameraHolder.translateY(0.2)
+}
+// Keyboard controls for cameraHolder
+function keyboardUpdateHolder() {
+
+    keyboard.update();
+    var angle = degreesToRadians(1);
+    var camX = new THREE.Vector3(1, 0, 0); // Set X axis
+    var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
+    var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
+
+    if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camY, angle);
+    if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camY, -angle);
+    if (keyboard.pressed("up")) cameraHolder.rotateOnAxis(camX, -angle);
+    if (keyboard.pressed("down")) cameraHolder.rotateOnAxis(camX, angle);
+    if (keyboard.pressed("<")) cameraHolder.rotateOnAxis(camZ, angle);
+    if (keyboard.pressed(">")) cameraHolder.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camZ, angle);
+    if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed("space")) cameraHolder.translateZ(-0.2)
+    if (keyboard.pressed("R")) cameraHolder.translateZ(0.2)
+}
+
+// Keyboard controls for camera
 function keyboardUpdate() {
 
     keyboard.update();
@@ -68,22 +114,25 @@ function keyboardUpdate() {
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
 
-    if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camZ, -angle);
-    if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camZ, angle);
-    if (keyboard.pressed("up")) cameraHolder.rotateOnAxis(camX, -angle);
-    if (keyboard.pressed("down")) cameraHolder.rotateOnAxis(camX, angle);
-    //if (keyboard.pressed("<")) cameraHolder.rotateOnAxis(camZ, angle);
-    //if (keyboard.pressed(">")) cameraHolder.rotateOnAxis(camZ, -angle);
-    if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camY, angle);
-    if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camY, -angle);
-    if (keyboard.pressed("space")) cameraHolder.translateY(-0.2) //translateZ(0.2);
+    if (keyboard.pressed("left")) camera.rotateOnAxis(camY, angle);
+    if (keyboard.pressed("right")) camera.rotateOnAxis(camY, -angle);
+    if (keyboard.pressed("up")) camera.rotateOnAxis(camX, -angle);
+    if (keyboard.pressed("down")) camera.rotateOnAxis(camX, angle);
+    if (keyboard.pressed("<")) camera.rotateOnAxis(camZ, angle);
+    if (keyboard.pressed(">")) camera.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed(",")) camera.rotateOnAxis(camZ, angle);
+    if (keyboard.pressed(".")) camera.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed("space")) camera.translateZ(-0.2)
+    //if (keyboard.pressed("R")) camera.translateZ(0.2)
 }
 
 function render() {
 	//trackballControls.update();
     requestAnimationFrame( render );
 	renderer.render( scene, camera );
-    keyboardUpdate();
+    //keyboardUpdate(); //listens to keyboard inputs and controls camera
+    keyboardUpdateHolder(); //listens to keyboard inputs and controls cameraHolder
+    //keyboardUpdateTest(); //listens to keyboard inputs and controls camera (fix)
     //console.log(camera.position);
 }
 render();
