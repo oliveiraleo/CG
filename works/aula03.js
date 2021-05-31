@@ -8,7 +8,8 @@ import {initRenderer,
 //        createGroundPlane,
         createGroundPlaneWired,
         onWindowResize, 
-        degreesToRadians} from "../libs/util/util.js";
+        degreesToRadians,
+        InfoBox} from "../libs/util/util.js";
 
 var scene = new THREE.Scene(); //create scene
 //Camera configs
@@ -69,6 +70,9 @@ window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)},
 // Adds light
 scene.add(new THREE.HemisphereLight());
 
+// Show text information onscreen
+showInformation(); // displays controls
+
 // Testing new controls (wrong way acconding to the exercise)
 function keyboardUpdateTest() {
 
@@ -97,7 +101,7 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
-
+    
     if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camY, angle);
     if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camY, -angle);
     if (keyboard.pressed("up")) cameraHolder.rotateOnAxis(camX, -angle);
@@ -106,8 +110,15 @@ function keyboardUpdateHolder() {
     if (keyboard.pressed(">")) cameraHolder.rotateOnAxis(camZ, -angle);
     if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camZ, angle);
     if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camZ, -angle);
-    if (keyboard.pressed("space")) cameraHolder.translateZ(-0.2)
-    if (keyboard.pressed("R")) cameraHolder.translateZ(0.2)
+    if (keyboard.pressed("space")) cameraHolder.translateZ(-0.2);
+    if (keyboard.pressed("R")) cameraHolder.translateZ(0.2);
+    if (keyboard.down("A")){ //shows or hides the axes helper
+        if(axesHelper.visible == false){
+            axesHelper.visible = true;
+        } else { 
+            axesHelper.visible = false;
+        }
+    };
 }
 
 // Keyboard controls for camera
@@ -129,6 +140,20 @@ function keyboardUpdate() {
     if (keyboard.pressed(".")) camera.rotateOnAxis(camZ, -angle);
     if (keyboard.pressed("space")) camera.translateZ(-0.2)
     //if (keyboard.pressed("R")) camera.translateZ(0.2)
+}
+
+function showInformation()
+{
+  // Use this to show information onscreen
+    var controls = new InfoBox();
+    controls.add("Flying camera controls:");
+    controls.addParagraph();
+    controls.add("Press arrow keys to move the camera");
+    controls.add("Press , (comma) or . (point) to change camera angle");
+    controls.add("Press SPACE to move");
+    controls.add("Press R to reverse move");
+    controls.add("Press A to toggle Axes Helper visibility");
+    controls.show();
 }
 
 function render() {
