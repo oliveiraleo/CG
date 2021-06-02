@@ -14,13 +14,10 @@ var stats = new Stats();          // To show FPS information
 var renderer = initRenderer();    // View function in util/utils
 var camera = initCamera(new THREE.Vector3(0, -30, 15)); // Init camera in this position
 var clock = new THREE.Clock();
-initDefaultBasicLight(scene);
+initDefaultBasicLight(scene); // Adds light to the objects
 
 // Show text information onscreen
 showInformation();
-
-// To use the keyboard
-//var keyboard = new KeyboardState();
 
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls(camera, renderer.domElement );
@@ -63,7 +60,7 @@ var animationOn = false; // controls animation
 
 function move(){
   
-  var speed = 0.1; // set speed of movement
+  var speed = 0.05; // set speed of movement
 
   //let xy = Math.sqrt(Math.pow(sphereNewPos[0],2)+ Math.pow(sphereNewPos[1],2));
   let xyz = Math.sqrt(Math.pow(sphereNewPos[0],2)+ Math.pow(sphereNewPos[1],2)+ Math.pow(sphereNewPos[2],2));
@@ -80,9 +77,9 @@ function move(){
       } else if(sphereNewPos[0] > spherePositon[0]){
         spherePositon[0] = spherePositon[0] - sphereSpeed [0];
       }
-    } else if(sphereNewPos[0]>0){
+    } else if(sphereNewPos[0] >= 0){
       if(sphereNewPos[0] > spherePositon[0]){
-        spherePositon[0] = spherePositon[0]+sphereSpeed [0];
+        spherePositon[0] = spherePositon[0] + sphereSpeed [0];
       } else if(sphereNewPos[0] < spherePositon[0]){
         spherePositon[0] = spherePositon[0] - sphereSpeed [0];
       }
@@ -90,11 +87,11 @@ function move(){
     // Y axis
     if(sphereNewPos[1] < 0){
       if(sphereNewPos[1] < spherePositon[1]){
-        spherePositon[1] = spherePositon[1]+sphereSpeed [1];
+        spherePositon[1] = spherePositon[1] + sphereSpeed [1];
       } else if(sphereNewPos[1] > spherePositon[1]){
-        spherePositon[1] = spherePositon[1]-sphereSpeed [1];
+        spherePositon[1] = spherePositon[1] - sphereSpeed [1];
       }
-    } else if(sphereNewPos[1] > 0){
+    } else if(sphereNewPos[1] >= 0){
       if(sphereNewPos[1] > spherePositon[1]){
         spherePositon[1] = spherePositon[1] + sphereSpeed [1];
       } else if(sphereNewPos[1] < spherePositon[1]){
@@ -108,24 +105,14 @@ function move(){
       } else if(sphereNewPos[2] > spherePositon[2]){
         spherePositon[2] = spherePositon[2] - sphereSpeed [2];
       }
-    } else if(sphereNewPos[2] > 0){
+    } else if(sphereNewPos[2] >= 0){
       if(sphereNewPos[2] > spherePositon[2]){
         spherePositon[2] = spherePositon[2] + sphereSpeed [2];
       } else if(sphereNewPos[2] < spherePositon[2]){
         spherePositon[2] = spherePositon[2] - sphereSpeed [2];
       }
     }
-
-    /*if((spherePositon[0] <= 0 ||
-      spherePositon[0] > 0) ||
-      (spherePositon[1] <= 0 ||
-        spherePositon[1] > 0) ||
-        (spherePositon[2] <= 0 ||
-        spherePositon[2] > 0)){
-      speed = 0.0;
-    }
-    console.log(spherePositon);*/
-    
+    //console.log(spherePositon);
     //console.log(sphereSpeed);
     sphere.position.set(spherePositon[0], spherePositon[1], spherePositon[2]);
   }
