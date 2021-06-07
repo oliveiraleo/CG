@@ -99,10 +99,10 @@ var frontTire = new THREE.Mesh(tiresGeometry, material);
 frontTire.position.set(0.0, 2.0, 0.3);
 // back left
 var backLeftTire = new THREE.Mesh(tiresGeometry, material);
-backLeftTire.position.set(4.0, 4.0, 0.3);
+backLeftTire.position.set(-1.45, -3.0, 0.3);
 // back right
 var backRightTire = new THREE.Mesh(tiresGeometry, material);
-backRightTire.position.set(6.0, 4.0, 0.3);
+backRightTire.position.set(1.45, -3.0, 0.3);
 // rotate tires to adjust angles
 frontTire.rotateX(degreesToRadians(90));
 frontTire.rotateY(degreesToRadians(90));
@@ -111,9 +111,23 @@ backLeftTire.rotateY(degreesToRadians(90));
 backRightTire.rotateX(degreesToRadians(90));
 backRightTire.rotateY(degreesToRadians(90));
 
+// create shock strut geometry
 var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.6);
+var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.0);
+// create front shock strut
 var shockStrut = new THREE.Mesh(shockStrutGeometry, material);
 shockStrut.position.set(0.0, 2.0, 0.8);
+// create back left shock strut
+var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
+backLeftShockStrut.position.set(-1.0, -3.0, 0.8);
+// rotate to 90° angle
+backLeftShockStrut.rotateY(degreesToRadians(45));
+// create back right shock strut
+var backRightShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
+backRightShockStrut.position.set(1.0, -3.0, 0.8);
+// rotate to 90° angle
+backRightShockStrut.rotateY(degreesToRadians(-45));
+
 
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
@@ -137,10 +151,13 @@ scene.add(horizontalStabilizer);
 scene.add(frontCylinder);
 scene.add(blades);
 scene.add(cockpit);
+// Landing gear
 scene.add(shockStrut);
+scene.add(backLeftShockStrut);
+scene.add(backRightShockStrut);
 scene.add(frontTire); // TODO enable and position landing gear tires
-//scene.add(backRightTire);
-//scene.add(backLeftTire);
+scene.add(backRightTire);
+scene.add(backLeftTire);
 
 // Use this to show information onscreen
 var controls = new InfoBox();
