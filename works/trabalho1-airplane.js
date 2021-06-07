@@ -38,7 +38,7 @@ var material = new THREE.MeshNormalMaterial();
 
 // fuselage
 // define airplane wings geometry
-var wingsGeometry = new THREE.BoxGeometry(6, 3, 0.2);
+var wingsGeometry = new THREE.BoxGeometry(12.0, 3.0, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, material);
 rightWing.position.set(4.0, 0.0, 2.5);
@@ -101,8 +101,8 @@ var rightBlade = new THREE.Mesh(bladesGeometry, material);
 rightBlade.rotateY(degreesToRadians(60));
 // adds all blades to the hub
 hub.add(topBlade);
-hub.add(leftBlade);
-hub.add(rightBlade);
+//hub.add(leftBlade);
+//hub.add(rightBlade);
 // Base hub sphere
 var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
 var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
@@ -203,13 +203,12 @@ function rotateBlades(){
   var mat4 = new THREE.Matrix4();
   //hub.matrix.identity();  // reset matrix
   topBlade.matrix.identity();  // reset matrix
-  leftBlade.matrix.identity();  // reset
+  leftBlade.matrix.identity();  // reset // TODO correct blades angles
   rightBlade.matrix.identity(); // reset
 
-  // Will execute T1 and then R1
-  hub.matrix.multiply(mat4.makeRotationY(angle/10)); // R1
-  hub.translateX(0.0).translateY(6.0).translateZ(2.5);
-  //hub.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.1)); // T1
+  // Will execute rotation
+  //hub.matrix.multiply(mat4.makeRotationY(angle/10)); // R1 // TODO make rotation speed change
+  hub.matrix.multiply(mat4.makeRotationY(speed*100)); // R1 fixed rotational speed
 }
 
 // Use this to show information onscreen
