@@ -36,12 +36,22 @@ var material = new THREE.MeshNormalMaterial();
 /*var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
 var cubeMaterial = new THREE.MeshNormalMaterial();
 var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);*/
-// create a cylinder
-var cylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 5, 32);
-var cylinder = new THREE.Mesh(cylinderGeometry, material);
-cylinder.position.set(0.0, 0.0, 1.5);
+// create the base cylinder
+var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
+var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
+baseCylinder.position.set(0.0, 0.0, 1.5);
 // rotate to 90° angle
 //cylinder.rotateX(degreesToRadians(90));
+
+// create the rear cylinder
+var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
+var backCylinder = new THREE.Mesh(backCylinderGeometry, material);
+backCylinder.position.set(0.0, -6.0, 1.5);
+
+// create the front cylinder
+var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
+var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
+frontCylinder.position.set(0.0, 4.5, 1.5);
 
 // create a sphere
 var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
@@ -52,9 +62,11 @@ sphere.position.set(8.0, 0.0, 1.0);
 //cube.position.set(0.0, 0.0, 2.0);
 //cube2.position.set(2.0, 5.0, 1.5);
 //cube3.position.set(6.0, -5.0, 3.0);
-// add the cubes to the scene
+// add the objects to the scene
 //scene.add(cube);
-scene.add(cylinder);
+scene.add(baseCylinder);
+scene.add(backCylinder);
+scene.add(frontCylinder);
 //scene.add(sphere);
 
 // Use this to show information onscreen
