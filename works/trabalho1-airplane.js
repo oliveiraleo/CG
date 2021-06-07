@@ -35,6 +35,9 @@ scene.add(plane);
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 
+
+// fuselage
+// define airplane wings geometry
 var wingsGeometry = new THREE.BoxGeometry(6, 3, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, material);
@@ -78,22 +81,26 @@ var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
 frontCylinder.position.set(0.0, 4.5, 2.5);
 
+
 // propeller
 // create blades hub
 var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, material);
 hub.position.set(0.0, 6.0, 2.5);
 // define blades geometry
-var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 2.5);
+var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.5);
 // create blades
 var topBlade = new THREE.Mesh(bladesGeometry, material);
-topBlade.position.set(0.0, 6.0, 2.5);
+//topBlade.position.set(0.0, 0.0, 0.0);
 var leftBlade = new THREE.Mesh(bladesGeometry, material);
-leftBlade.position.set(0.0, 6.0, 2.5);
+//leftBlade.position.set(0.0, 6.0, 2.5);
 leftBlade.rotateY(degreesToRadians(-60));
 var rightBlade = new THREE.Mesh(bladesGeometry, material);
-rightBlade.position.set(0.0, 6.0, 2.5);
+//rightBlade.position.set(0.0, 6.0, 2.5);
 rightBlade.rotateY(degreesToRadians(60));
+hub.add(topBlade);
+hub.add(leftBlade);
+hub.add(rightBlade);
 
 
 // landing gear
@@ -139,10 +146,6 @@ var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, material);
 cockpit.position.set(0.0, -1.5, 3.6);
 
-// position the cube
-//cube.position.set(0.0, 0.0, 2.0);
-//cube2.position.set(2.0, 5.0, 1.5);
-//cube3.position.set(6.0, -5.0, 3.0);
 
 // add the objects to the scene
 // fuselage
@@ -154,9 +157,9 @@ scene.add(cockpit);
 scene.add(backCylinder);
 // propeller
 scene.add(hub);
-scene.add(topBlade);
-scene.add(leftBlade);
-scene.add(rightBlade);
+//scene.add(topBlade);
+//scene.add(leftBlade);
+//scene.add(rightBlade);
 // tail
 scene.add(tailCylinder);
 scene.add(leftStabilizer);
