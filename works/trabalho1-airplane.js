@@ -30,12 +30,17 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 // add the plane to the scene
 scene.add(plane);
 
+// define objects material
 var material = new THREE.MeshNormalMaterial();
 
-// create a cube
-/*var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-var cubeMaterial = new THREE.MeshNormalMaterial();
-var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);*/
+var wingsGeometry = new THREE.BoxGeometry(6, 3, 0.2);
+// create the right wing
+var rightWing = new THREE.Mesh(wingsGeometry, material);
+rightWing.position.set(4.0, 0.0, 1.5);
+// create the left wing
+var leftWing = new THREE.Mesh(wingsGeometry, material);
+leftWing.position.set(-4.0, 0.0, 1.5);
+
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
@@ -62,8 +67,10 @@ sphere.position.set(8.0, 0.0, 1.0);
 //cube.position.set(0.0, 0.0, 2.0);
 //cube2.position.set(2.0, 5.0, 1.5);
 //cube3.position.set(6.0, -5.0, 3.0);
+
 // add the objects to the scene
-//scene.add(cube);
+scene.add(rightWing);
+scene.add(leftWing);
 scene.add(baseCylinder);
 scene.add(backCylinder);
 scene.add(frontCylinder);
