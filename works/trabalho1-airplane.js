@@ -91,6 +91,26 @@ blades.position.set(0.0, 5.52, 1.5);
 // rotate to 90° angle
 blades.rotateX(degreesToRadians(90));
 
+// landing gear
+// creates tires geometry
+var tiresGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
+// front
+var frontTire = new THREE.Mesh(tiresGeometry, material);
+frontTire.position.set(5.0, 5.0, 0.3);
+// back left
+var backLeftTire = new THREE.Mesh(tiresGeometry, material);
+backLeftTire.position.set(4.0, 4.0, 0.3);
+// back right
+var backRightTire = new THREE.Mesh(tiresGeometry, material);
+backRightTire.position.set(6.0, 4.0, 0.3);
+// rotate tires to adjust angles
+frontTire.rotateX(degreesToRadians(90));
+frontTire.rotateY(degreesToRadians(90));
+backLeftTire.rotateX(degreesToRadians(90));
+backLeftTire.rotateY(degreesToRadians(90));
+backRightTire.rotateX(degreesToRadians(90));
+backRightTire.rotateY(degreesToRadians(90));
+
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, material);
@@ -113,6 +133,9 @@ scene.add(horizontalStabilizer);
 scene.add(frontCylinder);
 scene.add(blades);
 scene.add(cockpit);
+/*scene.add(frontTire); // TODO enable and position landing gear tires
+scene.add(backRightTire);
+scene.add(backLeftTire);*/
 
 // Use this to show information onscreen
 var controls = new InfoBox();
