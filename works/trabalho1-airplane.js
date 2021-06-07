@@ -18,6 +18,7 @@ var trackballControls = new TrackballControls( camera, renderer.domElement );
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 12 );
 scene.add( axesHelper );
+// TODO move axes helper to the side
 
 // create the ground plane
 var planeGeometry = new THREE.PlaneGeometry(20, 20);
@@ -54,6 +55,24 @@ var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
 var backCylinder = new THREE.Mesh(backCylinderGeometry, material);
 backCylinder.position.set(0.0, -6.0, 1.5);
 
+// create tail cylinder
+var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+var tailCylinder = new THREE.Mesh(tailCylinderGeometry, material);
+tailCylinder.position.set(0.0, -9.0, 1.5);
+
+// define airplane stabilizers geometry
+var verticalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
+var horizontalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
+// create the right stabilizer
+var rightStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
+rightStabilizer.position.set(1.0, -9.0, 1.5);
+// create the left stabilizer
+var leftStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
+leftStabilizer.position.set(-1.0, -9.0, 1.5);
+// create horizontal stabilizer
+var horizontalStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
+horizontalStabilizer.position.set(0.0, -9.0, 2.5);
+
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
@@ -87,6 +106,10 @@ scene.add(rightWing);
 scene.add(leftWing);
 scene.add(baseCylinder);
 scene.add(backCylinder);
+scene.add(tailCylinder);
+scene.add(leftStabilizer);
+scene.add(rightStabilizer);
+scene.add(horizontalStabilizer);
 scene.add(frontCylinder);
 scene.add(blades);
 scene.add(cockpit);
