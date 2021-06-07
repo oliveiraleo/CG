@@ -30,30 +30,32 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 // add the plane to the scene
 scene.add(plane);
 
+var material = new THREE.MeshNormalMaterial();
+
 // create a cube
-var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+/*var cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
 var cubeMaterial = new THREE.MeshNormalMaterial();
-var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);*/
 // create a cylinder
 var cylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 5, 32);
-var cylinder = new THREE.Mesh(cylinderGeometry, cubeMaterial);
-cylinder.position.set(2.0, 6.0, 2.5);
+var cylinder = new THREE.Mesh(cylinderGeometry, material);
+cylinder.position.set(0.0, 0.0, 1.5);
 // rotate to 90° angle
-cylinder.rotateX(degreesToRadians(90));
+//cylinder.rotateX(degreesToRadians(90));
 
 // create a sphere
 var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-var sphere = new THREE.Mesh(sphereGeometry, cubeMaterial);
+var sphere = new THREE.Mesh(sphereGeometry, material);
 sphere.position.set(8.0, 0.0, 1.0);
 
 // position the cube
-cube.position.set(0.0, 0.0, 2.0);
+//cube.position.set(0.0, 0.0, 2.0);
 //cube2.position.set(2.0, 5.0, 1.5);
 //cube3.position.set(6.0, -5.0, 3.0);
 // add the cubes to the scene
-scene.add(cube);
+//scene.add(cube);
 scene.add(cylinder);
-scene.add(sphere);
+//scene.add(sphere);
 
 // Use this to show information onscreen
 var controls = new InfoBox();
