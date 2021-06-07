@@ -58,6 +58,19 @@ var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
 frontCylinder.position.set(0.0, 4.5, 1.5);
 
+// define blades material
+var bladesMaterial = new THREE.MeshBasicMaterial({
+  color: "white", // TODO change to a better color
+  side: THREE.DoubleSide,
+});
+
+// create blades prototype
+var bladesGeometry = new THREE.CircleGeometry(2, 32);
+var blades = new THREE.Mesh(bladesGeometry, bladesMaterial);
+blades.position.set(0.0, 5.52, 1.5);
+// rotate to 90° angle
+blades.rotateX(degreesToRadians(90));
+
 // create a sphere
 var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
 var sphere = new THREE.Mesh(sphereGeometry, material);
@@ -74,6 +87,7 @@ scene.add(leftWing);
 scene.add(baseCylinder);
 scene.add(backCylinder);
 scene.add(frontCylinder);
+scene.add(blades);
 //scene.add(sphere);
 
 // Use this to show information onscreen
