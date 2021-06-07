@@ -84,7 +84,7 @@ var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, material);
 hub.position.set(0.0, 6.0, 2.5);
 // define blades geometry
-var bladesGeometry = new THREE.BoxGeometry(0.05, 0.2, 2.5);
+var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 2.5);
 // create blades
 var topBlade = new THREE.Mesh(bladesGeometry, material);
 topBlade.position.set(0.0, 6.0, 2.5);
