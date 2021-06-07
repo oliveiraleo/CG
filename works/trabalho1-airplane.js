@@ -84,12 +84,18 @@ var bladesMaterial = new THREE.MeshBasicMaterial({
   side: THREE.DoubleSide,
 });
 
+// propeller
 // create blades prototype
-var bladesGeometry = new THREE.CircleGeometry(2, 32);
+/*var bladesGeometry = new THREE.CircleGeometry(2, 32);
 var blades = new THREE.Mesh(bladesGeometry, bladesMaterial);
 blades.position.set(0.0, 5.52, 2.5);
 // rotate to 90° angle
-blades.rotateX(degreesToRadians(90));
+blades.rotateX(degreesToRadians(90));*/
+
+// create blades hub
+var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
+var hub = new THREE.Mesh(hubGeometry, material);
+hub.position.set(0.0, 6.0, 2.5);
 
 // landing gear
 // creates tires geometry
@@ -140,22 +146,26 @@ cockpit.position.set(0.0, -1.5, 3.6);
 //cube3.position.set(6.0, -5.0, 3.0);
 
 // add the objects to the scene
+// fuselage
+scene.add(frontCylinder);
 scene.add(rightWing);
 scene.add(leftWing);
 scene.add(baseCylinder);
+scene.add(cockpit);
 scene.add(backCylinder);
+// propeller
+//scene.add(blades);
+scene.add(hub);
+// tail
 scene.add(tailCylinder);
 scene.add(leftStabilizer);
 scene.add(rightStabilizer);
 scene.add(horizontalStabilizer);
-scene.add(frontCylinder);
-scene.add(blades);
-scene.add(cockpit);
-// Landing gear
+// landing gear
 scene.add(shockStrut);
 scene.add(backLeftShockStrut);
 scene.add(backRightShockStrut);
-scene.add(frontTire); // TODO enable and position landing gear tires
+scene.add(frontTire);
 scene.add(backRightTire);
 scene.add(backLeftTire);
 
