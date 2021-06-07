@@ -86,7 +86,8 @@ frontCylinder.position.set(0.0, 4.5, 2.5);
 // create blades hub
 var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, material);
-hub.position.set(0.0, 6.0, 2.5);
+//hub.position.set(0.0, 6.0, 2.5);
+//hub.position.set(0.0, 2.5, 0.0);
 // define blades geometry
 var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.5);
 // create blades
@@ -98,10 +99,17 @@ leftBlade.rotateY(degreesToRadians(-60));
 var rightBlade = new THREE.Mesh(bladesGeometry, material);
 //rightBlade.position.set(0.0, 6.0, 2.5);
 rightBlade.rotateY(degreesToRadians(60));
+// adds all blades to the hub
 hub.add(topBlade);
 hub.add(leftBlade);
 hub.add(rightBlade);
-
+// Base hub sphere
+var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
+var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
+// Set initial position of the sphere
+hubBaseSphere.translateX(0.0).translateY(6.0).translateZ(2.5);
+// adds the hub to the base sphere
+hubBaseSphere.add(hub);
 
 // landing gear
 // creates tires geometry
@@ -156,7 +164,8 @@ scene.add(baseCylinder);
 scene.add(cockpit);
 scene.add(backCylinder);
 // propeller
-scene.add(hub);
+scene.add(hubBaseSphere);
+//scene.add(hub);
 //scene.add(topBlade);
 //scene.add(leftBlade);
 //scene.add(rightBlade);
@@ -173,9 +182,39 @@ scene.add(frontTire);
 scene.add(backRightTire);
 scene.add(backLeftTire);
 
+// Set angles of rotation
+var angle = 0.0;
+//var angle2 = 0;
+var speed = 0.005;
+//var animationOn = true; // control if animation is on or of
+
+function rotateBlades(){
+  // takes back matrix control
+  hub.matrixAutoUpdate = false;
+  topBlade.matrixAutoUpdate = false;
+  leftBlade.matrixAutoUpdate = false;
+  rightBlade.matrixAutoUpdate = false;
+
+  // defines angular speed
+  //let speed = 0.05;
+  angle+=speed;
+  //angle2+=speed*2;
+  
+  var mat4 = new THREE.Matrix4();
+  //hub.matrix.identity();  // reset matrix
+  topBlade.matrix.identity();  // reset matrix
+  leftBlade.matrix.identity();  // reset
+  rightBlade.matrix.identity(); // reset
+
+  // Will execute T1 and then R1
+  hub.matrix.multiply(mat4.makeRotationY(angle/10)); // R1
+  hub.translateX(0.0).translateY(6.0).translateZ(2.5);
+  //hub.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.1)); // T1
+}
+
 // Use this to show information onscreen
 var controls = new InfoBox();
-  controls.add("Basic Scene");
+  controls.add("Airplane Preview");
   controls.addParagraph();
   controls.add("Use mouse to interact:");
   controls.add("* Left button to rotate");
@@ -192,5 +231,6 @@ function render()
   stats.update(); // Update FPS
   trackballControls.update(); // Enable mouse movements
   requestAnimationFrame(render);
+  rotateBlades(); // Enable blades rotation
   renderer.render(scene, camera) // Render scene
 }
