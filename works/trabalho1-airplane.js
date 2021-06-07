@@ -38,45 +38,45 @@ var material = new THREE.MeshNormalMaterial();
 var wingsGeometry = new THREE.BoxGeometry(6, 3, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, material);
-rightWing.position.set(4.0, 0.0, 1.5);
+rightWing.position.set(4.0, 0.0, 2.5);
 // create the left wing
 var leftWing = new THREE.Mesh(wingsGeometry, material);
-leftWing.position.set(-4.0, 0.0, 1.5);
+leftWing.position.set(-4.0, 0.0, 2.5);
 
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
-baseCylinder.position.set(0.0, 0.0, 1.5);
+baseCylinder.position.set(0.0, 0.0, 2.5);
 // rotate to 90° angle
 //cylinder.rotateX(degreesToRadians(90));
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
 var backCylinder = new THREE.Mesh(backCylinderGeometry, material);
-backCylinder.position.set(0.0, -6.0, 1.5);
+backCylinder.position.set(0.0, -6.0, 2.5);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
 var tailCylinder = new THREE.Mesh(tailCylinderGeometry, material);
-tailCylinder.position.set(0.0, -9.0, 1.5);
+tailCylinder.position.set(0.0, -9.0, 2.5);
 
 // define airplane stabilizers geometry
 var verticalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
 var horizontalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
 // create the right stabilizer
 var rightStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
-rightStabilizer.position.set(1.0, -9.0, 1.5);
+rightStabilizer.position.set(1.0, -9.0, 2.5);
 // create the left stabilizer
 var leftStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
-leftStabilizer.position.set(-1.0, -9.0, 1.5);
+leftStabilizer.position.set(-1.0, -9.0, 2.5);
 // create horizontal stabilizer
 var horizontalStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
-horizontalStabilizer.position.set(0.0, -9.0, 2.5);
+horizontalStabilizer.position.set(0.0, -9.0, 3.5);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
-frontCylinder.position.set(0.0, 4.5, 1.5);
+frontCylinder.position.set(0.0, 4.5, 2.5);
 
 // define blades material
 var bladesMaterial = new THREE.MeshBasicMaterial({
@@ -87,7 +87,7 @@ var bladesMaterial = new THREE.MeshBasicMaterial({
 // create blades prototype
 var bladesGeometry = new THREE.CircleGeometry(2, 32);
 var blades = new THREE.Mesh(bladesGeometry, bladesMaterial);
-blades.position.set(0.0, 5.52, 1.5);
+blades.position.set(0.0, 5.52, 2.5);
 // rotate to 90° angle
 blades.rotateX(degreesToRadians(90));
 
@@ -114,7 +114,7 @@ backRightTire.rotateY(degreesToRadians(90));
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, material);
-cockpit.position.set(0.0, -1.5, 2.6);
+cockpit.position.set(0.0, -1.5, 3.6);
 
 // position the cube
 //cube.position.set(0.0, 0.0, 2.0);
