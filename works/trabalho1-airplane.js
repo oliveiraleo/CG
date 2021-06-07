@@ -24,6 +24,7 @@ var planeGeometry = new THREE.PlaneGeometry(20, 20);
 planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 var planeMaterial = new THREE.MeshBasicMaterial({
     color: "rgba(150, 150, 150)",
+    //color: "green",
     side: THREE.DoubleSide,
 });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -71,10 +72,10 @@ blades.position.set(0.0, 5.52, 1.5);
 // rotate to 90° angle
 blades.rotateX(degreesToRadians(90));
 
-// create a sphere
-var sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-var sphere = new THREE.Mesh(sphereGeometry, material);
-sphere.position.set(8.0, 0.0, 1.0);
+// create the pilot's cockpit
+var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
+var cockpit = new THREE.Mesh(cockpitGeometry, material);
+cockpit.position.set(0.0, -1.5, 2.6);
 
 // position the cube
 //cube.position.set(0.0, 0.0, 2.0);
@@ -88,7 +89,7 @@ scene.add(baseCylinder);
 scene.add(backCylinder);
 scene.add(frontCylinder);
 scene.add(blades);
-//scene.add(sphere);
+scene.add(cockpit);
 
 // Use this to show information onscreen
 var controls = new InfoBox();
