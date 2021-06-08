@@ -36,6 +36,8 @@ scene.add(plane);
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 
+// Reference URL to all parts names
+// https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
 
 // fuselage
 // define airplane wings geometry
@@ -54,8 +56,6 @@ var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
 baseCylinder.position.set(0.0, 0.0, 2.5);
 // rotate to 90° angle
 //cylinder.rotateX(degreesToRadians(90));
-baseCylinder.add(rightWing);
-baseCylinder.add(leftWing);
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -84,12 +84,6 @@ horizontalStabilizer.position.set(0.0, -0.25, 1.5);
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
 frontCylinder.position.set(0.0, 4.5, 0.0);
-baseCylinder.add(frontCylinder);
-baseCylinder.add(backCylinder);
-backCylinder.add(tailCylinder);
-tailCylinder.add(leftStabilizer);
-tailCylinder.add(rightStabilizer);
-tailCylinder.add(horizontalStabilizer);
 
 
 // propeller
@@ -122,7 +116,7 @@ hubBaseSphere.translateX(0.0).translateY(1.5).translateZ(0.0);
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
 //hubBaseSphere.add(leftBlade);
-frontCylinder.add(hubBaseSphere);
+
 
 // landing gear
 // creates tires geometry
@@ -174,54 +168,45 @@ var backTiresCylinder = new THREE.Mesh(backTiresCylinderGeometry, material);
 backTiresCylinder.rotateZ(degreesToRadians(90));
 backTiresCylinder.position.set(0.0, -3.0, -2.2);
 
+// create the pilot's cockpit
+var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
+var cockpit = new THREE.Mesh(cockpitGeometry, material);
+cockpit.position.set(0.0, -1.5, 1.25);
+
+
+// Joins every airplane part togheter
+// PROPELLER
+frontCylinder.add(hubBaseSphere);
+// FUSELAGE
+// main structure
+baseCylinder.add(frontCylinder);
+baseCylinder.add(backCylinder);
+backCylinder.add(tailCylinder);
+// wings
+baseCylinder.add(leftWing);
+baseCylinder.add(rightWing);
+// cockpit
+baseCylinder.add(cockpit);
+// TAIL
+tailCylinder.add(leftStabilizer);
+tailCylinder.add(rightStabilizer);
+tailCylinder.add(horizontalStabilizer);
+// LANDING GEAR
+// front
 baseCylinder.add(shockStrut);
 baseCylinder.add(shockStrut2);
 baseCylinder.add(frontTireCylinder);
 baseCylinder.add(frontTire);
+// back
 baseCylinder.add(backLeftShockStrut);
 baseCylinder.add(backRightShockStrut);
 baseCylinder.add(backTiresCylinder);
 baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
 
+// add all objects to the scene
+scene.add(baseCylinder); // adds the whole airplane to the scene
 
-// create the pilot's cockpit
-var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
-var cockpit = new THREE.Mesh(cockpitGeometry, material);
-cockpit.position.set(0.0, -1.5, 1.25);
-baseCylinder.add(cockpit);
-
-// Joins every airplane part togheter
-// TODO here
-
-// add the objects to the scene
-// fuselage
-//scene.add(frontCylinder);
-//scene.add(rightWing);
-//scene.add(leftWing);
-scene.add(baseCylinder);
-//scene.add(cockpit);
-//scene.add(backCylinder);
-// propeller
-//scene.add(hubBaseSphere);
-//scene.add(hub);
-//scene.add(topBlade);
-//scene.add(leftBlade);
-//scene.add(rightBlade);
-// tail
-//scene.add(tailCylinder);
-//scene.add(leftStabilizer);
-//scene.add(rightStabilizer);
-//scene.add(horizontalStabilizer);
-// landing gear
-//scene.add(shockStrut);
-//scene.add(shockStrut2);
-//scene.add(frontTireCylinder);
-//scene.add(backLeftShockStrut);
-//scene.add(backRightShockStrut);
-//scene.add(frontTire);
-//scene.add(backRightTire);
-//scene.add(backLeftTire);
 
 // Set angles of rotation
 var angle = 0.0;
