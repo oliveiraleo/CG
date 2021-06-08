@@ -72,13 +72,13 @@ var verticalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
 var horizontalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
 // create the right stabilizer
 var rightStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
-rightStabilizer.position.set(1.0, -9.0, 2.5);
+rightStabilizer.position.set(2.0, 0.0, 0.0);
 // create the left stabilizer
 var leftStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
-leftStabilizer.position.set(-1.0, -9.0, 2.5);
+leftStabilizer.position.set(-2.0, 0.0, 0.0);
 // create horizontal stabilizer
 var horizontalStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
-horizontalStabilizer.position.set(0.0, -9.0, 3.5);
+horizontalStabilizer.position.set(0.0, -0.25, 1.5);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
@@ -87,6 +87,9 @@ frontCylinder.position.set(0.0, 4.5, 0.0);
 baseCylinder.add(frontCylinder);
 baseCylinder.add(backCylinder);
 backCylinder.add(tailCylinder);
+tailCylinder.add(leftStabilizer);
+tailCylinder.add(rightStabilizer);
+tailCylinder.add(horizontalStabilizer);
 
 
 // propeller
@@ -191,9 +194,9 @@ scene.add(hubBaseSphere);
 //scene.add(rightBlade);
 // tail
 //scene.add(tailCylinder);
-scene.add(leftStabilizer);
-scene.add(rightStabilizer);
-scene.add(horizontalStabilizer);
+//scene.add(leftStabilizer);
+//scene.add(rightStabilizer);
+//scene.add(horizontalStabilizer);
 // landing gear
 scene.add(shockStrut);
 scene.add(shockStrut2);
