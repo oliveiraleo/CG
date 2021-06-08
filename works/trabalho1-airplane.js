@@ -114,6 +114,14 @@ hubBaseSphere.translateX(0.0).translateY(1.5).translateZ(0.0);
 hubBaseSphere.add(hub);
 //hubBaseSphere.add(leftBlade);
 
+var leftHub = new THREE.Mesh(hubGeometry, material);
+var leftBlade = new THREE.Mesh(bladeGeometry, material);
+leftHub.translateX(0.0).translateY(2.0).translateZ(0.0);
+var rightHub = new THREE.Mesh(hubGeometry, material);
+var rightBlade = new THREE.Mesh(bladeGeometry, material);
+rightHub.translateX(0.0).translateY(2.0).translateZ(0.0);
+leftHub.add(leftBlade);
+rightHub.add(rightBlade);
 
 // landing gear
 // creates tires geometry
@@ -184,6 +192,8 @@ baseCylinder.add(leftWing);
 baseCylinder.add(rightWing);
 leftWing.add(leftEngineCylinder);
 rightWing.add(rightEngineCylinder);
+leftEngineCylinder.add(leftHub);
+rightEngineCylinder.add(rightHub);
 // cockpit
 baseCylinder.add(cockpit);
 // TAIL
