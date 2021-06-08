@@ -128,13 +128,13 @@ hubBaseSphere.add(hub);
 var tiresGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
 // front
 var frontTire = new THREE.Mesh(tiresGeometry, material);
-frontTire.position.set(0.0, 2.0, 0.3);
+frontTire.position.set(0.0, 2.0, -2.2);
 // back left
 var backLeftTire = new THREE.Mesh(tiresGeometry, material);
-backLeftTire.position.set(-1.45, -3.0, 0.3);
+backLeftTire.position.set(-1.5, -3.0, -2.2);
 // back right
 var backRightTire = new THREE.Mesh(tiresGeometry, material);
-backRightTire.position.set(1.45, -3.0, 0.3);
+backRightTire.position.set(1.5, -3.0, -2.2);
 // rotate tires to adjust angles
 frontTire.rotateX(degreesToRadians(90));
 frontTire.rotateY(degreesToRadians(90));
@@ -144,29 +144,44 @@ backRightTire.rotateX(degreesToRadians(90));
 backRightTire.rotateY(degreesToRadians(90));
 
 // create shock strut geometry
-var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.8);
-var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.0);
+var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.85);
+var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.1);
 // create front shock strut
 var shockStrut = new THREE.Mesh(shockStrutGeometry, material);
-shockStrut.position.set(0.2, 2.0, 0.6);
+shockStrut.position.set(0.2, 2.0, -1.9);
 // create 2nd front shock strut
 var shockStrut2 = new THREE.Mesh(shockStrutGeometry, material);
-shockStrut2.position.set(-0.2, 2.0, 0.6);
+shockStrut2.position.set(-0.2, 2.0, -1.9);
 // create front tire cylinder axis
 var frontTireCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 32);
 var frontTireCylinder = new THREE.Mesh(frontTireCylinderGeometry, material);
 frontTireCylinder.rotateZ(degreesToRadians(90));
-frontTireCylinder.position.set(0.0, 2.0, 0.3);
+frontTireCylinder.position.set(0.0, 2.0, -2.2);
 // create back left shock strut
 var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
-backLeftShockStrut.position.set(-1.0, -3.0, 0.8);
+backLeftShockStrut.position.set(-0.9, -3.0, -1.75);
 // rotate to 90° angle
 backLeftShockStrut.rotateY(degreesToRadians(45));
 // create back right shock strut
 var backRightShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
-backRightShockStrut.position.set(1.0, -3.0, 0.8);
+backRightShockStrut.position.set(0.9, -3.0, -1.75);
 // rotate to 90° angle
 backRightShockStrut.rotateY(degreesToRadians(-45));
+// create back tire cylinder axis
+var backTiresCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 3.0, 32);
+var backTiresCylinder = new THREE.Mesh(backTiresCylinderGeometry, material);
+backTiresCylinder.rotateZ(degreesToRadians(90));
+backTiresCylinder.position.set(0.0, -3.0, -2.2);
+
+baseCylinder.add(shockStrut);
+baseCylinder.add(shockStrut2);
+baseCylinder.add(frontTireCylinder);
+baseCylinder.add(frontTire);
+baseCylinder.add(backLeftShockStrut);
+baseCylinder.add(backRightShockStrut);
+baseCylinder.add(backTiresCylinder);
+baseCylinder.add(backLeftTire);
+baseCylinder.add(backRightTire);
 
 
 // create the pilot's cockpit
@@ -198,14 +213,14 @@ scene.add(hubBaseSphere);
 //scene.add(rightStabilizer);
 //scene.add(horizontalStabilizer);
 // landing gear
-scene.add(shockStrut);
-scene.add(shockStrut2);
-scene.add(frontTireCylinder);
-scene.add(backLeftShockStrut);
-scene.add(backRightShockStrut);
-scene.add(frontTire);
-scene.add(backRightTire);
-scene.add(backLeftTire);
+//scene.add(shockStrut);
+//scene.add(shockStrut2);
+//scene.add(frontTireCylinder);
+//scene.add(backLeftShockStrut);
+//scene.add(backRightShockStrut);
+//scene.add(frontTire);
+//scene.add(backRightTire);
+//scene.add(backLeftTire);
 
 // Set angles of rotation
 var angle = 0.0;
