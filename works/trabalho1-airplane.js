@@ -196,7 +196,8 @@ scene.add(backLeftTire);
 // Set angles of rotation
 var angle = 0.0;
 //var angle2 = 0;
-var speed = 0.05;
+var baseAnimationSpeed = 0.2; // defines base animation speed
+var speed = baseAnimationSpeed;
 var animationOn = true; // control if animation is on or of
 
 function rotateBlades(){
@@ -243,7 +244,7 @@ var controls = new InfoBox();
       this.onChangeAnimation = function(){
         animationOn = !animationOn;
       };
-      this.speed = 0.05;
+      this.speed = baseAnimationSpeed;
   
       this.changeSpeed = function(){
         speed = (this.speed);
@@ -253,7 +254,7 @@ var controls = new InfoBox();
     // GUI interface
     var gui = new GUI();
     gui.add(controls, 'onChangeAnimation',true).name("Animation");
-    gui.add(controls, 'speed', 0.0, 1.0) // defines speeds intervals
+    gui.add(controls, 'speed', 0.1, 1.0) // defines speeds intervals
       .onChange(function(e) { controls.changeSpeed() })
       .name("Speed");
   }
