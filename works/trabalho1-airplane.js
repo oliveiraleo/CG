@@ -1,6 +1,7 @@
-import * as THREE from  '../build/three.module.js';
-import Stats from       '../build/jsm/libs/stats.module.js';
+import * as THREE from          '../build/three.module.js';
+import Stats from               '../build/jsm/libs/stats.module.js';
 import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
+import {GUI} from               '../build/jsm/libs/dat.gui.module.js';
 import {initRenderer, 
         initCamera,
         InfoBox,
@@ -195,8 +196,8 @@ scene.add(backLeftTire);
 // Set angles of rotation
 var angle = 0.0;
 //var angle2 = 0;
-var speed = 0.005;
-//var animationOn = true; // control if animation is on or of
+var speed = 0.05;
+var animationOn = true; // control if animation is on or of
 
 function rotateBlades(){
   // takes back matrix control
@@ -205,20 +206,21 @@ function rotateBlades(){
   leftBlade.matrixAutoUpdate = false;
   rightBlade.matrixAutoUpdate = false;
 
-  // defines angular speed
-  //let speed = 0.05;
-  angle+=speed;
-  //angle2+=speed*2;
-  
-  var mat4 = new THREE.Matrix4();
-  //hub.matrix.identity();  // reset matrix
-  topBlade.matrix.identity();  // reset matrix
-  leftBlade.matrix.identity();  // reset // TODO correct blades angles
-  rightBlade.matrix.identity(); // reset
+  if(animationOn){
+    // defines angular speed
+    angle+=speed;
+    //angle2+=speed*2;
+    
+    var mat4 = new THREE.Matrix4();
+    //hub.matrix.identity();  // reset matrix
+    topBlade.matrix.identity();  // reset matrix
+    leftBlade.matrix.identity();  // reset // TODO correct blades angles
+    rightBlade.matrix.identity(); // reset
 
-  // Will execute rotation
-  //hub.matrix.multiply(mat4.makeRotationY(angle/10)); // R1 // TODO make rotation speed change
-  hub.matrix.multiply(mat4.makeRotationY(speed*10)); // R1 fixed rotational speed
+    // Will execute rotation
+    hub.matrix.multiply(mat4.makeRotationY(speed)); // R1
+  }
+  
 }
 
 // Use this to show information onscreen
@@ -229,7 +231,34 @@ var controls = new InfoBox();
   controls.add("* Left button to rotate");
   controls.add("* Right button to translate (pan)");
   controls.add("* Scroll to zoom in/out.");
+  controls.addParagraph();
+  controls.add("TIP: Use upper panel to control the animation");
   controls.show();
+
+  // shows blade rotation speed control
+  function buildInterface()
+  {
+    var controls = new function ()
+    {
+      this.onChangeAnimation = function(){
+        animationOn = !animationOn;
+      };
+      this.speed = 0.05;
+  
+      this.changeSpeed = function(){
+        speed = (this.speed);
+      };
+    };
+  
+    // GUI interface
+    var gui = new GUI();
+    gui.add(controls, 'onChangeAnimation',true).name("Animation");
+    gui.add(controls, 'speed', 0.0, 1.0) // defines speeds intervals
+      .onChange(function(e) { controls.changeSpeed() })
+      .name("Speed");
+  }
+  
+  buildInterface();
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
