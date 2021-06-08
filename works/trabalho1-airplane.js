@@ -22,7 +22,7 @@ scene.add( axesHelper );
 // TODO move axes helper to the side
 
 // create the ground plane
-var planeGeometry = new THREE.PlaneGeometry(20, 20);
+var planeGeometry = new THREE.PlaneGeometry(25, 25);
 planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 var planeMaterial = new THREE.MeshBasicMaterial({
     color: "rgba(150, 150, 150)",
@@ -39,13 +39,14 @@ var material = new THREE.MeshNormalMaterial();
 
 // fuselage
 // define airplane wings geometry
-var wingsGeometry = new THREE.BoxGeometry(12.0, 3.0, 0.2);
+var wingsGeometry = new THREE.BoxGeometry(10.0, 3.0, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, material);
-rightWing.position.set(4.0, 0.0, 2.5);
+//rightWing.position.set(4.0, 0.0, 2.5);
+rightWing.position.set(6.5, 0.0, 0.0);
 // create the left wing
 var leftWing = new THREE.Mesh(wingsGeometry, material);
-leftWing.position.set(-4.0, 0.0, 2.5);
+leftWing.position.set(-6.5, 0.0, 0.0);
 
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
@@ -53,6 +54,8 @@ var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
 baseCylinder.position.set(0.0, 0.0, 2.5);
 // rotate to 90° angle
 //cylinder.rotateX(degreesToRadians(90));
+baseCylinder.add(rightWing);
+baseCylinder.add(leftWing);
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -169,8 +172,8 @@ cockpit.position.set(0.0, -1.5, 3.6);
 // add the objects to the scene
 // fuselage
 scene.add(frontCylinder);
-scene.add(rightWing);
-scene.add(leftWing);
+//scene.add(rightWing);
+//scene.add(leftWing);
 scene.add(baseCylinder);
 scene.add(cockpit);
 scene.add(backCylinder);
