@@ -90,23 +90,12 @@ frontCylinder.position.set(0.0, 4.5, 0.0);
 // create blades hub
 var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, material);
-//hub.position.set(0.0, 6.0, 2.5);
-//hub.position.set(0.0, 2.5, 0.0);
 // define blades geometry
-var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
+var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
 // create blades
-var topBlade = new THREE.Mesh(bladesGeometry, material);
-//topBlade.position.set(0.0, 0.0, 0.0);
-var leftBlade = new THREE.Mesh(bladesGeometry, material);
-//leftBlade.position.set(0.0, 6.0, 2.5);
-leftBlade.rotateY(degreesToRadians(-60));
-var rightBlade = new THREE.Mesh(bladesGeometry, material);
-//rightBlade.position.set(0.0, 6.0, 2.5);
-rightBlade.rotateY(degreesToRadians(60));
-// adds all blades to the hub
-hub.add(topBlade);
-//hub.add(leftBlade);
-//hub.add(rightBlade);
+var blade = new THREE.Mesh(bladeGeometry, material);
+// adds blade to the hub
+hub.add(blade);
 // Base hub sphere
 var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
 var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
@@ -218,9 +207,7 @@ var animationOn = true; // control if animation is on or of
 function rotateBlades(){
   // takes back matrix control
   hub.matrixAutoUpdate = false;
-  topBlade.matrixAutoUpdate = false;
-  leftBlade.matrixAutoUpdate = false;
-  rightBlade.matrixAutoUpdate = false;
+  blade.matrixAutoUpdate = false;
 
   if(animationOn){
     // defines angular speed
@@ -229,15 +216,12 @@ function rotateBlades(){
     
     var mat4 = new THREE.Matrix4();
     //hub.matrix.identity();  // reset matrix
-    topBlade.matrix.identity();  // reset matrix
-    leftBlade.matrix.identity();  // reset // TODO correct blades angles
-    rightBlade.matrix.identity(); // reset
+    blade.matrix.identity();  // reset matrix
 
     // Will execute rotation
     hub.matrix.multiply(mat4.makeRotationY(speed)); // R1
     //leftBlade.matrix.multiply(mat4.makeRotationY(-speed)); // R1
   }
-  
 }
 
 // Use this to show information onscreen
