@@ -132,11 +132,19 @@ backRightTire.rotateX(degreesToRadians(90));
 backRightTire.rotateY(degreesToRadians(90));
 
 // create shock strut geometry
-var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.6);
+var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.8);
 var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.0);
 // create front shock strut
 var shockStrut = new THREE.Mesh(shockStrutGeometry, material);
-shockStrut.position.set(0.0, 2.0, 0.8);
+shockStrut.position.set(0.2, 2.0, 0.6);
+// create 2nd front shock strut
+var shockStrut2 = new THREE.Mesh(shockStrutGeometry, material);
+shockStrut2.position.set(-0.2, 2.0, 0.6);
+// create front tire cylinder axis
+var frontTireCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 32);
+var frontTireCylinder = new THREE.Mesh(frontTireCylinderGeometry, material);
+frontTireCylinder.rotateZ(degreesToRadians(90));
+frontTireCylinder.position.set(0.0, 2.0, 0.3);
 // create back left shock strut
 var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
 backLeftShockStrut.position.set(-1.0, -3.0, 0.8);
@@ -176,6 +184,8 @@ scene.add(rightStabilizer);
 scene.add(horizontalStabilizer);
 // landing gear
 scene.add(shockStrut);
+scene.add(shockStrut2);
+scene.add(frontTireCylinder);
 scene.add(backLeftShockStrut);
 scene.add(backRightShockStrut);
 scene.add(frontTire);
@@ -208,7 +218,7 @@ function rotateBlades(){
 
   // Will execute rotation
   //hub.matrix.multiply(mat4.makeRotationY(angle/10)); // R1 // TODO make rotation speed change
-  hub.matrix.multiply(mat4.makeRotationY(speed*100)); // R1 fixed rotational speed
+  hub.matrix.multiply(mat4.makeRotationY(speed*10)); // R1 fixed rotational speed
 }
 
 // Use this to show information onscreen
