@@ -50,7 +50,7 @@ rightWing.position.set(6.5, 0.0, 0.0);
 var leftWing = new THREE.Mesh(wingsGeometry, material);
 leftWing.position.set(-6.5, 0.0, 0.0);
 // wing engines
-var enginesCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 3.0, 32);
+var enginesCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 // left engine
 var leftEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, material);
 leftEngineCylinder.position.set(0.0, 0.0, -0.5);
@@ -113,19 +113,16 @@ hubBaseSphere.translateX(0.0).translateY(1.5).translateZ(0.0);
 //hubBaseSphere.rotateY(degreesToRadians(90));
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
-
+// engines on wings
 var leftHub = new THREE.Mesh(hubGeometry, material);
 var leftBlade = new THREE.Mesh(wingsBladeGeometry, material);
-//leftHub.translateX(0.0).translateY(2.0).translateZ(0.0);
 var rightHub = new THREE.Mesh(hubGeometry, material);
 var rightBlade = new THREE.Mesh(wingsBladeGeometry, material);
-rightHub.translateX(0.0).translateY(2.0).translateZ(0.0);
 var leftHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 var rightHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
-leftHubBaseSphere.translateX(0.0).translateY(2.0).translateZ(0.0);
-rightHubBaseSphere.translateX(0.0).translateY(2.0).translateZ(0.0);
-//hubBaseSphere.rotateY(degreesToRadians(90));
+leftHubBaseSphere.translateX(0.0).translateY(2.5).translateZ(0.0);
+rightHubBaseSphere.translateX(0.0).translateY(2.5).translateZ(0.0);
 // adds the hub to the base sphere
 leftHubBaseSphere.add(leftHub);
 rightHubBaseSphere.add(rightHub);
