@@ -60,12 +60,12 @@ baseCylinder.add(leftWing);
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
 var backCylinder = new THREE.Mesh(backCylinderGeometry, material);
-backCylinder.position.set(0.0, -6.0, 2.5);
+backCylinder.position.set(0.0, -6.0, 0.0);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
 var tailCylinder = new THREE.Mesh(tailCylinderGeometry, material);
-tailCylinder.position.set(0.0, -9.0, 2.5);
+tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
 var verticalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
@@ -83,7 +83,10 @@ horizontalStabilizer.position.set(0.0, -9.0, 3.5);
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
-frontCylinder.position.set(0.0, 4.5, 2.5);
+frontCylinder.position.set(0.0, 4.5, 0.0);
+baseCylinder.add(frontCylinder);
+baseCylinder.add(backCylinder);
+backCylinder.add(tailCylinder);
 
 
 // propeller
@@ -169,17 +172,17 @@ var cockpit = new THREE.Mesh(cockpitGeometry, material);
 cockpit.position.set(0.0, -1.5, 1.25);
 baseCylinder.add(cockpit);
 
-// Joins every part togheter
+// Joins every airplane part togheter
 // TODO here
 
 // add the objects to the scene
 // fuselage
-scene.add(frontCylinder);
+//scene.add(frontCylinder);
 //scene.add(rightWing);
 //scene.add(leftWing);
 scene.add(baseCylinder);
 //scene.add(cockpit);
-scene.add(backCylinder);
+//scene.add(backCylinder);
 // propeller
 scene.add(hubBaseSphere);
 //scene.add(hub);
@@ -187,7 +190,7 @@ scene.add(hubBaseSphere);
 //scene.add(leftBlade);
 //scene.add(rightBlade);
 // tail
-scene.add(tailCylinder);
+//scene.add(tailCylinder);
 scene.add(leftStabilizer);
 scene.add(rightStabilizer);
 scene.add(horizontalStabilizer);
