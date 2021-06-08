@@ -100,6 +100,7 @@ var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, material);
 // define blades geometry
 var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
+var wingsBladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 4.0);
 // create blades
 var blade = new THREE.Mesh(bladeGeometry, material);
 // adds blade to the hub
@@ -112,14 +113,23 @@ hubBaseSphere.translateX(0.0).translateY(1.5).translateZ(0.0);
 //hubBaseSphere.rotateY(degreesToRadians(90));
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
-//hubBaseSphere.add(leftBlade);
 
 var leftHub = new THREE.Mesh(hubGeometry, material);
-var leftBlade = new THREE.Mesh(bladeGeometry, material);
-leftHub.translateX(0.0).translateY(2.0).translateZ(0.0);
+var leftBlade = new THREE.Mesh(wingsBladeGeometry, material);
+//leftHub.translateX(0.0).translateY(2.0).translateZ(0.0);
 var rightHub = new THREE.Mesh(hubGeometry, material);
-var rightBlade = new THREE.Mesh(bladeGeometry, material);
+var rightBlade = new THREE.Mesh(wingsBladeGeometry, material);
 rightHub.translateX(0.0).translateY(2.0).translateZ(0.0);
+var leftHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
+var rightHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
+// Set initial position of the sphere
+leftHubBaseSphere.translateX(0.0).translateY(2.0).translateZ(0.0);
+rightHubBaseSphere.translateX(0.0).translateY(2.0).translateZ(0.0);
+//hubBaseSphere.rotateY(degreesToRadians(90));
+// adds the hub to the base sphere
+leftHubBaseSphere.add(leftHub);
+rightHubBaseSphere.add(rightHub);
+
 leftHub.add(leftBlade);
 rightHub.add(rightBlade);
 
@@ -192,8 +202,8 @@ baseCylinder.add(leftWing);
 baseCylinder.add(rightWing);
 leftWing.add(leftEngineCylinder);
 rightWing.add(rightEngineCylinder);
-leftEngineCylinder.add(leftHub);
-rightEngineCylinder.add(rightHub);
+leftEngineCylinder.add(leftHubBaseSphere);
+rightEngineCylinder.add(rightHubBaseSphere);
 // cockpit
 baseCylinder.add(cockpit);
 // TAIL
@@ -228,6 +238,10 @@ function rotateBlades(){
   // takes back matrix control
   hub.matrixAutoUpdate = false;
   blade.matrixAutoUpdate = false;
+  leftHub.matrixAutoUpdate = false;
+  leftBlade.matrixAutoUpdate = false;
+  rightHub.matrixAutoUpdate = false;
+  rightBlade.matrixAutoUpdate = false;
 
   if(animationOn){
     // defines angular speed
@@ -237,10 +251,13 @@ function rotateBlades(){
     var mat4 = new THREE.Matrix4();
     //hub.matrix.identity();  // reset matrix
     blade.matrix.identity();  // reset matrix
+    leftBlade.matrix.identity();  // reset matrix
+    rightBlade.matrix.identity();  // reset matrix
 
     // Will execute rotation
-    hub.matrix.multiply(mat4.makeRotationY(speed)); // R1
-    //leftBlade.matrix.multiply(mat4.makeRotationY(-speed)); // R1
+    hub.matrix.multiply(mat4.makeRotationY(speed/2)); // R1
+    rightHub.matrix.multiply(mat4.makeRotationY(-speed)); // R1
+    leftHub.matrix.multiply(mat4.makeRotationY(speed)); // R1
   }
 }
 
