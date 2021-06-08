@@ -90,7 +90,7 @@ var hub = new THREE.Mesh(hubGeometry, material);
 //hub.position.set(0.0, 6.0, 2.5);
 //hub.position.set(0.0, 2.5, 0.0);
 // define blades geometry
-var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.5);
+var bladesGeometry = new THREE.BoxGeometry(0.2, 0.05, 4.0);
 // create blades
 var topBlade = new THREE.Mesh(bladesGeometry, material);
 //topBlade.position.set(0.0, 0.0, 0.0);
@@ -109,8 +109,10 @@ var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
 var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
 hubBaseSphere.translateX(0.0).translateY(6.0).translateZ(2.5);
+//hubBaseSphere.rotateY(degreesToRadians(90));
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
+//hubBaseSphere.add(leftBlade);
 
 // landing gear
 // creates tires geometry
@@ -220,6 +222,7 @@ function rotateBlades(){
 
     // Will execute rotation
     hub.matrix.multiply(mat4.makeRotationY(speed)); // R1
+    //leftBlade.matrix.multiply(mat4.makeRotationY(-speed)); // R1
   }
   
 }
