@@ -58,6 +58,13 @@ leftEngineCylinder.position.set(0.0, 0.0, -0.5);
 var rightEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, material);
 rightEngineCylinder.position.set(0.0, 0.0, -0.5);
 
+// define airplane flaps geometry
+var flapsGeometry = new THREE.BoxGeometry(10.0, 0.2, 0.2);
+var leftFlap = new THREE.Mesh(flapsGeometry, material);
+var rightFlap = new THREE.Mesh(flapsGeometry, material);
+leftFlap.position.set(0.0, -1.62, 0.0);
+rightFlap.position.set(0.0, -1.62, 0.0);
+
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
@@ -126,7 +133,7 @@ rightHubBaseSphere.translateX(0.0).translateY(2.5).translateZ(0.0);
 // adds the hub to the base sphere
 leftHubBaseSphere.add(leftHub);
 rightHubBaseSphere.add(rightHub);
-
+// adds blades to the hubs
 leftHub.add(leftBlade);
 rightHub.add(rightBlade);
 
@@ -201,6 +208,8 @@ leftWing.add(leftEngineCylinder);
 rightWing.add(rightEngineCylinder);
 leftEngineCylinder.add(leftHubBaseSphere);
 rightEngineCylinder.add(rightHubBaseSphere);
+leftWing.add(leftFlap);
+rightWing.add(rightFlap);
 // cockpit
 baseCylinder.add(cockpit);
 // TAIL
