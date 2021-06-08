@@ -166,8 +166,11 @@ backRightShockStrut.rotateY(degreesToRadians(-45));
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, material);
-cockpit.position.set(0.0, -1.5, 3.6);
+cockpit.position.set(0.0, -1.5, 1.25);
+baseCylinder.add(cockpit);
 
+// Joins every part togheter
+// TODO here
 
 // add the objects to the scene
 // fuselage
@@ -175,7 +178,7 @@ scene.add(frontCylinder);
 //scene.add(rightWing);
 //scene.add(leftWing);
 scene.add(baseCylinder);
-scene.add(cockpit);
+//scene.add(cockpit);
 scene.add(backCylinder);
 // propeller
 scene.add(hubBaseSphere);
