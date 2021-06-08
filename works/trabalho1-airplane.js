@@ -49,6 +49,14 @@ rightWing.position.set(6.5, 0.0, 0.0);
 // create the left wing
 var leftWing = new THREE.Mesh(wingsGeometry, material);
 leftWing.position.set(-6.5, 0.0, 0.0);
+// wing engines
+var enginesCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 3.0, 32);
+// left engine
+var leftEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, material);
+leftEngineCylinder.position.set(0.0, 0.0, -0.5);
+// right engine
+var rightEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, material);
+rightEngineCylinder.position.set(0.0, 0.0, -0.5);
 
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
@@ -174,6 +182,8 @@ backCylinder.add(tailCylinder);
 // wings
 baseCylinder.add(leftWing);
 baseCylinder.add(rightWing);
+leftWing.add(leftEngineCylinder);
+rightWing.add(rightEngineCylinder);
 // cockpit
 baseCylinder.add(cockpit);
 // TAIL
