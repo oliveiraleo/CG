@@ -9,9 +9,9 @@ import {initRenderer,
 var scene = new THREE.Scene(); //create scene
 // Camera configs
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-camera.position.set(0.0, 0.0, 0.0);
-camera.lookAt(0, 0, 0); // Set look at origin
-camera.up.set(0, 1, 0);
+camera.position.set(0.0, 10.0, 0.0); // Initial position
+//camera.lookAt(0, 0, 0); // Set look at origin
+//camera.up.set(0, 1, 0);
 
 // Config camera holder
 var cameraHolder = new THREE.Object3D();
@@ -29,13 +29,13 @@ var keyboard = new KeyboardState();
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 15 );
 // Reposition of helper to better visualization of it
-axesHelper.translateZ(-2);
-axesHelper.translateY(20);
+//axesHelper.translateZ(-2);
+axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(2);
 scene.add( axesHelper );
 
-var groundPlaneWired = createGroundPlaneWired(100, 100, 100, 100, "grey");
-groundPlaneWired.translateY(2);
+var groundPlaneWired = createGroundPlaneWired(500, 500, 20, 20, "blue");
+//groundPlaneWired.translateY(0);
 groundPlaneWired.rotateX(degreesToRadians(90));
 scene.add(groundPlaneWired);
 
