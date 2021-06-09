@@ -7,13 +7,15 @@ import {initRenderer,
         InfoBox,
         degreesToRadians,
         initDefaultBasicLight,
+        initDefaultSpotlight,
         onWindowResize} from "../libs/util/util.js";
 
 var stats = new Stats();          // To show FPS information
 var scene = new THREE.Scene();    // Create main scene
 var renderer = initRenderer();    // View function in util/utils
 var camera = initCamera(new THREE.Vector3(0, -30, 15)); // Init camera in this position
-initDefaultBasicLight(scene); // Adds some light to the scene
+initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 15)); // Adds some light to the scene
+//initDefaultSpotlight(scene, new THREE.Vector3(0.0, 0.0, 25.0)); // Adds a spotlight to the scene
 
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls( camera, renderer.domElement );
