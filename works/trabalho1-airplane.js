@@ -55,7 +55,7 @@ scene.add(plane);
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"}); // TODO create other color for blades
-var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.5"}); // bright orange
+var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
