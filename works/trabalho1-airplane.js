@@ -56,6 +56,8 @@ var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"}); // TODO crea
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.5"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
+var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
+var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"}); // TOODO create other color for the rudder
 //TODO add other materials
 //TODO change flaps
 
@@ -82,11 +84,11 @@ var rightEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, fuselageMateri
 rightEngineCylinder.position.set(0.0, 0.0, -0.5);
 
 // define airplane flaps geometry
-var flapsGeometry = new THREE.BoxGeometry(10.0, 0.2, 0.2);
-var leftFlap = new THREE.Mesh(flapsGeometry, material);
-var rightFlap = new THREE.Mesh(flapsGeometry, material);
-leftFlap.position.set(0.0, -1.62, 0.0);
-rightFlap.position.set(0.0, -1.62, 0.0);
+var flapsGeometry = new THREE.BoxGeometry(10.0, 0.4, 0.2);
+var leftFlap = new THREE.Mesh(flapsGeometry, flapsMaterial);
+var rightFlap = new THREE.Mesh(flapsGeometry, flapsMaterial);
+leftFlap.position.set(0.0, -1.72, 0.0);
+rightFlap.position.set(0.0, -1.72, 0.0);
 
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 9.0, 32);
@@ -109,23 +111,23 @@ tailCylinder.position.set(0.0, -3.0, 0.0);
 var horizontalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
 var verticalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
 // create the right stabilizer
-var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
+var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
 rightStabilizer.position.set(2.0, 0.0, 0.0);
 // create the left stabilizer
-var leftStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
+var leftStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
 leftStabilizer.position.set(-2.0, 0.0, 0.0);
 // create vertical stabilizer
 var verticalStabilizer = new THREE.Mesh(verticalStabilizerGeometry, tailMaterial);
 verticalStabilizer.position.set(0.0, -0.25, 1.5);
 // define airplane back flaps geometry
-var backFlapsGeometry = new THREE.BoxGeometry(3.0, 0.2, 0.2);
-var backRudderGeometry = new THREE.BoxGeometry(0.2, 0.2, 2.0);
-var backLeftFlap = new THREE.Mesh(backFlapsGeometry, material);
-var backRightFlap = new THREE.Mesh(backFlapsGeometry, material);
-var backRudder = new THREE.Mesh(backRudderGeometry, material);
-backLeftFlap.position.set(0.0, -0.62, 0.0);
-backRightFlap.position.set(0.0, -0.62, 0.0);
-backRudder.position.set(0.0, -0.37, 0.0);
+var backFlapsGeometry = new THREE.BoxGeometry(3.0, 0.4, 0.2);
+var backRudderGeometry = new THREE.BoxGeometry(0.2, 0.4, 2.0);
+var backLeftFlap = new THREE.Mesh(backFlapsGeometry, flapsMaterial);
+var backRightFlap = new THREE.Mesh(backFlapsGeometry, flapsMaterial);
+var backRudder = new THREE.Mesh(backRudderGeometry, flapsMaterial);
+backLeftFlap.position.set(0.0, -0.72, 0.0);
+backRightFlap.position.set(0.0, -0.72, 0.0);
+backRudder.position.set(0.0, -0.47, 0.0);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
