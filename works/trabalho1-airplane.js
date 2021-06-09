@@ -83,17 +83,26 @@ var tailCylinder = new THREE.Mesh(tailCylinderGeometry, material);
 tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
-var verticalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
-var horizontalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
+var horizontalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
+var verticalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
 // create the right stabilizer
-var rightStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
+var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
 rightStabilizer.position.set(2.0, 0.0, 0.0);
 // create the left stabilizer
-var leftStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
+var leftStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
 leftStabilizer.position.set(-2.0, 0.0, 0.0);
 // create horizontal stabilizer
-var horizontalStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, material);
-horizontalStabilizer.position.set(0.0, -0.25, 1.5);
+var verticalStabilizer = new THREE.Mesh(verticalStabilizerGeometry, material);
+verticalStabilizer.position.set(0.0, -0.25, 1.5);
+// define airplane back flaps geometry
+var backFlapsGeometry = new THREE.BoxGeometry(3.0, 0.2, 0.2);
+var backRudderGeometry = new THREE.BoxGeometry(0.2, 0.2, 2.0);
+var backLeftFlap = new THREE.Mesh(backFlapsGeometry, material);
+var backRightFlap = new THREE.Mesh(backFlapsGeometry, material);
+var backRudder = new THREE.Mesh(backRudderGeometry, material);
+backLeftFlap.position.set(0.0, -0.62, 0.0);
+backRightFlap.position.set(0.0, -0.62, 0.0);
+backRudder.position.set(0.0, -0.37, 0.0);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
@@ -215,7 +224,10 @@ baseCylinder.add(cockpit);
 // TAIL
 tailCylinder.add(leftStabilizer);
 tailCylinder.add(rightStabilizer);
-tailCylinder.add(horizontalStabilizer);
+tailCylinder.add(verticalStabilizer);
+leftStabilizer.add(backLeftFlap);
+rightStabilizer.add(backRightFlap);
+verticalStabilizer.add(backRudder);
 // LANDING GEAR
 // front
 baseCylinder.add(shockStrut);
