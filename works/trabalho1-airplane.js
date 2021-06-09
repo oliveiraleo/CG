@@ -49,10 +49,10 @@ var wingsGeometry = new THREE.BoxGeometry(10.0, 3.0, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, material);
 //rightWing.position.set(4.0, 0.0, 2.5);
-rightWing.position.set(6.5, 0.0, 0.0);
+rightWing.position.set(6.5, -1.0, 0.0);
 // create the left wing
 var leftWing = new THREE.Mesh(wingsGeometry, material);
-leftWing.position.set(-6.5, 0.0, 0.0);
+leftWing.position.set(-6.5, -1.0, 0.0);
 // wing engines
 var enginesCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 // left engine
@@ -70,7 +70,7 @@ leftFlap.position.set(0.0, -1.62, 0.0);
 rightFlap.position.set(0.0, -1.62, 0.0);
 
 // create the base cylinder
-var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
+var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 9.0, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5);
 // rotate to 90° angle
@@ -79,7 +79,7 @@ baseCylinder.position.set(0.0, 0.0, 2.5);
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
 var backCylinder = new THREE.Mesh(backCylinderGeometry, fuselageMaterial);
-backCylinder.position.set(0.0, -6.0, 0.0);
+backCylinder.position.set(0.0, -7.0, 0.0);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
@@ -111,7 +111,7 @@ backRudder.position.set(0.0, -0.37, 0.0);
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
-frontCylinder.position.set(0.0, 4.5, 0.0);
+frontCylinder.position.set(0.0, 5.5, 0.0);
 
 
 // propeller
@@ -155,7 +155,7 @@ rightHub.add(rightBlade);
 var tiresGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
 // front
 var frontTire = new THREE.Mesh(tiresGeometry, material);
-frontTire.position.set(0.0, 2.0, -2.2);
+frontTire.position.set(0.0, 3.0, -2.2);
 // back left
 var backLeftTire = new THREE.Mesh(tiresGeometry, material);
 backLeftTire.position.set(-1.5, -3.0, -2.2);
@@ -175,15 +175,15 @@ var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.85);
 var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.1);
 // create front shock strut
 var shockStrut = new THREE.Mesh(shockStrutGeometry, material);
-shockStrut.position.set(0.2, 2.0, -1.9);
+shockStrut.position.set(0.2, 3.0, -1.9);
 // create 2nd front shock strut
 var shockStrut2 = new THREE.Mesh(shockStrutGeometry, material);
-shockStrut2.position.set(-0.2, 2.0, -1.9);
+shockStrut2.position.set(-0.2, 3.0, -1.9);
 // create front tire cylinder axis
 var frontTireCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 32);
 var frontTireCylinder = new THREE.Mesh(frontTireCylinderGeometry, material);
 frontTireCylinder.rotateZ(degreesToRadians(90));
-frontTireCylinder.position.set(0.0, 2.0, -2.2);
+frontTireCylinder.position.set(0.0, 3.0, -2.2);
 // create back left shock strut
 var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, material);
 backLeftShockStrut.position.set(-0.9, -3.0, -1.75);
@@ -203,7 +203,7 @@ backTiresCylinder.position.set(0.0, -3.0, -2.2);
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, material);
-cockpit.position.set(0.0, -1.5, 1.25);
+cockpit.position.set(0.0, -2.5, 1.25);
 
 
 // Joins every airplane part togheter
