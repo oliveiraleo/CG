@@ -18,6 +18,20 @@ initDefaultBasicLight(scene); // Adds some light to the scene
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls( camera, renderer.domElement );
 
+function createStats() {
+  //var stats = new Stats();
+  stats.setMode(0);
+  
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0';
+  stats.domElement.style.top = '0';
+
+  return stats;
+}
+// To show FPS
+stats = createStats();
+document.body.appendChild( stats.domElement );
+
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 12 );
 scene.add( axesHelper );
@@ -43,6 +57,7 @@ var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(25
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 //TODO add other materials
+//TODO change flaps
 
 // Reference URL to all parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
