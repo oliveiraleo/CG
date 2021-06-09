@@ -6,12 +6,14 @@ import {initRenderer,
         initCamera,
         InfoBox,
         degreesToRadians,
+        initDefaultBasicLight,
         onWindowResize} from "../libs/util/util.js";
 
 var stats = new Stats();          // To show FPS information
 var scene = new THREE.Scene();    // Create main scene
 var renderer = initRenderer();    // View function in util/utils
 var camera = initCamera(new THREE.Vector3(0, -30, 15)); // Init camera in this position
+initDefaultBasicLight(scene); // Adds some light to the scene
 
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls( camera, renderer.domElement );
@@ -35,6 +37,8 @@ scene.add(plane);
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
+var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
+//TODO add other materials
 
 // Reference URL to all parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
@@ -67,19 +71,19 @@ rightFlap.position.set(0.0, -1.62, 0.0);
 
 // create the base cylinder
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 7, 32);
-var baseCylinder = new THREE.Mesh(baseCylinderGeometry, material);
+var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5);
 // rotate to 90° angle
 //cylinder.rotateX(degreesToRadians(90));
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
-var backCylinder = new THREE.Mesh(backCylinderGeometry, material);
+var backCylinder = new THREE.Mesh(backCylinderGeometry, fuselageMaterial);
 backCylinder.position.set(0.0, -6.0, 0.0);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-var tailCylinder = new THREE.Mesh(tailCylinderGeometry, material);
+var tailCylinder = new THREE.Mesh(tailCylinderGeometry, fuselageMaterial);
 tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
@@ -106,7 +110,7 @@ backRudder.position.set(0.0, -0.37, 0.0);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
-var frontCylinder = new THREE.Mesh(frontCylinderGeometry, material);
+var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
 frontCylinder.position.set(0.0, 4.5, 0.0);
 
 
