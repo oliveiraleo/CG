@@ -110,13 +110,14 @@ function keyboardUpdateHolder() {
     }
     if (keyboard.down("space")){ // inspection mode switch
         if (speed > 0.0){
-            savedSpeed = speed;
+        //    savedSpeed = speed;
         }
         if(groundPlaneWired.visible == false){
             groundPlaneWired.visible = true;
             speed = savedSpeed;
         } else { 
             groundPlaneWired.visible = false;
+            savedSpeed = speed;
             speed = 0.0;
         }
         /*if(groundPlaneWired.visible == false){
@@ -132,7 +133,7 @@ function showInformation()
 {
   // Use this to show information onscreen
     var controls = new InfoBox();
-    controls.add("Flyght Simulator controls:");
+    controls.add("Flight Simulator controls:");
     controls.addParagraph();
     controls.add("Press arrow keys to change movement direction");
     controls.add("Press , (comma) or . (point) to change camera angle");
