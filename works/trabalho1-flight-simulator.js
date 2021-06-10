@@ -91,22 +91,31 @@ function keyboardUpdateHolder() {
     //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
     //if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
     if (keyboard.pressed("Q")){ // speed up
-        speed++;
-        console.log(speed);
+        if (speed >= 1.0){ // set maximum speed
+            speed = 1.0;
+        } else {
+            speed += 0.01;
+        }
+        //console.log(speed);
     } 
     if (keyboard.pressed("A")){ // slow down
-        if (speed < 0.0){
+        if (speed <= 0.0){ // set minimum speed
             speed = 0.0;
         } else {
-            speed--;
+            speed -= 0.01;
         }
-        console.log(speed);
+        //console.log(speed);
     }
-    if (keyboard.down("H")){ // shows or hides the axes helper
+    if (keyboard.down("P")){ // shows or hides the axes helper
         if(axesHelper.visible == false){
             axesHelper.visible = true;
         } else { 
             axesHelper.visible = false;
+        }
+        if(groundPlaneWired.visible == false){
+            groundPlaneWired.visible = true;
+        } else { 
+            groundPlaneWired.visible = false;
         }
     };
 }
