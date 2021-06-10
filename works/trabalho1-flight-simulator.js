@@ -67,6 +67,7 @@ function airplaneSpeed(){
 }
 
 var speed = 0.2;
+var savedSpeed = speed;
 
 // Keyboard controls for cameraHolder
 function keyboardUpdateHolder() {
@@ -107,16 +108,22 @@ function keyboardUpdateHolder() {
         //console.log(speed);
     }
     if (keyboard.down("P")){ // shows or hides the axes helper
+        if (speed > 0.0){
+            savedSpeed = speed;
+        }
         if(axesHelper.visible == false){
             axesHelper.visible = true;
+            speed = savedSpeed;
         } else { 
             axesHelper.visible = false;
+            speed = 0.0;
         }
         if(groundPlaneWired.visible == false){
             groundPlaneWired.visible = true;
         } else { 
             groundPlaneWired.visible = false;
         }
+        console.log(speed);
     };
 }
 
