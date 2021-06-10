@@ -108,7 +108,7 @@ function keyboardUpdateHolder() {
         }
         //console.log(speed);
     }
-    if (keyboard.down("P")){ // pauses the game
+    if (keyboard.down("space")){ // inspection mode switch
         if (speed > 0.0){
             savedSpeed = speed;
         }
@@ -132,13 +132,15 @@ function showInformation()
 {
   // Use this to show information onscreen
     var controls = new InfoBox();
-    controls.add("Flying camera controls:");
+    controls.add("Flyght Simulator controls:");
     controls.addParagraph();
-    controls.add("Press arrow keys to move the camera");
+    controls.add("Press arrow keys to change movement direction");
     controls.add("Press , (comma) or . (point) to change camera angle");
-    controls.add("Press SPACE to move");
-    controls.add("Press R to reverse move");
-    controls.add("Press A to toggle Axes Helper visibility");
+    controls.add("Press SPACE to toggle inspection mode");
+    controls.add("Press Q to move faster");
+    controls.add("Press A to move slower");
+    //controls.add("Press R to reverse move");
+    //controls.add("Press A to toggle Axes Helper visibility");
     controls.show();
 }
 
