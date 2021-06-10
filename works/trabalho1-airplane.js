@@ -132,9 +132,9 @@ backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
 
 // create the front cylinder
-var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 2, 32);
+var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
-frontCylinder.position.set(0.0, 5.5, 0.0);
+frontCylinder.position.set(0.0, 4.75, 0.0);
 
 
 // propeller
@@ -152,7 +152,7 @@ hub.add(blade);
 var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
 var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
-hubBaseSphere.translateX(0.0).translateY(1.5).translateZ(0.0);
+hubBaseSphere.translateX(0.0).translateY(0.75).translateZ(0.0);
 //hubBaseSphere.rotateY(degreesToRadians(90));
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
