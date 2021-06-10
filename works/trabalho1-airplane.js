@@ -60,6 +60,7 @@ var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"});
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"}); // TOODO create other color for the rudder
+var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"});
 //TODO add other materials
 //TODO change flaps
 
@@ -133,10 +134,14 @@ backRudder.position.set(0.0, -0.47, 0.0);
 
 // life saver easter egg
 var rightLifesaverGeometry = new THREE.TorusGeometry(0.4, 0.2, 8, 24);
-var rightLifesaver = new THREE.Mesh(rightLifesaverGeometry, hubMaterial);
+var rightLifesaver = new THREE.Mesh(rightLifesaverGeometry, lifesaverMaterial);
 rightLifesaver.position.set(1.6, -3.5, 0.0);
 rightLifesaver.rotateX(degreesToRadians(90));
 rightLifesaver.rotateY(degreesToRadians(90));
+
+var radarGeometry = new THREE.OctahedronGeometry(0.8, 3);
+var radar = new THREE.Mesh(radarGeometry, fuselageMaterial);
+radar.position.set(0.0, 0.0, -1.5);
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
@@ -244,6 +249,7 @@ frontCylinder.add(hubBaseSphere);
 baseCylinder.add(frontCylinder);
 baseCylinder.add(backCylinder);
 baseCylinder.add(rightLifesaver);
+baseCylinder.add(radar);
 backCylinder.add(tailCylinder);
 // wings
 baseCylinder.add(leftWing);
