@@ -48,6 +48,26 @@ scene.add(new THREE.HemisphereLight());
 // Show text information onscreen
 showInformation(); // displays controls
 
+function airplaneSpeed(){
+    var speed = 0.2;
+
+    var controls = new function ()
+    {
+      this.onChangeAnimation = function(){
+        animationOn = !animationOn;
+      };
+      this.speed = baseAnimationSpeed;
+  
+      this.changeSpeed = function(){
+        speed = (this.speed);
+      };
+    }
+
+    cameraHolder.translateZ(-speed);
+}
+
+var speed = 0.2;
+
 // Keyboard controls for cameraHolder
 function keyboardUpdateHolder() {
 
@@ -56,6 +76,7 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
+    
     
     if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camY, angle);
     if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camY, -angle);
@@ -67,9 +88,21 @@ function keyboardUpdateHolder() {
     if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camZ, angle);
     if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camZ, -angle);
     
-    if (keyboard.pressed("space")) cameraHolder.translateZ(-0.2); // movement
-    if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
-    if (keyboard.down("A")){ // shows or hides the axes helper
+    //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
+    //if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
+    if (keyboard.pressed("Q")){ // speed up
+        speed++;
+        console.log(speed);
+    } 
+    if (keyboard.pressed("A")){ // slow down
+        if (speed < 0.0){
+            speed = 0.0;
+        } else {
+            speed--;
+        }
+        console.log(speed);
+    }
+    if (keyboard.down("H")){ // shows or hides the axes helper
         if(axesHelper.visible == false){
             axesHelper.visible = true;
         } else { 
@@ -96,5 +129,6 @@ function render() {
     requestAnimationFrame( render );
 	renderer.render( scene, camera );
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
+    cameraHolder.translateZ(-speed) // moves the camera automatically
 }
 render();
