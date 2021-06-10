@@ -32,12 +32,13 @@ var axesHelper = new THREE.AxesHelper( 15 );
 //axesHelper.translateZ(-2);
 axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(2);
-scene.add( axesHelper );
+//scene.add( axesHelper );
 
 var groundPlaneWired = createGroundPlaneWired(500, 500, 20, 20, "blue");
 //groundPlaneWired.translateY(0);
 groundPlaneWired.rotateX(degreesToRadians(90));
 scene.add(groundPlaneWired);
+groundPlaneWired.add(axesHelper);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
@@ -107,23 +108,23 @@ function keyboardUpdateHolder() {
         }
         //console.log(speed);
     }
-    if (keyboard.down("P")){ // shows or hides the axes helper
+    if (keyboard.down("P")){ // pauses the game
         if (speed > 0.0){
             savedSpeed = speed;
         }
-        if(axesHelper.visible == false){
-            axesHelper.visible = true;
+        if(groundPlaneWired.visible == false){
+            groundPlaneWired.visible = true;
             speed = savedSpeed;
         } else { 
-            axesHelper.visible = false;
+            groundPlaneWired.visible = false;
             speed = 0.0;
         }
-        if(groundPlaneWired.visible == false){
+        /*if(groundPlaneWired.visible == false){
             groundPlaneWired.visible = true;
         } else { 
             groundPlaneWired.visible = false;
-        }
-        console.log(speed);
+        }*/
+        //console.log(speed); TODO solve bug at zero speed, change minimum speed to above 0.0???
     };
 }
 
