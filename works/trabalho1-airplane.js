@@ -132,6 +132,7 @@ backLeftFlap.position.set(0.0, -0.72, 0.0);
 backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
 
+// EASTER EGGs BEGIN
 // life saver easter egg
 var rightLifesaverGeometry = new THREE.TorusGeometry(0.4, 0.2, 8, 24);
 var rightLifesaver = new THREE.Mesh(rightLifesaverGeometry, lifesaverMaterial);
@@ -139,9 +140,26 @@ rightLifesaver.position.set(1.6, -3.5, 0.0);
 rightLifesaver.rotateX(degreesToRadians(90));
 rightLifesaver.rotateY(degreesToRadians(90));
 
+// fake radar
 var radarGeometry = new THREE.OctahedronGeometry(0.8, 3);
 var radar = new THREE.Mesh(radarGeometry, fuselageMaterial);
 radar.position.set(0.0, 0.0, -1.5);
+
+// define airplane 3D crosses geometry
+var crossGeometry = new THREE.BoxGeometry(1.0, 0.4, 0.4);
+// left
+var leftCrossp1 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 1
+var leftCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 2
+//leftCrossp1.position.set(0.0, 0.0, 0.1);
+leftCrossp1.rotateZ(degreesToRadians(90));
+//leftCrossp2.position.set(0.0, 0.0, 0.1);
+// right
+var rightCrossp1 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 1
+var rightCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 2
+//rightCrossp1.position.set(0.0, 0.0, 0.1);
+rightCrossp1.rotateZ(degreesToRadians(90));
+//rightCrossp2.position.set(0.0, 0.0, 0.1);
+// EASTER EGGs END
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
@@ -267,7 +285,11 @@ tailCylinder.add(leftStabilizer);
 tailCylinder.add(rightStabilizer);
 tailCylinder.add(verticalStabilizer);
 leftStabilizer.add(backLeftFlap);
+leftStabilizer.add(leftCrossp1);
+leftStabilizer.add(leftCrossp2);
 rightStabilizer.add(backRightFlap);
+rightStabilizer.add(rightCrossp1);
+rightStabilizer.add(rightCrossp2);
 verticalStabilizer.add(backRudder);
 // LANDING GEAR
 // front
