@@ -131,6 +131,13 @@ backLeftFlap.position.set(0.0, -0.72, 0.0);
 backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
 
+// life saver easter egg
+var rightLifesaverGeometry = new THREE.TorusGeometry(0.4, 0.2, 8, 24);
+var rightLifesaver = new THREE.Mesh(rightLifesaverGeometry, hubMaterial);
+rightLifesaver.position.set(1.6, -3.5, 0.0);
+rightLifesaver.rotateX(degreesToRadians(90));
+rightLifesaver.rotateY(degreesToRadians(90));
+
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
@@ -236,6 +243,7 @@ frontCylinder.add(hubBaseSphere);
 // main structure
 baseCylinder.add(frontCylinder);
 baseCylinder.add(backCylinder);
+baseCylinder.add(rightLifesaver);
 backCylinder.add(tailCylinder);
 // wings
 baseCylinder.add(leftWing);
