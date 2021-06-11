@@ -4,12 +4,33 @@ import {initRenderer,
         createGroundPlaneWired,
         onWindowResize, 
         degreesToRadians,
+        initDefaultBasicLight,
         InfoBox} from "../libs/util/util.js";
+//import * as airplane from 'trabalho1-airplane.js'; // Import the airplane to this file here // TODO create cronstructor and so on to import correctly
 
 var scene = new THREE.Scene(); //create scene
+initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+
+// airplane config
+var planePositionX = 0.0;
+var planePositionY = 20.0;
+var planePositionZ = 5.0;
+
+var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
+var mockPlaneGeometry = new THREE.BoxGeometry(9.5, 1.5, 1.5, 32);
+var mockPlane = new THREE.Mesh(mockPlaneGeometry, fuselageMaterial);
+mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // initial position
+scene.add(mockPlane);
+
+// Base mock sphere
+var mockBaseSphereGeometry = new THREE.SphereGeometry(1.01, 2, 2);
+var mockBaseSphere = new THREE.Mesh( mockBaseSphereGeometry, fuselageMaterial );
+// Set initial position of the sphere
+mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance between airplane and camera
+
 // Camera configs
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-camera.position.set(0.0, 10.0, 0.0); // Initial position
+camera.position.set(0.0, 10.0, 20.0); // Initial camera position
 //camera.lookAt(0, 0, 0); // Set look at origin
 //camera.up.set(0, 1, 0);
 
@@ -18,7 +39,9 @@ var cameraHolder = new THREE.Object3D();
 cameraHolder.position.set(0.0, 2.0, 0.0);
 cameraHolder.up.set(0, 1, 0);
 cameraHolder.lookAt(0, 0, 0);
-scene.add(cameraHolder);
+//scene.add(cameraHolder);
+mockBaseSphere.add(cameraHolder);
+mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
 
 var renderer = initRenderer();    // View function in util/utils
@@ -80,15 +103,29 @@ function keyboardUpdateHolder() {
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
     
     
-    if (keyboard.pressed("left")) cameraHolder.rotateOnAxis(camY, angle);
-    if (keyboard.pressed("right")) cameraHolder.rotateOnAxis(camY, -angle);
-    if (keyboard.pressed("up")) cameraHolder.rotateOnAxis(camX, -angle);
-    if (keyboard.pressed("down")) cameraHolder.rotateOnAxis(camX, angle);
-    //camera rotation
-    if (keyboard.pressed("<")) cameraHolder.rotateOnAxis(camZ, angle);
-    if (keyboard.pressed(">")) cameraHolder.rotateOnAxis(camZ, -angle);
-    if (keyboard.pressed(",")) cameraHolder.rotateOnAxis(camZ, angle);
-    if (keyboard.pressed(".")) cameraHolder.rotateOnAxis(camZ, -angle);
+    if (keyboard.pressed("left")){
+        mockPlane.rotateOnAxis(camZ, angle);
+    }
+    if (keyboard.pressed("right")){
+        mockPlane.rotateOnAxis(camZ, -angle);
+    }
+    if (keyboard.pressed("up")){
+        mockPlane.rotateOnAxis(camX, -angle);
+    }
+    if (keyboard.pressed("down")){
+        mockPlane.rotateOnAxis(camX, angle);
+    } 
+    //camera rotation // TODO adjust all other controls
+    if (keyboard.pressed("<")) mockPlane.rotateOnAxis(camY, -angle);
+    if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
+    if (keyboard.pressed(",")){ // keep camera steady
+        mockBaseSphere.rotateOnAxis(camY, -angle);
+        mockPlane.rotateOnAxis(camY, angle);
+    }
+    if (keyboard.pressed(".")){
+        mockBaseSphere.rotateOnAxis(camY, angle);
+        mockPlane.rotateOnAxis(camY, -angle);
+    }
     
     //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
     //if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
@@ -149,6 +186,7 @@ function render() {
     requestAnimationFrame( render );
 	renderer.render( scene, camera );
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
-    cameraHolder.translateZ(-speed) // moves the camera automatically
+    //cameraHolder.translateZ(-speed) // moves the camera automatically
+    mockPlane.translateY(speed); // moves the plane automatically
 }
 render();
