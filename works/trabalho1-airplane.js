@@ -20,8 +20,8 @@ initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 15)); // Adds some light
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls( camera, renderer.domElement );
 
+// FPS panel config
 function createStats() {
-  //var stats = new Stats();
   stats.setMode(0);
   
   stats.domElement.style.position = 'absolute';
@@ -43,36 +43,36 @@ scene.add( axesHelper );
 var planeGeometry = new THREE.PlaneGeometry(25, 25);
 planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 var planeMaterial = new THREE.MeshBasicMaterial({
-    color: "rgba(150, 150, 150)",
-    //color: "green",
+    color: "rgba(150, 150, 150)", // light grey
     side: THREE.DoubleSide,
 });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-// add the plane to the scene
+// add the ground plane to the scene
 scene.add(plane);
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"}); // TODO create other color for blades
+var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
-var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"}); // TOODO create other color for the rudder
-var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"});
-//TODO add other materials
-//TODO change flaps
+var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
+var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"}); // bright red
 
-// Reference URL to all parts names
+
+// Reference URL to all ariplane parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
 
-// fuselage
+
+//-----------------------------------//
+// FUSELAGE                          //
+//-----------------------------------//
 // define airplane wings geometry
 var wingsGeometry = new THREE.BoxGeometry(10.0, 3.0, 0.2);
 // create the right wing
 var rightWing = new THREE.Mesh(wingsGeometry, fuselageMaterial);
-//rightWing.position.set(4.0, 0.0, 2.5);
 rightWing.position.set(6.5, -1.0, 0.0);
 // create the left wing
 var leftWing = new THREE.Mesh(wingsGeometry, fuselageMaterial);
@@ -97,8 +97,6 @@ rightFlap.position.set(0.0, -1.72, 0.0);
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 9.0, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5);
-// rotate to 90° angle
-//cylinder.rotateX(degreesToRadians(90));
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -132,7 +130,8 @@ backLeftFlap.position.set(0.0, -0.72, 0.0);
 backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
 
-// EASTER EGGs BEGIN
+
+// EASTER EGGs BEGIN //
 // life saver easter egg
 var rightLifesaverGeometry = new THREE.TorusGeometry(0.4, 0.2, 8, 24);
 var rightLifesaver = new THREE.Mesh(rightLifesaverGeometry, lifesaverMaterial);
@@ -150,16 +149,13 @@ var crossGeometry = new THREE.BoxGeometry(1.0, 0.4, 0.4);
 // left
 var leftCrossp1 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 1
 var leftCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 2
-//leftCrossp1.position.set(0.0, 0.0, 0.1);
 leftCrossp1.rotateZ(degreesToRadians(90));
-//leftCrossp2.position.set(0.0, 0.0, 0.1);
 // right
 var rightCrossp1 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 1
 var rightCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 2
-//rightCrossp1.position.set(0.0, 0.0, 0.1);
 rightCrossp1.rotateZ(degreesToRadians(90));
-//rightCrossp2.position.set(0.0, 0.0, 0.1);
-// EASTER EGGs END
+// EASTER EGGs END //
+
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
@@ -167,7 +163,9 @@ var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
 frontCylinder.position.set(0.0, 4.75, 0.0);
 
 
-// propeller
+//-----------------------------------//
+// PROPELLER                         //
+//-----------------------------------//
 // create blades hub
 var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, hubMaterial);
@@ -183,7 +181,6 @@ var hubBaseSphereGeometry = new THREE.SphereGeometry(0.01, 2, 2);
 var hubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
 hubBaseSphere.translateX(0.0).translateY(0.75).translateZ(0.0);
-//hubBaseSphere.rotateY(degreesToRadians(90));
 // adds the hub to the base sphere
 hubBaseSphere.add(hub);
 // engines on wings
@@ -203,7 +200,10 @@ rightHubBaseSphere.add(rightHub);
 leftHub.add(leftBlade);
 rightHub.add(rightBlade);
 
-// landing gear
+
+//-----------------------------------//
+// LANDING GEAR                      //
+//-----------------------------------//
 // creates tires geometry
 var tiresGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
 // front
@@ -310,7 +310,6 @@ scene.add(baseCylinder); // adds the whole airplane to the scene
 
 // Set angles of rotation
 var angle = 0.0;
-//var angle2 = 0;
 var baseAnimationSpeed = 0.2; // defines base animation speed
 var speed = baseAnimationSpeed;
 var animationOn = true; // control if animation is on or of
@@ -327,7 +326,6 @@ function rotateBlades(){
   if(animationOn){
     // defines angular speed
     angle+=speed;
-    //angle2+=speed*2;
     
     var mat4 = new THREE.Matrix4();
     //hub.matrix.identity();  // reset matrix
