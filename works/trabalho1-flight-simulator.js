@@ -112,10 +112,15 @@ function keyboardUpdateHolder() {
         mockPlane.rotateOnAxis(camZ, -angle);
     }
     if (keyboard.pressed("up")){
+        pressed[0] = true;
+        //mockBaseSphere.rotateOnAxis(camX, angle);
         mockPlane.rotateOnAxis(camX, -angle);
+        anglesVet[0] = anglesVet[0] - angle;
     }
     if (keyboard.pressed("down")){
+        pressed[0] = true;
         mockPlane.rotateOnAxis(camX, angle);
+        anglesVet[0] = anglesVet[0] + angle;
     } 
     //camera rotation // TODO adjust all other controls
     //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
@@ -182,6 +187,16 @@ function keyboardUpdateHolder() {
         //mockPlane.rotateOnAxis(camY, angle);
         pressed[1] = false;
     }
+    if (keyboard.up("up")){ // keep camera steady
+        //mockBaseSphere.rotateOnAxis(camY, angle);
+        //mockPlane.rotateOnAxis(camY, -angle);
+        pressed[0] = false;
+    }
+    if (keyboard.up("down")){
+        //mockBaseSphere.rotateOnAxis(camY, -angle);
+        //mockPlane.rotateOnAxis(camY, angle);
+        pressed[0] = false;
+    }
 
     if(!pressed[1]){
         if(anglesVet[1]<0){
@@ -199,6 +214,26 @@ function keyboardUpdateHolder() {
             anglesVet[1] = anglesVet[1] - angle;
             if(anglesVet[1]<=0){
                 anglesVet[1]=0;
+            }
+        }
+    }
+
+    if(!pressed[0]){
+        if(anglesVet[0]<0){
+            //mockBaseSphere.rotateOnAxis(camX, angle);
+            mockPlane.rotateOnAxis(camX, +angle);
+            //pressed[1] = f;
+            anglesVet[0] = anglesVet[0] + angle;
+            if(anglesVet[0]>=0){
+                anglesVet[0]=0;
+            }
+        } else if(anglesVet[0]>0){
+            //mockBaseSphere.rotateOnAxis(camX, -angle);
+            mockPlane.rotateOnAxis(camX, -angle);
+            //pressed[1] = f;
+            anglesVet[0] = anglesVet[0] - angle;
+            if(anglesVet[0]<=0){
+                anglesVet[0]=0;
             }
         }
     }
