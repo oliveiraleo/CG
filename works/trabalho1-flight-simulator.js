@@ -92,6 +92,8 @@ function airplaneSpeed(){
 
 var speed = 0.2;
 var savedSpeed = speed;
+var pressed = [false,false]; //x,y
+var anglesVet = [0,0,0];
 
 // Keyboard controls for cameraHolder
 function keyboardUpdateHolder() {
@@ -101,7 +103,7 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
-    
+    var x;
     
     if (keyboard.pressed("left")){
         mockPlane.rotateOnAxis(camZ, angle);
@@ -116,15 +118,19 @@ function keyboardUpdateHolder() {
         mockPlane.rotateOnAxis(camX, angle);
     } 
     //camera rotation // TODO adjust all other controls
-    if (keyboard.pressed("<")) mockPlane.rotateOnAxis(camY, -angle);
-    if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
+    //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
+    //if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
     if (keyboard.pressed(",")){ // keep camera steady
         mockBaseSphere.rotateOnAxis(camY, -angle);
         mockPlane.rotateOnAxis(camY, angle);
+        pressed[1] = true;
+        anglesVet[1] = anglesVet[1] - angle;
     }
     if (keyboard.pressed(".")){
         mockBaseSphere.rotateOnAxis(camY, angle);
         mockPlane.rotateOnAxis(camY, -angle);
+        pressed[1] = true;
+        anglesVet[1] = anglesVet[1] + angle;
     }
     
     //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
@@ -163,7 +169,40 @@ function keyboardUpdateHolder() {
             groundPlaneWired.visible = false;
         }*/
         //console.log(speed); TODO solve bug at zero speed, change minimum speed to above 0.0???
-    };
+    }
+
+    // Controles não precionados
+    if (keyboard.up(",")){ // keep camera steady
+        //mockBaseSphere.rotateOnAxis(camY, angle);
+        //mockPlane.rotateOnAxis(camY, -angle);
+        pressed[1] = false;
+    }
+    if (keyboard.up(".")){
+        //mockBaseSphere.rotateOnAxis(camY, -angle);
+        //mockPlane.rotateOnAxis(camY, angle);
+        pressed[1] = false;
+    }
+
+    if(!pressed[1]){
+        if(anglesVet[1]<0){
+            mockBaseSphere.rotateOnAxis(camY, angle);
+            mockPlane.rotateOnAxis(camY, -angle);
+            //pressed[1] = f;
+            anglesVet[1] = anglesVet[1] + angle;
+            if(anglesVet[1]>=0){
+                anglesVet[1]=0;
+            }
+        } else if(anglesVet[1]>0){
+            mockBaseSphere.rotateOnAxis(camY, -angle);
+            mockPlane.rotateOnAxis(camY, +angle);
+            //pressed[1] = f;
+            anglesVet[1] = anglesVet[1] - angle;
+            if(anglesVet[1]<=0){
+                anglesVet[1]=0;
+            }
+        }
+    }
+
 }
 
 function showInformation()
