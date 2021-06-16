@@ -9,7 +9,13 @@ import {initRenderer,
 //import * as airplane from 'trabalho1-airplane.js'; // Import the airplane to this file here // TODO create cronstructor and so on to import correctly
 
 var scene = new THREE.Scene(); //create scene
+var renderer = initRenderer();    // View function in util/utils
 initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+// TODO ordem dos movimentos resolve o angulo
+
+//-----------------------------------//
+// AIRPLANE CONFIGURATION BEGIN      //
+//-----------------------------------//
 
 // airplane config
 var planePositionX = 0.0;
@@ -301,11 +307,12 @@ baseCylinder.add(backTiresCylinder);
 baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
 
-// add all objects to the scene
+// add all airplane objects to the scene
 mockPlane.add(baseCylinder);
 
-
-var renderer = initRenderer();    // View function in util/utils
+//-----------------------------------//
+// AIRPLANE CONFIGURATION END        //
+//-----------------------------------//
 
 // To use the keyboard
 var keyboard = new KeyboardState();
@@ -328,7 +335,7 @@ groundPlaneWired.add(axesHelper);
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
 // Adds light
-scene.add(new THREE.HemisphereLight());
+//scene.add(new THREE.HemisphereLight());
 
 // Show text information onscreen
 showInformation(); // displays controls
