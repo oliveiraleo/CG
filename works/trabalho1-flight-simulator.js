@@ -23,7 +23,7 @@ var planePositionY = 20.0;
 var planePositionZ = 5.0;
 
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var mockPlaneGeometry = new THREE.BoxGeometry(9.5, 1.5, 1.5, 32);
+var mockPlaneGeometry = new THREE.BoxGeometry(0, 0, 0, 32);
 var mockPlane = new THREE.Mesh(mockPlaneGeometry, fuselageMaterial);
 mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // initial position
 scene.add(mockPlane);
@@ -364,29 +364,49 @@ var pressed = [false,false]; //x,y
 var anglesVet = [0,0,0];
 
 var pivot = new THREE.Object3D();
+var angleAviao = [-1.57, 0, 0];
+var mat4 = new THREE.Matrix4();
+//mockPlane.matrixAutoUpdate = false;
+//mockPlane.matrix.identity();
+
 
 // Keyboard controls for cameraHolder
 function keyboardUpdateHolder() {
 
     //
+    mockPlane.matrix.identity();
     keyboard.update();
     var angle = degreesToRadians(1);
+
+
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
     //var x;
-    var mat4 = new THREE.Matrix4();
-    //mockBaseSphere.matrixAutoUpdate = false;
+ 
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(speed, speed, speed))
     //mockBaseSphere.matrix.multiply(mat4.makeRotationZ(angle)); // R1
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
     
     if (keyboard.pressed("left")){
         mockPlane.rotateOnAxis(camZ, angle);
+        baseCylinder.rotateOnAxis(camY, -angle);
+        //mockBaseSphere.rotateOnAxis(camY, +angle);
+        //angleAviao[2] = degreesToRadians(angleAviao[2]+1);
+        //angleAviao[1] = degreesToRadians(angleAviao[1]+1);
+        //mockPlane.matrix.multiply(mat4.makeRotationZ(angleAviao[2]));
+        //.matrix.multiply(mat4.makeRotationY(angleAviao[1]));
+        //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
+        //mockPlane.rotateOnAxis(camY, -angle);
+        pressed[1] = true;
+        anglesVet[1] = anglesVet[1] + angle;
        
     }
     if (keyboard.pressed("right")){
         mockPlane.rotateOnAxis(camZ, -angle);
+        baseCylinder.rotateOnAxis(camY, angle);
+        pressed[1] = true;
+        anglesVet[1] = anglesVet[1] - angle;
     }
     if (keyboard.pressed("up")){
         pressed[0] = true;
@@ -414,6 +434,7 @@ function keyboardUpdateHolder() {
     //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
     //if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
     if (keyboard.pressed(",")){ // keep camera steady
+        /*
         mockBaseSphere.rotateOnAxis(camY, +angle);
         mockPlane.rotateOnAxis(camY, -angle);
         pressed[1] = true;
@@ -425,6 +446,7 @@ function keyboardUpdateHolder() {
         mockPlane.rotateOnAxis(camY, +angle);
         pressed[1] = true;
         anglesVet[1] = anglesVet[1] - angle;
+        */
     }
     
     //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
@@ -466,12 +488,12 @@ function keyboardUpdateHolder() {
     }
 
     // Controles não precionados
-    if (keyboard.up(",")){ // keep camera steady
+    if (keyboard.up("left")){ // keep camera steady
         //mockBaseSphere.rotateOnAxis(camY, angle);
         //mockPlane.rotateOnAxis(camY, -angle);
         pressed[1] = false;
     }
-    if (keyboard.up(".")){
+    if (keyboard.up("right")){
         //mockBaseSphere.rotateOnAxis(camY, -angle);
         //mockPlane.rotateOnAxis(camY, angle);
         pressed[1] = false;
@@ -489,8 +511,8 @@ function keyboardUpdateHolder() {
 
     if(!pressed[1]){
         if(anglesVet[1]<0){
-            mockBaseSphere.rotateOnAxis(camY, angle);
-            mockPlane.rotateOnAxis(camY, -angle);
+            //mockBaseSphere.rotateOnAxis(camY, angle);
+            baseCylinder.rotateOnAxis(camY, -angle);
             //pressed[1] = f;
             anglesVet[1] = anglesVet[1] + angle;
             
@@ -499,38 +521,40 @@ function keyboardUpdateHolder() {
 
             }
         } else if(anglesVet[1]>0){
-            mockBaseSphere.rotateOnAxis(camY, -angle);
-            mockPlane.rotateOnAxis(camY, +angle);
+            //mockBaseSphere.rotateOnAxis(camY, -angle);
+            baseCylinder.rotateOnAxis(camY, +angle);
             //pressed[1] = f;
             anglesVet[1] = anglesVet[1] - angle;
-            /*
+            
             if(anglesVet[1]<=0){
                 anglesVet[1]=0;
-            }*/
+            }
         }
     }
 
+/*
     if(!pressed[0]){
         if(anglesVet[0]<0){
             //mockBaseSphere.rotateOnAxis(camX, angle);
             mockPlane.rotateOnAxis(camX, +angle);
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] + angle;
-            /*
+            
             if(anglesVet[0]>=0){
                 anglesVet[0]=0;
-            }*/
+            }
         } else if(anglesVet[0]>0){
             //mockBaseSphere.rotateOnAxis(camX, -angle);
             mockPlane.rotateOnAxis(camX, -angle);
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] - angle;
-            /*
+            
             if(anglesVet[0]<=0){
                 anglesVet[0]=0;
-            }*/
+            }
         }
     }
+    */
 }
 
 // Set angles of rotation
