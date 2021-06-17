@@ -402,8 +402,8 @@ function keyboardUpdateHolder() {
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
     
     if (keyboard.pressed("left")){
-        mockPlane.rotateOnAxis(camZ, angle);
-        baseCylinder.rotateOnAxis(camY, -angle);
+       
+        
         //mockBaseSphere.rotateOnAxis(camY, +angle);
         //angleAviao[2] = degreesToRadians(angleAviao[2]+1);
         //angleAviao[1] = degreesToRadians(angleAviao[1]+1);
@@ -411,15 +411,26 @@ function keyboardUpdateHolder() {
         //.matrix.multiply(mat4.makeRotationY(angleAviao[1]));
         //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
         //mockPlane.rotateOnAxis(camY, -angle);
+
         isPressed[1] = true;
-        anglesVet[1] = anglesVet[1] + angle;
+
+        if(anglesVet[1]< degreesToRadians(45)){
+            baseCylinder.rotateOnAxis(camY, -angle);
+            anglesVet[1] = anglesVet[1] + angle;
+        }
+        mockPlane.rotateOnAxis(camZ, angle);
        
     }
     if (keyboard.pressed("right")){
-        mockPlane.rotateOnAxis(camZ, -angle);
-        baseCylinder.rotateOnAxis(camY, angle);
+        
+        
         isPressed[1] = true;
-        anglesVet[1] = anglesVet[1] - angle;
+
+        if(anglesVet[1]> degreesToRadians(-45)){
+            baseCylinder.rotateOnAxis(camY, angle);
+            anglesVet[1] = anglesVet[1] - angle;
+        }
+        mockPlane.rotateOnAxis(camZ, -angle);
     }
     if (keyboard.pressed("up")){
         if (airplanePosition() >= 0.0){ // prevents the airplane to get inside the water
@@ -434,9 +445,15 @@ function keyboardUpdateHolder() {
             //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
             //angleAviao[0] = degreesToRadians(angleAviao[0]+1);
             //mockPlane.matrix.multiply(mat4.makeRotationX(angleAviao[0]));
+
+            //Regula o visual da inclinação
+            if(anglesVet[0]> degreesToRadians(-45)){
+                
+                baseCylinderTeste.rotateOnAxis(camX, -angle);
+                anglesVet[0] = anglesVet[0] - angle;
+            }
             mockPlane.translateZ(-0.2);
-            baseCylinderTeste.rotateOnAxis(camX, -angle);
-            anglesVet[0] = anglesVet[0] - angle;
+
         }
     }
     if (keyboard.pressed("down")){
@@ -445,14 +462,18 @@ function keyboardUpdateHolder() {
         //mockPlane.rotateOnAxis(camX, angle);
         //mockBaseSphere.matrix.multiply(mat4.makeRotationX(-angle));
         //mockBaseSphere.rotateOnAxis(camX, -angle);
+
+        
+        if(anglesVet[0] <degreesToRadians(45)){
+            baseCylinderTeste.rotateOnAxis(camX, +angle);
+            anglesVet[0] = anglesVet[0] + angle;
+        }
         mockPlane.translateZ(+0.2);
-        baseCylinderTeste.rotateOnAxis(camX, +angle);
-        anglesVet[0] = anglesVet[0] + angle;
     } 
     //camera rotation // TODO adjust all other controls
     //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
     //if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
-    if (keyboard.pressed(",")){ // keep camera steady
+    //if (keyboard.pressed(",")){ // keep camera steady
         /*
         mockBaseSphere.rotateOnAxis(camY, +angle);
         mockPlane.rotateOnAxis(camY, -angle);
@@ -466,7 +487,7 @@ function keyboardUpdateHolder() {
         pressed[1] = true;
         anglesVet[1] = anglesVet[1] - angle;
         */
-    }
+    //}
     
     //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
     //if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
@@ -568,8 +589,9 @@ function keyboardUpdateHolder() {
             baseCylinderTeste.rotateOnAxis(camX, +angle);
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] + angle;
-            
+            //baseCylinder.rotateY(anglesVet[1]);
             if(anglesVet[0]>=0){
+                baseCylinderTeste.rotateX(-anglesVet[0]);
                 anglesVet[0]=0;
             }
         } else if(anglesVet[0]>0){
@@ -577,8 +599,9 @@ function keyboardUpdateHolder() {
             baseCylinderTeste.rotateOnAxis(camX, -angle);
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] - angle;
-            
+            //baseCylinder.rotateY(anglesVet[1]);
             if(anglesVet[0]<=0){
+                baseCylinderTeste.rotateX(-anglesVet[0]);
                 anglesVet[0]=0;
             }
         }
