@@ -1,6 +1,7 @@
 import * as THREE from  '../build/three.module.js';
 import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
-import KeyboardState from '../libs/util/KeyboardState.js';
+import Stats from               '../build/jsm/libs/stats.module.js';
+import KeyboardState from       '../libs/util/KeyboardState.js';
 import {initRenderer, 
         createGroundPlaneWired,
         onWindowResize, 
@@ -8,9 +9,24 @@ import {initRenderer,
         initDefaultBasicLight,
         InfoBox} from "../libs/util/util.js";
 
-var scene = new THREE.Scene(); //create scene
-var renderer = initRenderer();    // View function in util/utils
+var stats = new Stats();        // To show FPS information
+var scene = new THREE.Scene();  // create scene
+var renderer = initRenderer();  // View function in util/utils
 initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+
+// FPS panel config
+function createStats() {
+    stats.setMode(0);
+    
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0';
+    stats.domElement.style.top = '0';
+  
+    return stats;
+  }
+  // To show FPS
+  stats = createStats();
+  document.body.appendChild( stats.domElement );
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION BEGIN      //
@@ -656,6 +672,7 @@ function showInformation()
 function render() {
     requestAnimationFrame( render );
 	renderer.render( scene, camera );
+    stats.update(); // Update FPS
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
     //cameraHolder.translateZ(-speed) // moves the camera automatically
     mockPlane.translateY(speed); // moves the plane automatically
