@@ -369,6 +369,7 @@ showInformation(); // displays controls
 
 var speed = 0.2;
 var savedSpeed = speed;
+var savedAirplanePosition = new THREE.Vector3(); // creates a vector to save the plane global position (x, y, z)
 var isPressed = [false,false]; //x,y
 var anglesVet = [0,0,0];
 
@@ -378,6 +379,16 @@ function airplaneHeightPosition(){ // retorna a altura do avião em relação ao
     var airplaneZ = airplaneWorldPosition.getComponent(2); // airplane height    
     return airplaneZ;
 }
+function airplanePositionX(){ // retorna a altura do avião em relação ao plano
+    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    var airplaneX = airplaneWorldPosition.getComponent(0); // airplane height    
+    return airplaneX;
+}
+function airplanePositionY(){ // retorna a altura do avião em relação ao plano
+    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    var airplaneY = airplaneWorldPosition.getComponent(1); // airplane height    
+    return airplaneY;
+}
 
 //var pivot = new THREE.Object3D();
 //var angleAviao = [-1.57, 0, 0];
@@ -386,7 +397,7 @@ function airplaneHeightPosition(){ // retorna a altura do avião em relação ao
 mockPlane.matrix.identity();
 
 
-// Keyboard controls for th simulator
+// Keyboard controls for the simulator
 function keyboardUpdateHolder() {
 
     mockPlane.matrix.identity();
@@ -511,23 +522,30 @@ function keyboardUpdateHolder() {
         //console.log(mockPlane.getWorldPosition()); // TODO atualizar altura do avião
         //console.log(airplaneWorldHeight);
         //console.log(airplaneX);
+        //console.log(planePositionX, planePositionY, planePositionZ);
         
     }
     if (keyboard.down("space")){ // inspection mode switch
         if(groundPlaneWired.visible == false){
             groundPlaneWired.visible = true;
             speed = savedSpeed;
+            // mockPlane.position.set(savedAirplanePosition); // makes airplane return at original position
+            mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at original position
         } else { 
             groundPlaneWired.visible = false;
             savedSpeed = speed;
             speed = 0.0;
+            //console.log(savedAirplanePosition);
+            //savedAirplanePosition = [airplanePositionX(), airplanePositionY(), airplaneHeightPosition()]; // saves the airplane position at the moment
+            //console.log(savedAirplanePosition);
+            //console.log([airplanePositionX(), airplanePositionY(), airplaneHeightPosition()]);
+            // saves the airplane position at the moment
+            planePositionX = airplanePositionX();
+            planePositionY = airplanePositionY();
+            planePositionZ = airplaneHeightPosition();
+            //console.log([planePositionX, planePositionY, planePositionZ]);
+            mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
         }
-        /*if(groundPlaneWired.visible == false){
-            groundPlaneWired.visible = true;
-        } else { 
-            groundPlaneWired.visible = false;
-        }*/
-        //console.log(speed); TODO solve bug at zero speed, change minimum speed to above 0.0???
     }
 
     // Controles não precionados
