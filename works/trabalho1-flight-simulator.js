@@ -369,7 +369,7 @@ showInformation(); // displays controls
 
 var speed = 0.2;
 var savedSpeed = speed;
-var pressed = [false,false]; //x,y
+var isPressed = [false,false]; //x,y
 var anglesVet = [0,0,0];
 
 var pivot = new THREE.Object3D();
@@ -404,18 +404,18 @@ function keyboardUpdateHolder() {
         //.matrix.multiply(mat4.makeRotationY(angleAviao[1]));
         //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
         //mockPlane.rotateOnAxis(camY, -angle);
-        pressed[1] = true;
+        isPressed[1] = true;
         anglesVet[1] = anglesVet[1] + angle;
        
     }
     if (keyboard.pressed("right")){
         mockPlane.rotateOnAxis(camZ, -angle);
         baseCylinder.rotateOnAxis(camY, angle);
-        pressed[1] = true;
+        isPressed[1] = true;
         anglesVet[1] = anglesVet[1] - angle;
     }
     if (keyboard.pressed("up")){
-        pressed[0] = true;
+        isPressed[0] = true;
         //mockBaseSphere.rotateOnAxis(new THREE.Vector3(1, 0, 0), -angle);
         //mockBaseSphere.matrix.multiply(mat4.makeRotationy(angle));
         //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.0));
@@ -432,7 +432,7 @@ function keyboardUpdateHolder() {
 
     }
     if (keyboard.pressed("down")){
-        pressed[0] = true;
+        isPressed[0] = true;
         //mockBaseSphere.rotateOnAxis(camX, -angle);
         //mockPlane.rotateOnAxis(camX, angle);
         //mockBaseSphere.matrix.multiply(mat4.makeRotationX(-angle));
@@ -502,25 +502,25 @@ function keyboardUpdateHolder() {
     if (keyboard.up("left")){ // keep camera steady
         //mockBaseSphere.rotateOnAxis(camY, angle);
         //mockPlane.rotateOnAxis(camY, -angle);
-        pressed[1] = false;
+        isPressed[1] = false;
     }
     if (keyboard.up("right")){
         //mockBaseSphere.rotateOnAxis(camY, -angle);
         //mockPlane.rotateOnAxis(camY, angle);
-        pressed[1] = false;
+        isPressed[1] = false;
     }
     if (keyboard.up("up")){ // keep camera steady
         //mockBaseSphere.rotateOnAxis(camY, angle);
         //mockPlane.rotateOnAxis(camY, -angle);
-        pressed[0] = false;
+        isPressed[0] = false;
     }
     if (keyboard.up("down")){
         //mockBaseSphere.rotateOnAxis(camY, -angle);
         //mockPlane.rotateOnAxis(camY, angle);
-        pressed[0] = false;
+        isPressed[0] = false;
     }
     angle = angle * 3; // faz o avião retornar à origem mais rapidamente que o movimento feito pelo usuário
-    if(!pressed[1]){
+    if(!isPressed[1]){
         if(anglesVet[1]<0){
             //mockBaseSphere.rotateOnAxis(camY, angle);
             baseCylinder.rotateOnAxis(camY, -angle);
@@ -548,7 +548,7 @@ function keyboardUpdateHolder() {
     }
 
     //angle = angle * 2; // faz o movimento lateral ser mais rápido que o da altura
-    if(!pressed[0]){
+    if(!isPressed[0]){
         if(anglesVet[0]<0){
             //mockBaseSphere.rotateOnAxis(camX, angle);
             baseCylinderTeste.rotateOnAxis(camX, +angle);
