@@ -7,7 +7,6 @@ import {initRenderer,
         degreesToRadians,
         initDefaultBasicLight,
         InfoBox} from "../libs/util/util.js";
-//import * as airplane from 'trabalho1-airplane.js'; // Import the airplane to this file here // TODO create cronstructor and so on to import correctly
 
 var scene = new THREE.Scene(); //create scene
 var renderer = initRenderer();    // View function in util/utils
@@ -55,8 +54,6 @@ cameraHolder.add(camera);
 
 // Enable mouse rotation, pan, zoom etc.
 //var trackballControls = new TrackballControls( camera, renderer.domElement );
-//var trackballControls = new TrackballControls( cameraHolder, renderer.domElement );
-// colocado temporariamente na linha 110
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
@@ -107,7 +104,6 @@ var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinderGeometry = new THREE.CylinderGeometry(0, 0, 0, 32);
 var baseCylinderTeste = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
-//var trackballControls = new TrackballControls( mockBaseSphere, renderer.domElement ); // somente afasta da camera // TODO corrigir o modo inspeção
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -343,29 +339,8 @@ groundPlaneWired.add(axesHelper);
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
-// Adds light
-//scene.add(new THREE.HemisphereLight());
-
 // Show text information onscreen
 showInformation(); // displays controls
-
-/*function airplaneSpeed(){
-    var speed = 0.2;
-
-    var controls = new function ()
-    {
-      this.onChangeAnimation = function(){
-        animationOn = !animationOn;
-      };
-      this.speed = baseAnimationSpeed;
-  
-      this.changeSpeed = function(){
-        speed = (this.speed);
-      };
-    }
-
-    cameraHolder.translateZ(-speed);
-}*/
 
 var speed = 0.2;
 var savedSpeed = speed;
@@ -390,11 +365,7 @@ function airplanePositionY(){ // retorna a altura do avião em relação ao plan
     return airplaneY;
 }
 
-//var pivot = new THREE.Object3D();
-//var angleAviao = [-1.57, 0, 0];
-//var mat4 = new THREE.Matrix4();
-//mockPlane.matrixAutoUpdate = false;
-mockPlane.matrix.identity();
+mockPlane.matrix.identity(); // TODO verificar o uso disso aqui e da linha 399 (ou 5 linhas) abaixo
 
 
 // Keyboard controls for the simulator
@@ -408,10 +379,6 @@ function keyboardUpdateHolder() {
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
 
-    //mockBaseSphere.matrix.multiply(mat4.makeTranslation(speed, speed, speed))
-    //mockBaseSphere.matrix.multiply(mat4.makeRotationZ(angle)); // R1
-    //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
-    
     if (!isInInspectionMode){ // Only enables the airplane controls if not in inspection mode
 
         if (keyboard.pressed("left")){
@@ -521,9 +488,6 @@ function keyboardUpdateHolder() {
             //console.log(speed);
         }
         if (keyboard.pressed("P")){ // Debug key
-            //console.log(mockPlane.getWorldPosition()); // TODO atualizar altura do avião
-            //console.log(airplaneWorldHeight);
-            //console.log(airplaneX);
             //console.log(planePositionX, planePositionY, planePositionZ);
             
         }
@@ -532,28 +496,24 @@ function keyboardUpdateHolder() {
     if (keyboard.down("space")){ // inspection mode switch
         if(groundPlaneWired.visible == false){
             isInInspectionMode = false; // inspection mode off
-            groundPlaneWired.visible = true;
-            speed = savedSpeed;
+            groundPlaneWired.visible = true; // ground plane appears again
+            speed = savedSpeed; // restore the preious speed
             mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
         } else { 
             groundPlaneWired.visible = false;
             savedSpeed = speed;
             speed = 0.0;
-            //console.log(savedAirplanePosition);
-            //savedAirplanePosition = [airplanePositionX(), airplanePositionY(), airplaneHeightPosition()]; // saves the airplane position at the moment
-            //console.log(savedAirplanePosition);
-            //console.log([airplanePositionX(), airplanePositionY(), airplaneHeightPosition()]);
             // saves the airplane position at the moment
             planePositionX = airplanePositionX();
             planePositionY = airplanePositionY();
             planePositionZ = airplaneHeightPosition();
-            //console.log([planePositionX, planePositionY, planePositionZ]);
+
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
         }
     }
 
-    // Controles não precionados
+    // Controles não precionados // TODO melhorar esse comentario
     if (keyboard.up("left")){ // keep camera steady
         //mockBaseSphere.rotateOnAxis(camY, angle);
         //mockPlane.rotateOnAxis(camY, -angle);
@@ -635,19 +595,16 @@ function slowSpeed(){
     if(speed > 0.10 && speed < 0.2){
         if(airplaneHeightPosition() >= 0.0){
             mockPlane.translateZ(-gravity);
-            //groundPlaneWired.translateZ(gravity);
         }
     }
     if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
-        //groundPlaneWired.translateZ(gravity*3);
-        //mockPlane.translateZ(-gravity*2);
         if(airplaneHeightPosition() >= 0.0){
             mockPlane.translateZ(-gravity*2);
-            //groundPlaneWired.translateZ(gravity);
         }
     }
 }
 
+// Helper funciotion for the inspection mode
 function inspectionModeOn(){ // Verifies if the inspection mode is on or off
     if(isInInspectionMode){
         var trackballControls = new TrackballControls( camera, renderer.domElement ); // TODO create this var in other place
@@ -655,10 +612,7 @@ function inspectionModeOn(){ // Verifies if the inspection mode is on or off
     }
 }
 
-// Set angles of rotation
-//var baseAnimationSpeed = 0.2; // defines base animation speed
-//var speedBlade = baseAnimationSpeed;
-var animationOn = true; // control if animation is on or of
+var animationOn = true; // control if the bades' animation is on or of
 
 function rotateBlades(){
   // takes back matrix control
@@ -670,10 +624,8 @@ function rotateBlades(){
   rightBlade.matrixAutoUpdate = false;
 
   if(animationOn){
-    // defines angular speed
-    
     var mat4 = new THREE.Matrix4();
-    //hub.matrix.identity();  // reset matrix
+
     blade.matrix.identity();  // reset matrix
     leftBlade.matrix.identity();  // reset matrix
     rightBlade.matrix.identity();  // reset matrix
@@ -697,8 +649,6 @@ function showInformation()
     controls.add("Press SPACE to toggle inspection mode");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
-    //controls.add("Press R to reverse move");
-    //controls.add("Press A to toggle Axes Helper visibility");
     controls.show();
 }
 
