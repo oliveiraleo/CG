@@ -372,6 +372,8 @@ var savedSpeed = speed;
 var isPressed = [false,false]; //x,y
 var anglesVet = [0,0,0];
 
+var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
+
 var pivot = new THREE.Object3D();
 var angleAviao = [-1.57, 0, 0];
 var mat4 = new THREE.Matrix4();
@@ -385,6 +387,10 @@ function keyboardUpdateHolder() {
     mockPlane.matrix.identity();
     keyboard.update();
     var angle = degreesToRadians(1);
+
+    
+    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    var airplaneX = airplaneWorldPosition.getComponent(2); // airplane height
 
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
@@ -415,21 +421,22 @@ function keyboardUpdateHolder() {
         anglesVet[1] = anglesVet[1] - angle;
     }
     if (keyboard.pressed("up")){
-        isPressed[0] = true;
-        //mockBaseSphere.rotateOnAxis(new THREE.Vector3(1, 0, 0), -angle);
-        //mockBaseSphere.matrix.multiply(mat4.makeRotationy(angle));
-        //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.0));
-        //mockBaseSphere.translateX(0).translateY(-25.0).translateZ(0);
-        //cameraHolder.rotateOnAxis(camX, -angle);
-        //mockBaseSphere.position.set(planePositionX,planePositionY,planePositionZ);
-        //mockBaseSphere.translateX(planePositionX).translateY(planePositionY-25.0).translateZ(planePositionZ);
-        //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
-        //angleAviao[0] = degreesToRadians(angleAviao[0]+1);
-        //mockPlane.matrix.multiply(mat4.makeRotationX(angleAviao[0]));
-        mockPlane.translateZ(-0.2);
-        baseCylinderTeste.rotateOnAxis(camX, -angle);
-        anglesVet[0] = anglesVet[0] - angle;
-
+        if (airplaneX >= 0.0){ // prevents the airplane to get inside the water
+            isPressed[0] = true;
+            //mockBaseSphere.rotateOnAxis(new THREE.Vector3(1, 0, 0), -angle);
+            //mockBaseSphere.matrix.multiply(mat4.makeRotationy(angle));
+            //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.0));
+            //mockBaseSphere.translateX(0).translateY(-25.0).translateZ(0);
+            //cameraHolder.rotateOnAxis(camX, -angle);
+            //mockBaseSphere.position.set(planePositionX,planePositionY,planePositionZ);
+            //mockBaseSphere.translateX(planePositionX).translateY(planePositionY-25.0).translateZ(planePositionZ);
+            //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
+            //angleAviao[0] = degreesToRadians(angleAviao[0]+1);
+            //mockPlane.matrix.multiply(mat4.makeRotationX(angleAviao[0]));
+            mockPlane.translateZ(-0.2);
+            baseCylinderTeste.rotateOnAxis(camX, -angle);
+            anglesVet[0] = anglesVet[0] - angle;
+        }
     }
     if (keyboard.pressed("down")){
         isPressed[0] = true;
@@ -478,8 +485,11 @@ function keyboardUpdateHolder() {
         }
         //console.log(speed);
     }
-    if (keyboard.pressed("P")){
-        console.log(mockPlane.getWorldPosition()); // TODO determinar altura do avião
+    if (keyboard.pressed("P")){ // Debug key
+        //console.log(mockPlane.getWorldPosition()); // TODO atualizar altura do avião
+        //console.log(airplaneWorldHeight);
+        //console.log(airplaneX);
+        
     }
     if (keyboard.down("space")){ // inspection mode switch
         if (speed > 0.0){
