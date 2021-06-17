@@ -34,8 +34,8 @@ function createStats() {
 
 // airplane config
 var planePositionX = 0.0;
-var planePositionY = -270.0; // previous value was +20.0
-var planePositionZ = 5.0;
+var planePositionY = -370.0; // previous value was +20.0
+var planePositionZ = 45.0; // previous value was +5.0
 
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
 var mockPlaneGeometry = new THREE.BoxGeometry(0, 0, 0, 32);
@@ -608,15 +608,15 @@ function keyboardUpdateHolder() {
 // Makes airplane go down if speed is too slow
 function slowSpeed(){
     var gravity = 0.3; // sets the strength of (simulated) gravity
-    if(speed > 0.10 && speed < 0.2){
-        if(airplaneHeightPosition() >= 0.0){
+    if(speed > 0.05 && speed < 0.2){
+        if(airplaneHeightPosition() >= 0.0){ // stops at ground plane
             mockPlane.translateZ(-gravity);
         }
     }
     //if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
-    if(speed >= 0.0 && speed <= 0.10 && !isInInspectionMode){ // verifies the inspection mode too
-        if(airplaneHeightPosition() >= 0.0){
-            mockPlane.translateZ(-gravity*2);
+    if(speed >= 0.0 && speed <= 0.05 && !isInInspectionMode){ // verifies the inspection mode too
+        if(airplaneHeightPosition() >= 0.0){ // stops at ground plane
+            mockPlane.translateZ(-gravity*3);
         }
     }
 }
