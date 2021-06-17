@@ -604,8 +604,8 @@ function showInformation()
     var controls = new InfoBox();
     controls.add("Flight Simulator controls:");
     controls.addParagraph();
-    controls.add("Press arrow keys to change movement direction");
-    controls.add("Press , (comma) or . (point) to change camera angle");
+    controls.add("Press arrow keys to change airplane direction");
+    //controls.add("Press , (comma) or . (point) to change camera angle"); // movement disabled
     controls.add("Press SPACE to toggle inspection mode");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
