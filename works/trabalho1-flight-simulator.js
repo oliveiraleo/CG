@@ -389,7 +389,7 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
-    
+
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(speed, speed, speed))
     //mockBaseSphere.matrix.multiply(mat4.makeRotationZ(angle)); // R1
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
@@ -572,11 +572,14 @@ function keyboardUpdateHolder() {
     
 }
 
+// Makes airplane go down if speed is too slow
 function slowSpeed(){
-    var gravity = 0.3;
-    if(speed <= 0.1){
-        cameraHolder.translateY(-gravity);
-        baseCylinder.translateZ(-gravity);
+    var gravity = 0.1; // sets the strength of (simulated) gravity
+    if(speed > 0.10 && speed < 0.2){
+        groundPlaneWired.translateZ(gravity);
+    }
+    if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
+        groundPlaneWired.translateZ(gravity*3);
     }
 }
 
@@ -636,5 +639,6 @@ function render() {
     //mockBaseSphere.translateY(speed);
     trackballControls.update(); // Enable mouse movements
     rotateBlades();
+    slowSpeed(); // Checks if airplane is too slow
 }
 render();
