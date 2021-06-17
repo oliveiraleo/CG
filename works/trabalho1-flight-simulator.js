@@ -18,7 +18,7 @@ initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light
 
 // airplane config
 var planePositionX = 0.0;
-var planePositionY = 20.0;
+var planePositionY = -270.0; // previous value was +20.0
 var planePositionZ = 5.0;
 
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
@@ -35,7 +35,7 @@ mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance be
 
 // Camera configs
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-var cameraPosition = [0,10,20];
+var cameraPosition = [0,10,20]; // relative position between airplane and camera
 camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); // Initial camera position
 //camera.lookAt(0, 0, 0); // Set look at origin
 //camera.up.set(0, 1, 0);
@@ -323,11 +323,11 @@ mockPlane.add(baseCylinderTeste);
 var keyboard = new KeyboardState();
 
 // Show axes (parameter is size of each axis)
-var axesHelper = new THREE.AxesHelper( 15 );
+var axesHelper = new THREE.AxesHelper( 25 );
 // Reposition of helper to better visualization of it
 //axesHelper.translateZ(-2);
 axesHelper.translateY(20); // TODO remove translation from axes helper
-axesHelper.translateX(2);
+axesHelper.translateX(20);
 //scene.add( axesHelper );
 
 var groundPlaneWired = createGroundPlaneWired(500, 500, 20, 20, "blue");
@@ -450,7 +450,7 @@ function keyboardUpdateHolder() {
             }
             mockPlane.translateZ(+0.2);
         } 
-        //camera rotation // TODO adjust all other controls
+        //camera rotation
         //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
         //if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
         //if (keyboard.pressed(",")){ // keep camera steady
@@ -597,7 +597,8 @@ function slowSpeed(){
             mockPlane.translateZ(-gravity);
         }
     }
-    if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
+    //if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
+    if(speed >= 0.0 && speed <= 0.10 && !isInInspectionMode){ // verifies the inspection mode too
         if(airplaneHeightPosition() >= 0.0){
             mockPlane.translateZ(-gravity*2);
         }
