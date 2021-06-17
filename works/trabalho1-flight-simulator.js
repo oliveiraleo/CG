@@ -373,6 +373,11 @@ var isPressed = [false,false]; //x,y
 var anglesVet = [0,0,0];
 
 var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
+function airplanePosition(){
+    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    var airplaneX = airplaneWorldPosition.getComponent(2); // airplane height    
+    return airplaneX; // TODO melhorar essa funcao ou mudar o seu nome
+}
 
 var pivot = new THREE.Object3D();
 var angleAviao = [-1.57, 0, 0];
@@ -387,10 +392,6 @@ function keyboardUpdateHolder() {
     mockPlane.matrix.identity();
     keyboard.update();
     var angle = degreesToRadians(1);
-
-    
-    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
-    var airplaneX = airplaneWorldPosition.getComponent(2); // airplane height
 
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
@@ -421,7 +422,7 @@ function keyboardUpdateHolder() {
         anglesVet[1] = anglesVet[1] - angle;
     }
     if (keyboard.pressed("up")){
-        if (airplaneX >= 0.0){ // prevents the airplane to get inside the water
+        if (airplanePosition() >= 0.0){ // prevents the airplane to get inside the water
             isPressed[0] = true;
             //mockBaseSphere.rotateOnAxis(new THREE.Vector3(1, 0, 0), -angle);
             //mockBaseSphere.matrix.multiply(mat4.makeRotationy(angle));
@@ -488,7 +489,7 @@ function keyboardUpdateHolder() {
     if (keyboard.pressed("P")){ // Debug key
         //console.log(mockPlane.getWorldPosition()); // TODO atualizar altura do avião
         //console.log(airplaneWorldHeight);
-        //console.log(airplaneX);
+        console.log(airplaneX);
         
     }
     if (keyboard.down("space")){ // inspection mode switch
@@ -587,12 +588,20 @@ function keyboardUpdateHolder() {
 
 // Makes airplane go down if speed is too slow
 function slowSpeed(){
-    var gravity = 0.1; // sets the strength of (simulated) gravity
+    var gravity = 0.3; // sets the strength of (simulated) gravity
     if(speed > 0.10 && speed < 0.2){
-        groundPlaneWired.translateZ(gravity);
+        if(airplanePosition() >= 0.0){
+            mockPlane.translateZ(-gravity);
+            //groundPlaneWired.translateZ(gravity);
+        }
     }
     if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
-        groundPlaneWired.translateZ(gravity*3);
+        //groundPlaneWired.translateZ(gravity*3);
+        //mockPlane.translateZ(-gravity*2);
+        if(airplanePosition() >= 0.0){
+            mockPlane.translateZ(-gravity*2);
+            //groundPlaneWired.translateZ(gravity);
+        }
     }
 }
 
@@ -653,5 +662,6 @@ function render() {
     //trackballControls.update(); // Enable mouse movements
     rotateBlades();
     slowSpeed(); // Checks if airplane is too slow
+    airplanePosition(); // Updates the airplane position data
 }
 render();
