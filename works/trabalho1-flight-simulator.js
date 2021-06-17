@@ -349,7 +349,7 @@ window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)},
 // Show text information onscreen
 showInformation(); // displays controls
 
-function airplaneSpeed(){
+/*function airplaneSpeed(){
     var speed = 0.2;
 
     var controls = new function ()
@@ -365,7 +365,7 @@ function airplaneSpeed(){
     }
 
     cameraHolder.translateZ(-speed);
-}
+}*/
 
 var speed = 0.2;
 var savedSpeed = speed;
@@ -389,7 +389,7 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
- 
+    
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(speed, speed, speed))
     //mockBaseSphere.matrix.multiply(mat4.makeRotationZ(angle)); // R1
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0));
@@ -570,6 +570,14 @@ function keyboardUpdateHolder() {
         }
     }
     
+}
+
+function slowSpeed(){
+    var gravity = 0.3;
+    if(speed <= 0.1){
+        cameraHolder.translateY(-gravity);
+        baseCylinder.translateZ(-gravity);
+    }
 }
 
 // Set angles of rotation
