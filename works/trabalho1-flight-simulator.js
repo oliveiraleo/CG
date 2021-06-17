@@ -60,7 +60,7 @@ var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
-var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
+var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
 var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"}); // bright red
 
@@ -101,7 +101,7 @@ var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 9.0, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinderGeometry = new THREE.CylinderGeometry(0, 0, 0, 32);
 var baseCylinderTeste = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
-baseCylinder.position.set(0.0, 0.0, 2.5);
+baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -175,7 +175,7 @@ frontCylinder.position.set(0.0, 4.75, 0.0);
 var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
 var hub = new THREE.Mesh(hubGeometry, hubMaterial);
 // define blades geometry
-var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
+var bladeGeometry = new THREE.BoxGeometry(0.4, 0.05, 5.0);
 var wingsBladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 4.0);
 // create blades
 var blade = new THREE.Mesh(bladeGeometry, cockpitMaterial);
@@ -514,7 +514,7 @@ function keyboardUpdateHolder() {
         //mockPlane.rotateOnAxis(camY, angle);
         pressed[0] = false;
     }
-
+    angle = angle * 3; // faz o avião retornar à origem mais rapidamente que o movimento feito pelo usuário
     if(!pressed[1]){
         if(anglesVet[1]<0){
             //mockBaseSphere.rotateOnAxis(camY, angle);
@@ -523,8 +523,9 @@ function keyboardUpdateHolder() {
             anglesVet[1] = anglesVet[1] + angle;
             
             if(anglesVet[1]>=0){
+                //anglesVet[1]=0;
+                baseCylinder.rotateY(anglesVet[1]);
                 anglesVet[1]=0;
-
             }
         } else if(anglesVet[1]>0){
             //mockBaseSphere.rotateOnAxis(camY, -angle);
@@ -533,12 +534,15 @@ function keyboardUpdateHolder() {
             anglesVet[1] = anglesVet[1] - angle;
             
             if(anglesVet[1]<=0){
+                //anglesVet[1]=0;
+                baseCylinder.rotateY(anglesVet[1]);
                 anglesVet[1]=0;
+                //baseCylinder.rotateY(0);
             }
         }
     }
 
-
+    //angle = angle * 2; // faz o movimento lateral ser mais rápido que o da altura
     if(!pressed[0]){
         if(anglesVet[0]<0){
             //mockBaseSphere.rotateOnAxis(camX, angle);
