@@ -107,7 +107,7 @@ var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinderGeometry = new THREE.CylinderGeometry(0, 0, 0, 32);
 var baseCylinderTeste = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
-var trackballControls = new TrackballControls( mockBaseSphere, renderer.domElement ); // somente afasta da camera // TODO corrigir o modo inspeção
+//var trackballControls = new TrackballControls( mockBaseSphere, renderer.domElement ); // somente afasta da camera // TODO corrigir o modo inspeção
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -478,6 +478,9 @@ function keyboardUpdateHolder() {
         }
         //console.log(speed);
     }
+    if (keyboard.pressed("P")){
+        console.log(mockPlane.getWorldPosition()); // TODO determinar altura do avião
+    }
     if (keyboard.down("space")){ // inspection mode switch
         if (speed > 0.0){
         //    savedSpeed = speed;
@@ -637,7 +640,7 @@ function render() {
     //cameraHolder.translateZ(-speed) // moves the camera automatically
     mockPlane.translateY(speed); // moves the plane automatically
     //mockBaseSphere.translateY(speed);
-    trackballControls.update(); // Enable mouse movements
+    //trackballControls.update(); // Enable mouse movements
     rotateBlades();
     slowSpeed(); // Checks if airplane is too slow
 }
