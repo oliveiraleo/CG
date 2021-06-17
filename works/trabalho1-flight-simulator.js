@@ -1,4 +1,5 @@
 import * as THREE from  '../build/three.module.js';
+import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
 import KeyboardState from '../libs/util/KeyboardState.js';
 import {initRenderer, 
         createGroundPlaneWired,
@@ -11,7 +12,6 @@ import {initRenderer,
 var scene = new THREE.Scene(); //create scene
 var renderer = initRenderer();    // View function in util/utils
 initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
-// TODO ordem dos movimentos resolve o angulo
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION BEGIN      //
@@ -52,6 +52,11 @@ mockBaseSphere.add(cameraHolder);
 mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
 //scene.add(mockBaseSphere);
+
+// Enable mouse rotation, pan, zoom etc.
+//var trackballControls = new TrackballControls( camera, renderer.domElement );
+//var trackballControls = new TrackballControls( cameraHolder, renderer.domElement );
+// colocado temporariamente na linha 110
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
@@ -102,6 +107,7 @@ var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinderGeometry = new THREE.CylinderGeometry(0, 0, 0, 32);
 var baseCylinderTeste = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
+var trackballControls = new TrackballControls( mockBaseSphere, renderer.domElement ); // somente afasta da camera // TODO corrigir o modo inspeção
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
@@ -373,9 +379,9 @@ var mat4 = new THREE.Matrix4();
 mockPlane.matrix.identity();
 
 
-// Keyboard controls for cameraHolder
+// Keyboard controls for th simulator
 function keyboardUpdateHolder() {
-    //
+
     mockPlane.matrix.identity();
     keyboard.update();
     var angle = degreesToRadians(1);
@@ -383,7 +389,6 @@ function keyboardUpdateHolder() {
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
-    //var x;
  
     //mockBaseSphere.matrix.multiply(mat4.makeTranslation(speed, speed, speed))
     //mockBaseSphere.matrix.multiply(mat4.makeRotationZ(angle)); // R1
@@ -621,6 +626,7 @@ function render() {
     //cameraHolder.translateZ(-speed) // moves the camera automatically
     mockPlane.translateY(speed); // moves the plane automatically
     //mockBaseSphere.translateY(speed);
+    trackballControls.update(); // Enable mouse movements
     rotateBlades();
 }
 render();
