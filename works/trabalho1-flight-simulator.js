@@ -11,6 +11,7 @@ import {initRenderer,
 
 var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
+var scene1 = new THREE.Scene();
 var renderer = initRenderer();  // View function in util/utils
 initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
 
@@ -44,7 +45,7 @@ mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // initi
 scene.add(mockPlane);
 
 // Base mock sphere
-var mockBaseSphereGeometry = new THREE.SphereGeometry(1.01, 2, 2);
+var mockBaseSphereGeometry = new THREE.SphereGeometry(0, 0, 2);
 var mockBaseSphere = new THREE.Mesh( mockBaseSphereGeometry, fuselageMaterial );
 // Set initial position of the sphere
 mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance between airplane and camera
@@ -56,6 +57,11 @@ camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); //
 //camera.lookAt(0, 0, 0); // Set look at origin
 //camera.up.set(0, 1, 0);
 
+var cameraInspection = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+cameraInspection.position.set (0,10,20);
+cameraInspection.lookAt(0, 0, 0);
+
+
 // Config camera holder
 var cameraHolder = new THREE.Object3D();
 cameraHolder.position.set(0.0, 2.0, 0.0);
@@ -66,6 +72,8 @@ cameraHolder.lookAt(0, 0, 0);
 mockBaseSphere.add(cameraHolder);
 mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
+mockPlane.add(cameraInspection);
+
 //scene.add(mockBaseSphere);
 
 // Enable mouse rotation, pan, zoom etc.
@@ -522,6 +530,7 @@ function keyboardUpdateHolder() {
             groundPlaneWired.visible = true; // ground plane appears again
             speed = savedSpeed; // restore the preious speed
             mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
+            renderCamera = camera;
         } else { 
             groundPlaneWired.visible = false;
             savedSpeed = speed;
@@ -533,6 +542,7 @@ function keyboardUpdateHolder() {
 
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
+            renderCamera = cameraInspection;
         }
     }
 
@@ -691,15 +701,18 @@ function showInformation()
     controls.show();
 }
 
+var renderCamera = camera;
+var trackballControls = new TrackballControls( cameraInspection, renderer.domElement );
+
 function render() {
     requestAnimationFrame( render );
-	renderer.render( scene, camera );
+	renderer.render( scene, renderCamera );
     stats.update(); // Update FPS
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
     //cameraHolder.translateZ(-speed) // moves the camera automatically
     mockPlane.translateY(speed); // moves the plane automatically
     //mockBaseSphere.translateY(speed);
-    //trackballControls.update(); // Enable mouse movements
+    trackballControls.update(); // Enable mouse movements
     rotateBlades(); // Enable airplane blades rotation
     slowSpeed(); // Checks if airplane is too slow
     airplaneHeightPosition(); // Updates the airplane position data
