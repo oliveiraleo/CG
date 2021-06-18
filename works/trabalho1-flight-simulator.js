@@ -450,8 +450,10 @@ function keyboardUpdateHolder() {
                     
                     baseCylinderTeste.rotateOnAxis(camX, -angle);
                     anglesVet[0] = anglesVet[0] - angle;
+                    speedVet[0] = speedVet[0] -0.01*2;
                 }
-                mockPlane.translateZ(-0.2);
+                //mockPlane.translateZ(-0.2);
+                mockPlane.translateZ(speedVet[0]);
 
             }
         }
@@ -466,8 +468,10 @@ function keyboardUpdateHolder() {
             if(anglesVet[0] <degreesToRadians(45)){
                 baseCylinderTeste.rotateOnAxis(camX, +angle);
                 anglesVet[0] = anglesVet[0] + angle;
+                speedVet[0] = speedVet[0] +0.01*2;
             }
-            mockPlane.translateZ(+0.2);
+            //mockPlane.translateZ(+0.2);
+            mockPlane.translateZ(speedVet[0]);
         } 
         //camera rotation
         //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
@@ -597,19 +601,26 @@ function keyboardUpdateHolder() {
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] + angle;
             //baseCylinder.rotateY(anglesVet[1]);
+            speedVet[0] = speedVet[0] +(0.01*2);
+            mockPlane.translateZ(speedVet[0]);
             if(anglesVet[0]>=0){
                 baseCylinderTeste.rotateX(-anglesVet[0]);
                 anglesVet[0]=0;
+                speedVet[0] = 0;
             }
-        } else if(anglesVet[0]>0){
+        } else if(anglesVet[0]>0){ //down
             //mockBaseSphere.rotateOnAxis(camX, -angle);
             baseCylinderTeste.rotateOnAxis(camX, -angle);
             //pressed[1] = f;
             anglesVet[0] = anglesVet[0] - angle;
+            speedVet[0] = speedVet[0] -(0.01*2);
             //baseCylinder.rotateY(anglesVet[1]);
+            mockPlane.translateZ(speedVet[0]);
+
             if(anglesVet[0]<=0){
                 baseCylinderTeste.rotateX(-anglesVet[0]);
                 anglesVet[0]=0;
+                speedVet[0] = 0;
             }
         }
     }
