@@ -653,14 +653,6 @@ function slowSpeed(){
     }
 }
 
-// Helper funciotion for the inspection mode
-function inspectionModeOn(){ // Verifies if the inspection mode is on or off
-    if(isInInspectionMode){
-        var trackballControls = new TrackballControls( camera, renderer.domElement ); // TODO create this var in other place
-        trackballControls.update(); // Enable mouse movements
-    }
-}
-
 var animationOn = true; // control if the bades' animation is on or of
 
 function rotateBlades(){
@@ -716,6 +708,5 @@ function render() {
     rotateBlades(); // Enable airplane blades rotation
     slowSpeed(); // Checks if airplane is too slow
     airplaneHeightPosition(); // Updates the airplane position data
-    //inspectionModeOn(); // TODO add comment here // TODO enable it later
 }
 render();
