@@ -119,7 +119,7 @@ rightFlap.position.set(0.0, -1.72, 0.0);
 var baseCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 9.0, 32);
 var baseCylinder = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinderGeometry = new THREE.CylinderGeometry(0, 0, 0, 32);
-var baseCylinderTeste = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
+var baseCylinderX = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
 
 // create the rear cylinder
@@ -324,8 +324,8 @@ baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
 
 // add all airplane objects to the scene
-baseCylinderTeste.add(baseCylinder);
-mockPlane.add(baseCylinderTeste);
+baseCylinderX.add(baseCylinder);
+mockPlane.add(baseCylinderX);
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //
@@ -341,14 +341,15 @@ axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(20);
 
 // Plano base que simula agua
-var groundPlaneWired = createGroundPlaneWired(500, 500, 20, 20, "blue");
+var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "blue");
 groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
 // Adiciona ambos os objetos na cena
 scene.add(groundPlaneWired);
 groundPlaneWired.add(axesHelper);
 
 // Listen window size changes
-window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
+window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
+window.addEventListener( 'resize', function(){onWindowResize(cameraInspection, renderer)}, false ); // no modo inspecao
 
 // Show text information onscreen
 showInformation(); // displays information about the controls
@@ -404,84 +405,42 @@ function keyboardUpdateHolder() {
 
         if (keyboard.pressed("right")){
             isPressed[1] = true;
-
+            // limita o movimento de rotacao lateral
             if(anglesVet[1]> degreesToRadians(-45)){
                 speedVet[1] = speedVet[1] - angle*0.02;
                 baseCylinder.rotateOnAxis(camY, angle);
                 anglesVet[1] = anglesVet[1] - angle;
             }
-            mockPlane.rotateOnAxis(camZ, speedVet[1]);
+            mockPlane.rotateOnAxis(camZ, speedVet[1]); // realiza a rotacao no plano
         }
         if (keyboard.pressed("up")){
             if (airplaneHeightPosition() >= 0.0){ // prevents the airplane to get inside the water
                 isPressed[0] = true;
-                //mockBaseSphere.rotateOnAxis(new THREE.Vector3(1, 0, 0), -angle);
-                //mockBaseSphere.matrix.multiply(mat4.makeRotationy(angle));
-                //mockBaseSphere.matrix.multiply(mat4.makeTranslation(0.0, 0.0, 0.0));
-                //mockBaseSphere.translateX(0).translateY(-25.0).translateZ(0);
-                //cameraHolder.rotateOnAxis(camX, -angle);
-                //mockBaseSphere.position.set(planePositionX,planePositionY,planePositionZ);
-                //mockBaseSphere.translateX(planePositionX).translateY(planePositionY-25.0).translateZ(planePositionZ);
-                //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
-                //angleAviao[0] = degreesToRadians(angleAviao[0]+1);
-                //mockPlane.matrix.multiply(mat4.makeRotationX(angleAviao[0]));
-
                 //Regula o visual da inclinação
                 if(anglesVet[0]> degreesToRadians(-45)){
-                    
-                    baseCylinderTeste.rotateOnAxis(camX, -angle);
+                    baseCylinderX.rotateOnAxis(camX, -angle);
                     anglesVet[0] = anglesVet[0] - angle;
                     speedVet[0] = speedVet[0] -0.01*2;
                 }
-                //mockPlane.translateZ(-0.2);
                 mockPlane.translateZ(speedVet[0]);
-
             }
         }
         if (keyboard.pressed("down")){
             isPressed[0] = true;
-            //mockBaseSphere.rotateOnAxis(camX, -angle);
-            //mockPlane.rotateOnAxis(camX, angle);
-            //mockBaseSphere.matrix.multiply(mat4.makeRotationX(-angle));
-            //mockBaseSphere.rotateOnAxis(camX, -angle);
-
-            
+            //Regula o visual da inclinação
             if(anglesVet[0] <degreesToRadians(45)){
-                baseCylinderTeste.rotateOnAxis(camX, +angle);
+                baseCylinderX.rotateOnAxis(camX, +angle);
                 anglesVet[0] = anglesVet[0] + angle;
                 speedVet[0] = speedVet[0] +0.01*2;
             }
-            //mockPlane.translateZ(+0.2);
             mockPlane.translateZ(speedVet[0]);
         } 
-        //camera rotation
-        //if (keyboard.pressed("<")) x = mockPlane.rotateOnAxis(camY, -angle);
-        //if (keyboard.pressed(">")) mockPlane.rotateOnAxis(camY, angle);
-        //if (keyboard.pressed(",")){ // keep camera steady
-            /*
-            mockBaseSphere.rotateOnAxis(camY, +angle);
-            mockPlane.rotateOnAxis(camY, -angle);
-            pressed[1] = true;
-            anglesVet[1] = anglesVet[1] + angle;
-        }
-        if (keyboard.pressed(".")){
-            mockBaseSphere.rotateOnAxis(camY, -angle);
-            //mockBaseSphere.matrix.multiply(mat4.makeRotationY(-angle));
-            mockPlane.rotateOnAxis(camY, +angle);
-            pressed[1] = true;
-            anglesVet[1] = anglesVet[1] - angle;
-            */
-        //}
-        
-        //if (keyboard.pressed("space")) cameraHolder.translateZ(-speed); // movement
-        //if (keyboard.pressed("R")) cameraHolder.translateZ(0.2); // reverse
         if (keyboard.pressed("Q")){ // speed up
             if (speed >= 1.0){ // set maximum speed
                 speed = 1.0;
             } else {
                 speed += 0.01;
             }
-            //console.log(speed);
         } 
         if (keyboard.pressed("A")){ // slow down
             if (speed <= 0.0){ // set minimum speed
@@ -489,15 +448,11 @@ function keyboardUpdateHolder() {
             } else {
                 speed -= 0.01;
             }
-            //console.log(speed);
-        }
-        if (keyboard.pressed("P")){ // Debug key
-            //console.log(planePositionX, planePositionY, planePositionZ);
-            
         }
     } // end of only enables the airplane controls if not in inspection mode
-
-    if (keyboard.down("space")){ // inspection mode switch
+    
+    // inspection mode switch
+    if (keyboard.down("space")){
         if(groundPlaneWired.visible == false){
             isInInspectionMode = false; // inspection mode off
             groundPlaneWired.visible = true; // ground plane appears again
@@ -507,107 +462,82 @@ function keyboardUpdateHolder() {
         } else { 
             groundPlaneWired.visible = false;
             savedSpeed = speed;
-            speed = 0.0;
-            // saves the airplane position at the moment
-            //planePositionX = airplanePositionX();
-            //planePositionY = airplanePositionY();
-            //planePositionZ = airplaneHeightPosition();
-
+            speed = 0.0; // para o aviao
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
             renderCamera = cameraInspection;
         }
     }
 
-    // Controles não precionados // TODO melhorar esse comentario
+    // Verifica se o botao foi solto
     if (keyboard.up("left")){ // keep camera steady
-        //mockBaseSphere.rotateOnAxis(camY, angle);
-        //mockPlane.rotateOnAxis(camY, -angle);
         isPressed[1] = false;
     }
     if (keyboard.up("right")){
-        //mockBaseSphere.rotateOnAxis(camY, -angle);
-        //mockPlane.rotateOnAxis(camY, angle);
         isPressed[1] = false;
     }
     if (keyboard.up("up")){ // keep camera steady
-        //mockBaseSphere.rotateOnAxis(camY, angle);
-        //mockPlane.rotateOnAxis(camY, -angle);
         isPressed[0] = false;
     }
     if (keyboard.up("down")){
-        //mockBaseSphere.rotateOnAxis(camY, -angle);
-        //mockPlane.rotateOnAxis(camY, angle);
         isPressed[0] = false;
     }
-    //angle = angle * 3; // faz o avião retornar à origem mais rapidamente que o movimento feito pelo usuário
-    
+
+    // Retorna o aviao ao angulo de origem da horizontal
     if(!isPressed[1]){
-        angle = angle*2;
+        angle = angle*2; // retorna a origem mais rapidamente do que no movimento dos controles
         if(anglesVet[1]<0){//Right
-            //mockBaseSphere.rotateOnAxis(camY, angle);
             baseCylinder.rotateOnAxis(camY, -angle);
-            //pressed[1] = f;
             anglesVet[1] = anglesVet[1] + angle;
             speedVet[1] = speedVet[1] + angle*0.02;
             mockPlane.rotateOnAxis(camZ, speedVet[1]);
-            //speedVet[1] = 0;
+            // Verifica se o angulo passou da origem, caso sim, retorna para zero
             if(anglesVet[1]>=0){
-                //anglesVet[1]=0;
                 speedVet[1] = 0;
                 baseCylinder.rotateY(anglesVet[1]);
                 anglesVet[1]=0;
             }
 
         } else if(anglesVet[1]>0){ //Left
-            //mockBaseSphere.rotateOnAxis(camY, -angle);
             baseCylinder.rotateOnAxis(camY, +angle);
-            //pressed[1] = f;
             anglesVet[1] = anglesVet[1] - angle;
             speedVet[1] = speedVet[1] - angle*0.02;
             mockPlane.rotateOnAxis(camZ, speedVet[1]);
+            // Verifica se o angulo passou da origem, caso sim, retorna para zero
             if(anglesVet[1]<=0){
-                //anglesVet[1]=0;
                 baseCylinder.rotateY(anglesVet[1]);
                 anglesVet[1]=0;
                 speedVet[1] = 0;
-                //baseCylinder.rotateY(0);
-            }
-        }
-    }
-
-    //angle = angle * 2; // faz o movimento lateral ser mais rápido que o da altura
-    if(!isPressed[0]){
-        if(anglesVet[0]<0){
-            //mockBaseSphere.rotateOnAxis(camX, angle);
-            baseCylinderTeste.rotateOnAxis(camX, +angle);
-            //pressed[1] = f;
-            anglesVet[0] = anglesVet[0] + angle;
-            //baseCylinder.rotateY(anglesVet[1]);
-            speedVet[0] = speedVet[0] +(0.01*2);
-            mockPlane.translateZ(speedVet[0]);
-            if(anglesVet[0]>=0){
-                baseCylinderTeste.rotateX(-anglesVet[0]);
-                anglesVet[0]=0;
-                speedVet[0] = 0;
-            }
-        } else if(anglesVet[0]>0){ //down
-            //mockBaseSphere.rotateOnAxis(camX, -angle);
-            baseCylinderTeste.rotateOnAxis(camX, -angle);
-            //pressed[1] = f;
-            anglesVet[0] = anglesVet[0] - angle;
-            speedVet[0] = speedVet[0] -(0.01*2);
-            //baseCylinder.rotateY(anglesVet[1]);
-            mockPlane.translateZ(speedVet[0]);
-
-            if(anglesVet[0]<=0){
-                baseCylinderTeste.rotateX(-anglesVet[0]);
-                anglesVet[0]=0;
-                speedVet[0] = 0;
             }
         }
     }
     
+    // Retorna o aviao ao angulo de origem da vertical
+    if(!isPressed[0]){ 
+        if(anglesVet[0]<0){ // pra cima
+            baseCylinderX.rotateOnAxis(camX, +angle);
+            anglesVet[0] = anglesVet[0] + angle;
+            speedVet[0] = speedVet[0] +(0.01*2);
+            mockPlane.translateZ(speedVet[0]);
+            // Verifica se o angulo passou da origem, caso sim, retorna para zero
+            if(anglesVet[0]>=0){
+                baseCylinderX.rotateX(-anglesVet[0]);
+                anglesVet[0]=0;
+                speedVet[0] = 0;
+            }
+        } else if(anglesVet[0]>0){ // down
+            baseCylinderX.rotateOnAxis(camX, -angle);
+            anglesVet[0] = anglesVet[0] - angle;
+            speedVet[0] = speedVet[0] -(0.01*2);
+            mockPlane.translateZ(speedVet[0]);
+            // Verifica se o angulo passou da origem, caso sim, retorna para zero
+            if(anglesVet[0]<=0){
+                baseCylinderX.rotateX(-anglesVet[0]);
+                anglesVet[0]=0;
+                speedVet[0] = 0;
+            }
+        }
+    }
 }
 
 // Makes airplane go down if speed is too slow
@@ -618,7 +548,6 @@ function slowSpeed(){
             mockPlane.translateZ(-gravity);
         }
     }
-    //if(speed >= 0.0 && speed <= 0.10 && groundPlaneWired.visible == true){ // verifies groundPlane too because of the inspection mode
     if(speed >= 0.0 && speed <= 0.05 && !isInInspectionMode){ // verifies the inspection mode too
         if(airplaneHeightPosition() >= 0.0){ // stops at ground plane
             mockPlane.translateZ(-gravity*3);
@@ -651,7 +580,6 @@ function rotateBlades(){
   }
 }
 
-
 function showInformation()
 {
   // Use this to show information onscreen
@@ -659,7 +587,6 @@ function showInformation()
     controls.add("Flight Simulator controls:");
     controls.addParagraph();
     controls.add("Press arrow keys to change airplane direction");
-    //controls.add("Press , (comma) or . (point) to change camera angle"); // movement disabled
     controls.add("Press SPACE to toggle inspection mode");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
@@ -671,9 +598,7 @@ function render() {
 	renderer.render( scene, renderCamera );
     stats.update(); // Update FPS
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
-    //cameraHolder.translateZ(-speed) // moves the camera automatically
     mockPlane.translateY(speed); // moves the plane automatically
-    //mockBaseSphere.translateY(speed);
     trackballControls.update(); // Enable mouse movements
     rotateBlades(); // Enable airplane blades rotation
     slowSpeed(); // Checks if airplane is too slow
