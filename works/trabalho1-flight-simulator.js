@@ -11,7 +11,6 @@ import {initRenderer,
 
 var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
-var scene1 = new THREE.Scene();
 var renderer = initRenderer();  // View function in util/utils
 initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
 
@@ -51,33 +50,29 @@ var mockBaseSphere = new THREE.Mesh( mockBaseSphereGeometry, fuselageMaterial );
 mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance between airplane and camera
 
 // Camera configs
+// Camera do modo simulacao
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var cameraPosition = [0,10,20]; // relative position between airplane and camera
 camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); // Initial camera position
-//camera.lookAt(0, 0, 0); // Set look at origin
-//camera.up.set(0, 1, 0);
-
+// Camera do modo inspecao
 var cameraInspection = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 cameraInspection.position.set (0,10,20);
 cameraInspection.lookAt(0, 0, 0);
-
 
 // Config camera holder
 var cameraHolder = new THREE.Object3D();
 cameraHolder.position.set(0.0, 2.0, 0.0);
 cameraHolder.up.set(0, 1, 0);
 cameraHolder.lookAt(0, 0, 0);
-//scene.add(cameraHolder);
-//mockPlane.add(cameraHolder);
+// Adiciona cameras no aviao
 mockBaseSphere.add(cameraHolder);
 mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
 mockPlane.add(cameraInspection);
 
-//scene.add(mockBaseSphere);
-
 // Enable mouse rotation, pan, zoom etc.
-//var trackballControls = new TrackballControls( camera, renderer.domElement );
+var renderCamera = camera; // Faz o papel de troca das cameras das cenas
+var trackballControls = new TrackballControls( cameraInspection, renderer.domElement );
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
@@ -90,10 +85,8 @@ var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
 var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"}); // bright red
 
-
 // Reference URL to all ariplane parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
-
 
 //-----------------------------------//
 // FUSELAGE                          //
@@ -161,7 +154,6 @@ backLeftFlap.position.set(0.0, -0.72, 0.0);
 backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
 
-
 // EASTER EGGs BEGIN //
 // life saver easter egg
 var rightLifesaverGeometry = new THREE.TorusGeometry(0.4, 0.2, 8, 24);
@@ -187,12 +179,10 @@ var rightCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross pa
 rightCrossp1.rotateZ(degreesToRadians(90));
 // EASTER EGGs END //
 
-
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
 var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
 frontCylinder.position.set(0.0, 4.75, 0.0);
-
 
 //-----------------------------------//
 // PROPELLER                         //
@@ -230,7 +220,6 @@ rightHubBaseSphere.add(rightHub);
 // adds blades to the hubs
 leftHub.add(leftBlade);
 rightHub.add(rightBlade);
-
 
 //-----------------------------------//
 // LANDING GEAR                      //
@@ -288,7 +277,6 @@ backTiresCylinder.position.set(0.0, -3.0, -2.2);
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 var cockpit = new THREE.Mesh(cockpitGeometry, cockpitMaterial);
 cockpit.position.set(0.0, -2.5, 1.25);
-
 
 // Joins every airplane part togheter
 // PROPELLER
@@ -349,14 +337,13 @@ var keyboard = new KeyboardState();
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 25 );
 // Reposition of helper to better visualization of it
-//axesHelper.translateZ(-2);
 axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(20);
-//scene.add( axesHelper );
 
+// Plano base que simula agua
 var groundPlaneWired = createGroundPlaneWired(500, 500, 20, 20, "blue");
-//groundPlaneWired.translateY(0);
-groundPlaneWired.rotateX(degreesToRadians(90));
+groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
+// Adiciona ambos os objetos na cena
 scene.add(groundPlaneWired);
 groundPlaneWired.add(axesHelper);
 
@@ -692,9 +679,6 @@ function showInformation()
     controls.add("Press A to move slower");
     controls.show();
 }
-
-var renderCamera = camera;
-var trackballControls = new TrackballControls( cameraInspection, renderer.domElement );
 
 function render() {
     requestAnimationFrame( render );
