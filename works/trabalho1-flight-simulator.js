@@ -56,7 +56,7 @@ var cameraPosition = [0,10,20]; // relative position between airplane and camera
 camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); // Initial camera position
 // Camera do modo inspecao
 var cameraInspection = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-cameraInspection.position.set (0,10,20);
+cameraInspection.position.set (0,-30,15); // configura a posicao inicial da camera do modo inspecao
 cameraInspection.lookAt(0, 0, 0);
 
 // Config camera holder
@@ -351,15 +351,17 @@ groundPlaneWired.add(axesHelper);
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
 // Show text information onscreen
-showInformation(); // displays controls
+showInformation(); // displays information about the controls
 
-var speed = 0.2;
-var savedSpeed = speed;
-var isPressed = [false,false]; //x,y
-var anglesVet = [0,0,0];
-var speedVet = [0,0,0];
-var isInInspectionMode = false;
+// Variaveis de movimento do aviao
+var speed = 0.2; // velocidade base dos movimentos
+var savedSpeed = speed; // salva a velocidade do aviao na simulacao
+var isPressed = [false,false]; // x,y controla se os botoes de controle de rotacao estao sendo pressionados
+var anglesVet = [0,0,0]; // salva qual o angulo atual do aviao para depois retornar a origem
+var speedVet = [0,0,0]; // salva a velocidade dos movimentos laterais e verticais atual do aviao para depois retornar a origem
+var isInInspectionMode = false; // verifica se o modo inspecao esta ativo e trava os controles do teclado se verdadeiro
 
+// Obtem as coordenadas globais atuais do aviao
 var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
 function airplaneHeightPosition(){ // retorna a altura do avião em relação ao plano
     mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
@@ -377,43 +379,27 @@ function airplanePositionY(){ // retorna a altura do avião em relação ao plan
     return airplaneY;
 }
 
-mockPlane.matrix.identity(); // TODO verificar o uso disso aqui e da linha 399 (ou 5 linhas) abaixo
-
-
+mockPlane.matrix.identity(); // afeta a perspectiva das cameras
 
 // Keyboard controls for the simulator
 function keyboardUpdateHolder() {
-
-    mockPlane.matrix.identity();
-    keyboard.update();
-    var angle = degreesToRadians(1);
+    keyboard.update(); // verifica qual tecla esta sendo pressionada
+    var angle = degreesToRadians(1); // determina o angulo dos movimentos de rotacao
 
     var camX = new THREE.Vector3(1, 0, 0); // Set X axis
     var camY = new THREE.Vector3(0, 1, 0); // Set Y axis
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
 
     if (!isInInspectionMode){ // Only enables the airplane controls if not in inspection mode
-
         if (keyboard.pressed("left")){
-        
-            
-            //mockBaseSphere.rotateOnAxis(camY, +angle);
-            //angleAviao[2] = degreesToRadians(angleAviao[2]+1);
-            //angleAviao[1] = degreesToRadians(angleAviao[1]+1);
-            //mockPlane.matrix.multiply(mat4.makeRotationZ(angleAviao[2]));
-            //.matrix.multiply(mat4.makeRotationY(angleAviao[1]));
-            //mockBaseSphere.matrix.multiply(mat4.makeRotationX(angle));
-            //mockPlane.rotateOnAxis(camY, -angle);
-
             isPressed[1] = true;
-
-            if(anglesVet[1]< degreesToRadians(45)){
-                //anglesVet[1]
+            // limita o movimento de rotacao lateral
+            if(anglesVet[1] < degreesToRadians(45)){
                 speedVet[1] = speedVet[1] + angle*0.02;
                 baseCylinder.rotateOnAxis(camY, -angle);
                 anglesVet[1] = anglesVet[1] + angle;
             }
-            mockPlane.rotateOnAxis(camZ, speedVet[1]);
+            mockPlane.rotateOnAxis(camZ, speedVet[1]); // realiza a rotacao no plano
         }
 
         if (keyboard.pressed("right")){
@@ -523,9 +509,9 @@ function keyboardUpdateHolder() {
             savedSpeed = speed;
             speed = 0.0;
             // saves the airplane position at the moment
-            planePositionX = airplanePositionX();
-            planePositionY = airplanePositionY();
-            planePositionZ = airplaneHeightPosition();
+            //planePositionX = airplanePositionX();
+            //planePositionY = airplanePositionY();
+            //planePositionZ = airplaneHeightPosition();
 
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
