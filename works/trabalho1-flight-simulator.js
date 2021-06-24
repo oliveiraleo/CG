@@ -449,8 +449,78 @@ function keyboardUpdateHolder() {
                 speed -= 0.01;
             }
         }
+
+        // Verifica se o botao foi solto
+        if (keyboard.up("left")){ // keep camera steady
+            isPressed[1] = false;
+        }
+        if (keyboard.up("right")){
+            isPressed[1] = false;
+        }
+        if (keyboard.up("up")){ // keep camera steady
+            isPressed[0] = false;
+        }
+        if (keyboard.up("down")){
+            isPressed[0] = false;
+        }
+
+        // Retorna o aviao ao angulo de origem da horizontal
+        if(!isPressed[1]){
+            angle = angle*2; // retorna a origem mais rapidamente do que no movimento dos controles
+            if(anglesVet[1]<0){//Right
+                baseCylinder.rotateOnAxis(camY, -angle);
+                anglesVet[1] = anglesVet[1] + angle;
+                speedVet[1] = speedVet[1] + angle*0.02;
+                mockPlane.rotateOnAxis(camZ, speedVet[1]);
+                // Verifica se o angulo passou da origem, caso sim, retorna para zero
+                if(anglesVet[1]>=0){
+                    speedVet[1] = 0;
+                    baseCylinder.rotateY(anglesVet[1]);
+                    anglesVet[1]=0;
+                }
+
+            } else if(anglesVet[1]>0){ //Left
+                baseCylinder.rotateOnAxis(camY, +angle);
+                anglesVet[1] = anglesVet[1] - angle;
+                speedVet[1] = speedVet[1] - angle*0.02;
+                mockPlane.rotateOnAxis(camZ, speedVet[1]);
+                // Verifica se o angulo passou da origem, caso sim, retorna para zero
+                if(anglesVet[1]<=0){
+                    baseCylinder.rotateY(anglesVet[1]);
+                    anglesVet[1]=0;
+                    speedVet[1] = 0;
+                }
+            }
+        }
+        
+        // Retorna o aviao ao angulo de origem da vertical
+        if(!isPressed[0]){ 
+            if(anglesVet[0]<0){ // pra cima
+                baseCylinderX.rotateOnAxis(camX, +angle);
+                anglesVet[0] = anglesVet[0] + angle;
+                speedVet[0] = speedVet[0] +(0.01*2);
+                mockPlane.translateZ(speedVet[0]);
+                // Verifica se o angulo passou da origem, caso sim, retorna para zero
+                if(anglesVet[0]>=0){
+                    baseCylinderX.rotateX(-anglesVet[0]);
+                    anglesVet[0]=0;
+                    speedVet[0] = 0;
+                }
+            } else if(anglesVet[0]>0){ // down
+                baseCylinderX.rotateOnAxis(camX, -angle);
+                anglesVet[0] = anglesVet[0] - angle;
+                speedVet[0] = speedVet[0] -(0.01*2);
+                mockPlane.translateZ(speedVet[0]);
+                // Verifica se o angulo passou da origem, caso sim, retorna para zero
+                if(anglesVet[0]<=0){
+                    baseCylinderX.rotateX(-anglesVet[0]);
+                    anglesVet[0]=0;
+                    speedVet[0] = 0;
+                }
+            }
+        }
     } // end of only enables the airplane controls if not in inspection mode
-    
+
     // inspection mode switch
     if (keyboard.down("space")){
         if(groundPlaneWired.visible == false){
@@ -466,76 +536,6 @@ function keyboardUpdateHolder() {
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
             renderCamera = cameraInspection;
-        }
-    }
-
-    // Verifica se o botao foi solto
-    if (keyboard.up("left")){ // keep camera steady
-        isPressed[1] = false;
-    }
-    if (keyboard.up("right")){
-        isPressed[1] = false;
-    }
-    if (keyboard.up("up")){ // keep camera steady
-        isPressed[0] = false;
-    }
-    if (keyboard.up("down")){
-        isPressed[0] = false;
-    }
-
-    // Retorna o aviao ao angulo de origem da horizontal
-    if(!isPressed[1]){
-        angle = angle*2; // retorna a origem mais rapidamente do que no movimento dos controles
-        if(anglesVet[1]<0){//Right
-            baseCylinder.rotateOnAxis(camY, -angle);
-            anglesVet[1] = anglesVet[1] + angle;
-            speedVet[1] = speedVet[1] + angle*0.02;
-            mockPlane.rotateOnAxis(camZ, speedVet[1]);
-            // Verifica se o angulo passou da origem, caso sim, retorna para zero
-            if(anglesVet[1]>=0){
-                speedVet[1] = 0;
-                baseCylinder.rotateY(anglesVet[1]);
-                anglesVet[1]=0;
-            }
-
-        } else if(anglesVet[1]>0){ //Left
-            baseCylinder.rotateOnAxis(camY, +angle);
-            anglesVet[1] = anglesVet[1] - angle;
-            speedVet[1] = speedVet[1] - angle*0.02;
-            mockPlane.rotateOnAxis(camZ, speedVet[1]);
-            // Verifica se o angulo passou da origem, caso sim, retorna para zero
-            if(anglesVet[1]<=0){
-                baseCylinder.rotateY(anglesVet[1]);
-                anglesVet[1]=0;
-                speedVet[1] = 0;
-            }
-        }
-    }
-    
-    // Retorna o aviao ao angulo de origem da vertical
-    if(!isPressed[0]){ 
-        if(anglesVet[0]<0){ // pra cima
-            baseCylinderX.rotateOnAxis(camX, +angle);
-            anglesVet[0] = anglesVet[0] + angle;
-            speedVet[0] = speedVet[0] +(0.01*2);
-            mockPlane.translateZ(speedVet[0]);
-            // Verifica se o angulo passou da origem, caso sim, retorna para zero
-            if(anglesVet[0]>=0){
-                baseCylinderX.rotateX(-anglesVet[0]);
-                anglesVet[0]=0;
-                speedVet[0] = 0;
-            }
-        } else if(anglesVet[0]>0){ // down
-            baseCylinderX.rotateOnAxis(camX, -angle);
-            anglesVet[0] = anglesVet[0] - angle;
-            speedVet[0] = speedVet[0] -(0.01*2);
-            mockPlane.translateZ(speedVet[0]);
-            // Verifica se o angulo passou da origem, caso sim, retorna para zero
-            if(anglesVet[0]<=0){
-                baseCylinderX.rotateX(-anglesVet[0]);
-                anglesVet[0]=0;
-                speedVet[0] = 0;
-            }
         }
     }
 }
