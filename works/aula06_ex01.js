@@ -7,6 +7,7 @@ import {initRenderer,
         degreesToRadians, 
         onWindowResize,
         initDefaultSpotlight,
+        InfoBox,
         createGroundPlane,
         initDefaultBasicLight} from "../libs/util/util.js";
 
@@ -180,6 +181,16 @@ function rotateCylinder()
     .onChange(function(e) { controls.changeSpeed() })
     .name("Change Speed");
 }*/
+
+// Use this to show information onscreen
+var controls = new InfoBox();
+  controls.add("Wind Turbine Preview");
+  controls.addParagraph();
+  controls.add("Use mouse to interact:");
+  controls.add("* Left button to rotate");
+  controls.add("* Right button to translate (pan)");
+  controls.add("* Scroll to zoom in/out.");
+  controls.show();
 
 function render()
 {
