@@ -39,27 +39,37 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 scene.add(plane);
 
 // Base sphere
-var sphereGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+/*var sphereGeometry = new THREE.SphereGeometry(0.2, 32, 32);
 var sphereMaterial = new THREE.MeshPhongMaterial( {color:'rgb(180,180,255)'} );
 var sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
 scene.add(sphere);
 // Set initial position of the sphere
-sphere.translateX(1.0).translateY(1.0).translateZ(1.0);
+sphere.translateX(1.0).translateY(1.0).translateZ(1.0);*/
 
 // More information about cylinderGeometry here ---> https://threejs.org/docs/#api/en/geometries/CylinderGeometry
-var cylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2.0, 25);
+/*var cylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2.0, 25);
 var cylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(100,255,100)'} );
 var cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
-sphere.add(cylinder);
+sphere.add(cylinder);*/
 
-// Base cylinder (body)
-var baseCylinderGeometry = new THREE.CylinderGeometry(0.07, 0.17, 5.0, 25);
-var baseCylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} ); // red
-var baseCylinder = new THREE.Mesh( baseCylinderGeometry, baseCylinderMaterial );
-baseCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
-baseCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
-baseCylinderMaterial.castShadow = true; // TODO fix shadow
-plane.add(baseCylinder);
+// Parts names reference from here:
+// https://energyeducation.ca/encyclopedia/Wind_turbine
+
+// Tower
+var towerCylinderGeometry = new THREE.CylinderGeometry(0.07, 0.17, 5.0, 25);
+var towerCylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} ); // red
+var towerCylinder = new THREE.Mesh( towerCylinderGeometry, towerCylinderMaterial );
+towerCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
+//towerCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
+towerCylinder.position.set(0.0, 0.0, 2.5); // put it above the ground plane
+//towerCylinderMaterial.castShadow = true; // TODO fix shadow
+plane.add(towerCylinder);
+
+// Nacelle ("body"/main box)
+var nacelleGeometry = new THREE.BoxGeometry(1.0, 1.0, 2.0);
+var nacelle = new THREE.Mesh(nacelleGeometry, towerCylinderMaterial); // TODO change material
+nacelle.position.set(0.0, 3.0, 0.0);
+towerCylinder.add(nacelle);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
@@ -71,7 +81,7 @@ function rotateCylinder()
 {
   // More info:
   // https://threejs.org/docs/#manual/en/introduction/Matrix-transformations
-  cylinder.matrixAutoUpdate = false;
+  //cylinder.matrixAutoUpdate = false;
   //cylinder2.matrixAutoUpdate = false;
 
   // Set angle's animation speed
@@ -81,12 +91,12 @@ function rotateCylinder()
     angle2+=speed*2;
     
     var mat4 = new THREE.Matrix4();
-    cylinder.matrix.identity();  // reset matrix
+    //cylinder.matrix.identity();  // reset matrix
     //cylinder2.matrix.identity();  // reset
 
     // Will execute T1 and then R1
-    cylinder.matrix.multiply(mat4.makeRotationZ(angle)); // R1
-    cylinder.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1
+    /*cylinder.matrix.multiply(mat4.makeRotationZ(angle)); // R1
+    cylinder.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1*/
 
     // Will execute R2, T1 and R1 in this order
     /*cylinder2.matrix.multiply(mat4.makeRotationY(angle2)); // R1
