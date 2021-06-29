@@ -15,7 +15,7 @@ var renderer = initRenderer();    // View function in util/utils
 var camera = initCamera(new THREE.Vector3(0, -30, 15)); // Init camera in this position //TODO adjust camera position
 var trackballControls = new TrackballControls( camera, renderer.domElement );
 //initDefaultBasicLight(scene);
-initDefaultSpotlight(scene, new THREE.Vector3(5.0, -10.0, 5.0)); // Adds a spotlight to the scene
+initDefaultSpotlight(scene, new THREE.Vector3(5.0, -10.0, 15.0)); // Adds a spotlight to the scene
 
 // Set angles of rotation
 var angle = 0;
@@ -30,7 +30,7 @@ scene.add( axesHelper );
 // create the ground plane
 var planeGeometry = new THREE.PlaneGeometry(25, 25);
 planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var planeMaterial = new THREE.MeshBasicMaterial({
+var planeMaterial = new THREE.MeshBasicMaterial({ // TODO change that to enable shadow ?
     color: "rgba(150, 150, 150)", // light grey
     side: THREE.DoubleSide,
 });
@@ -55,13 +55,19 @@ sphere.add(cylinder);*/
 // Parts names reference from here:
 // https://energyeducation.ca/encyclopedia/Wind_turbine
 
+// Concrete base box
+var baseBoxGeometry = new THREE.BoxGeometry(2.0, 2.0, 2.0);
+var baseBoxMaterial = new THREE.MeshPhongMaterial( {color:'rgb(150, 150, 150)'} ); // grey // TODO change color
+var baseBox = new THREE.Mesh(baseBoxGeometry, baseBoxMaterial);
+baseBox.position.set(0.0, 0.0, 1.0); // put it above the ground plane
+
 // Tower
 var towerCylinderGeometry = new THREE.CylinderGeometry(0.07, 0.17, 5.0, 25);
 var towerCylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} ); // red
 var towerCylinder = new THREE.Mesh( towerCylinderGeometry, towerCylinderMaterial );
 towerCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
 //towerCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
-towerCylinder.position.set(0.0, 0.0, 2.5); // put it above the ground plane
+towerCylinder.position.set(0.0, 0.0, 3.5); // put it above the base box
 //towerCylinderMaterial.castShadow = true; // TODO fix shadow
 
 // Nacelle ("body"/main box)
@@ -81,7 +87,8 @@ rotor.rotateX(degreesToRadians(90)); // rotate to the front side
 //blade.position
 
 // Add all objects to the scene
-plane.add(towerCylinder);
+plane.add(baseBox);
+baseBox.add(towerCylinder);
 towerCylinder.add(nacelle);
 nacelle.add(rotor);
 rotor.add(blade);
