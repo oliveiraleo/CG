@@ -76,22 +76,43 @@ var nacelle = new THREE.Mesh(nacelleGeometry, towerCylinderMaterial); // TODO ch
 nacelle.position.set(0.0, 3.0, 0.0);
 
 // Rotor
+// Create a ring for position the blades
+//var ringGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
+var ringGeometry = new THREE.TorusGeometry(0.0, 0.1, 8, 24);
+var ring = new THREE.Mesh(ringGeometry, towerCylinderMaterial);
+ring.rotateX(degreesToRadians(90)); // rotate to the front side
+//ring.position.set(0.0, 3.0, -2.2);
 // create rotor and blades
 var rotorGeometry = new THREE.ConeGeometry(0.4, 0.8, 32);
 var rotor = new THREE.Mesh(rotorGeometry, towerCylinderMaterial); // TODO change material
+rotor.rotateX(degreesToRadians(90)); // rotate to the front side
 rotor.position.set(0.0, 0.0, 1.4);
 // define blades geometry
-var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
-var blade = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
-rotor.rotateX(degreesToRadians(90)); // rotate to the front side
-//blade.position
+var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.0);
+// lower blade
+var blade1 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+blade1.rotateX(degreesToRadians(90)); // rotate to the front side
+blade1.position.set(0.0, 1.6, 0.0);
+// right blade
+var blade2 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+blade2.rotateX(degreesToRadians(90)); // rotate to the front side
+blade2.rotateY(degreesToRadians(60)); // rotate to correct angular position
+blade2.position.set(1.2, -0.75, 0.0);
+// left blade
+var blade3 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+blade3.rotateX(degreesToRadians(90)); // rotate to the front side
+blade3.rotateY(degreesToRadians(120)); // rotate to correct angular position
+blade3.position.set(-1.2, -0.75, 0.0);
 
 // Add all objects to the scene
 plane.add(baseBox);
 baseBox.add(towerCylinder);
 towerCylinder.add(nacelle);
 nacelle.add(rotor);
-rotor.add(blade);
+rotor.add(ring);
+ring.add(blade1);
+ring.add(blade2);
+ring.add(blade3);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
