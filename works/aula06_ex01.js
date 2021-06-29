@@ -31,7 +31,8 @@ scene.add( axesHelper );
 var planeGeometry = new THREE.PlaneGeometry(25, 25);
 planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 var planeMaterial = new THREE.MeshBasicMaterial({ // TODO change that to enable shadow ?
-    color: "rgba(150, 150, 150)", // light grey
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "green", // grass
     side: THREE.DoubleSide,
 });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -63,7 +64,7 @@ baseBox.position.set(0.0, 0.0, 1.0); // put it above the ground plane
 
 // Tower
 var towerCylinderGeometry = new THREE.CylinderGeometry(0.07, 0.17, 5.0, 25);
-var towerCylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} ); // red
+var towerCylinderMaterial = new THREE.MeshPhongMaterial( {color:'yellow'} );
 var towerCylinder = new THREE.Mesh( towerCylinderGeometry, towerCylinderMaterial );
 towerCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
 //towerCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
@@ -72,34 +73,35 @@ towerCylinder.position.set(0.0, 0.0, 3.5); // put it above the base box
 
 // Nacelle ("body"/main box)
 var nacelleGeometry = new THREE.BoxGeometry(1.0, 1.0, 2.0);
-var nacelle = new THREE.Mesh(nacelleGeometry, towerCylinderMaterial); // TODO change material
+var nacelleMaterial = new THREE.MeshPhongMaterial( {color:'blue'} );
+var nacelle = new THREE.Mesh(nacelleGeometry, nacelleMaterial); // TODO change material
 nacelle.position.set(0.0, 3.0, 0.0);
 
 // Rotor
 // Create a ring for position the blades
-//var ringGeometry = new THREE.TorusGeometry(0.2, 0.1, 8, 24);
 var ringGeometry = new THREE.TorusGeometry(0.0, 0.1, 8, 24);
 var ring = new THREE.Mesh(ringGeometry, towerCylinderMaterial);
 ring.rotateX(degreesToRadians(90)); // rotate to the front side
-//ring.position.set(0.0, 3.0, -2.2);
 // create rotor and blades
 var rotorGeometry = new THREE.ConeGeometry(0.4, 0.8, 32);
-var rotor = new THREE.Mesh(rotorGeometry, towerCylinderMaterial); // TODO change material
+var rotorMaterial = new THREE.MeshPhongMaterial( {color:'red'} );
+var rotor = new THREE.Mesh(rotorGeometry, rotorMaterial); // TODO change material
 rotor.rotateX(degreesToRadians(90)); // rotate to the front side
 rotor.position.set(0.0, 0.0, 1.4);
 // define blades geometry
 var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.0);
+var bladeMaterial = new THREE.MeshPhongMaterial( {color:'white'} );
 // lower blade
-var blade1 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+var blade1 = new THREE.Mesh(bladeGeometry, bladeMaterial); // create blades // TODO change material
 blade1.rotateX(degreesToRadians(90)); // rotate to the front side
 blade1.position.set(0.0, 1.6, 0.0);
 // right blade
-var blade2 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+var blade2 = new THREE.Mesh(bladeGeometry, bladeMaterial); // create blades // TODO change material
 blade2.rotateX(degreesToRadians(90)); // rotate to the front side
 blade2.rotateY(degreesToRadians(60)); // rotate to correct angular position
 blade2.position.set(1.2, -0.75, 0.0);
 // left blade
-var blade3 = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+var blade3 = new THREE.Mesh(bladeGeometry, bladeMaterial); // create blades // TODO change material
 blade3.rotateX(degreesToRadians(90)); // rotate to the front side
 blade3.rotateY(degreesToRadians(120)); // rotate to correct angular position
 blade3.position.set(-1.2, -0.75, 0.0);
