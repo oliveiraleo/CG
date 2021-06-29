@@ -6,14 +6,16 @@ import {initRenderer,
         initCamera, 
         degreesToRadians, 
         onWindowResize,
+        initDefaultSpotlight,
         initDefaultBasicLight} from "../libs/util/util.js";
 
 var stats = new Stats();          // To show FPS information
 var scene = new THREE.Scene();    // Create main scene
 var renderer = initRenderer();    // View function in util/utils
-var camera = initCamera(new THREE.Vector3(5, 5, 7)); // Init camera in this position
+var camera = initCamera(new THREE.Vector3(0, -30, 15)); // Init camera in this position //TODO adjust camera position
 var trackballControls = new TrackballControls( camera, renderer.domElement );
-initDefaultBasicLight(scene);
+//initDefaultBasicLight(scene);
+initDefaultSpotlight(scene, new THREE.Vector3(5.0, -10.0, 5.0)); // Adds a spotlight to the scene
 
 // Set angles of rotation
 var angle = 0;
@@ -24,6 +26,17 @@ var animationOn = true; // control if animation is on or of
 // Show world axes
 var axesHelper = new THREE.AxesHelper( 12 );
 scene.add( axesHelper );
+
+// create the ground plane
+var planeGeometry = new THREE.PlaneGeometry(25, 25);
+planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
+var planeMaterial = new THREE.MeshBasicMaterial({
+    color: "rgba(150, 150, 150)", // light grey
+    side: THREE.DoubleSide,
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+// add the ground plane to the scene
+scene.add(plane);
 
 // Base sphere
 var sphereGeometry = new THREE.SphereGeometry(0.2, 32, 32);
@@ -39,11 +52,14 @@ var cylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(100,255,100)'} )
 var cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
 sphere.add(cylinder);
 
-// Rede cylinder
-/*var cylinderGeometry2 = new THREE.CylinderGeometry(0.07, 0.07, 1.0, 25);
-var cylinderMaterial2 = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} );
-var cylinder2 = new THREE.Mesh( cylinderGeometry2, cylinderMaterial2 );
-cylinder.add(cylinder2);*/
+// Base cylinder (body)
+var baseCylinderGeometry = new THREE.CylinderGeometry(0.07, 0.17, 5.0, 25);
+var baseCylinderMaterial = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} ); // red
+var baseCylinder = new THREE.Mesh( baseCylinderGeometry, baseCylinderMaterial );
+baseCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
+baseCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
+baseCylinderMaterial.castShadow = true; // TODO fix shadow
+plane.add(baseCylinder);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
