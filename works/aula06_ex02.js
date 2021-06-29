@@ -19,10 +19,25 @@ var trackballControls = new TrackballControls( camera, renderer.domElement );
 //initDefaultBasicLight(scene);
 initDefaultSpotlight(scene, new THREE.Vector3(5.0, -10.0, 15.0)); // Adds a spotlight to the scene
 
+// FPS panel config
+function createStats() {
+  stats.setMode(0);
+  
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0';
+  stats.domElement.style.top = '0';
+
+  return stats;
+}
+// To show FPS
+stats = createStats();
+document.body.appendChild( stats.domElement );
+
 // Set angles of rotation
 var angle = 0;
 var angle2 = 0;
-var speed = 0.05;
+var baseAnimationSpeed = 1.0; // defines base animation speed
+var speed = baseAnimationSpeed;
 var animationOn = true; // control if animation is on or of
 
 // Show world axes
@@ -95,6 +110,7 @@ var rotor = new THREE.Mesh(rotorGeometry, rotorMaterial); // TODO change materia
 rotor.rotateX(degreesToRadians(90)); // rotate to the front side
 rotor.position.set(0.0, 0.0, 1.4);
 rotor.castShadow = true;
+
 // define blades geometry
 var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 3.0);
 var bladeMaterial = new THREE.MeshPhongMaterial( {color:'white'} );
@@ -129,45 +145,30 @@ ring.add(blade3);
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
-//buildInterface();
+buildInterface();
 render();
 
 function rotateCylinder()
 {
   // More info:
   // https://threejs.org/docs/#manual/en/introduction/Matrix-transformations
-  //cylinder.matrixAutoUpdate = false;
-  //cylinder2.matrixAutoUpdate = false;
 
   // Set angle's animation speed
   if(animationOn)
   {
-    angle+=speed;
-    angle2+=speed*2;
-    
-    var mat4 = new THREE.Matrix4();
-    //cylinder.matrix.identity();  // reset matrix
-    //cylinder2.matrix.identity();  // reset
-
-    // Will execute T1 and then R1
-    /*cylinder.matrix.multiply(mat4.makeRotationZ(angle)); // R1
-    cylinder.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1*/
-
-    // Will execute R2, T1 and R1 in this order
-    /*cylinder2.matrix.multiply(mat4.makeRotationY(angle2)); // R1
-    cylinder2.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1
-    cylinder2.matrix.multiply(mat4.makeRotationX(degreesToRadians(90))); // R2*/
+    rotor.matrix.identity();  // reset matrix
+    rotor.rotateY(degreesToRadians(speed)); // rotation
   }
 }
 
-/*function buildInterface()
+function buildInterface()
 {
   var controls = new function ()
   {
     this.onChangeAnimation = function(){
       animationOn = !animationOn;
     };
-    this.speed = 0.05;
+    this.speed = 1.0;
 
     this.changeSpeed = function(){
       speed = this.speed;
@@ -177,10 +178,10 @@ function rotateCylinder()
   // GUI interface
   var gui = new GUI();
   gui.add(controls, 'onChangeAnimation',true).name("Animation On/Off");
-  gui.add(controls, 'speed', 0.05, 0.5)
+  gui.add(controls, 'speed', 1.0, 10.0)
     .onChange(function(e) { controls.changeSpeed() })
     .name("Change Speed");
-}*/
+}
 
 // Use this to show information onscreen
 var controls = new InfoBox();
