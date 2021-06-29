@@ -181,7 +181,7 @@ function buildInterface()
 
   // GUI interface
   var gui = new GUI();
-  gui.add(controls, 'onChangeAnimation',true).name("Animation On/Off");
+  gui.add(controls, 'onChangeAnimation',true).name("Start/Pause");
   gui.add(controls, 'speed', 1.0, 10.0)
     .onChange(function(e) { controls.changeSpeed() })
     .name("Change Speed");
