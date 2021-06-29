@@ -63,18 +63,33 @@ towerCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
 //towerCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
 towerCylinder.position.set(0.0, 0.0, 2.5); // put it above the ground plane
 //towerCylinderMaterial.castShadow = true; // TODO fix shadow
-plane.add(towerCylinder);
 
 // Nacelle ("body"/main box)
 var nacelleGeometry = new THREE.BoxGeometry(1.0, 1.0, 2.0);
 var nacelle = new THREE.Mesh(nacelleGeometry, towerCylinderMaterial); // TODO change material
 nacelle.position.set(0.0, 3.0, 0.0);
+
+// Rotor
+// create rotor and blades
+var rotorGeometry = new THREE.ConeGeometry(0.4, 0.8, 32);
+var rotor = new THREE.Mesh(rotorGeometry, towerCylinderMaterial); // TODO change material
+rotor.position.set(0.0, 0.0, 1.4);
+// define blades geometry
+var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
+var blade = new THREE.Mesh(bladeGeometry, towerCylinderMaterial); // create blades // TODO change material
+rotor.rotateX(degreesToRadians(90)); // rotate to the front side
+//blade.position
+
+// Add all objects to the scene
+plane.add(towerCylinder);
 towerCylinder.add(nacelle);
+nacelle.add(rotor);
+rotor.add(blade);
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
 
-buildInterface();
+//buildInterface();
 render();
 
 function rotateCylinder()
@@ -105,7 +120,7 @@ function rotateCylinder()
   }
 }
 
-function buildInterface()
+/*function buildInterface()
 {
   var controls = new function ()
   {
@@ -125,7 +140,7 @@ function buildInterface()
   gui.add(controls, 'speed', 0.05, 0.5)
     .onChange(function(e) { controls.changeSpeed() })
     .name("Change Speed");
-}
+}*/
 
 function render()
 {
