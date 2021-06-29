@@ -40,10 +40,10 @@ var cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
 sphere.add(cylinder);
 
 // Rede cylinder
-var cylinderGeometry2 = new THREE.CylinderGeometry(0.07, 0.07, 1.0, 25);
+/*var cylinderGeometry2 = new THREE.CylinderGeometry(0.07, 0.07, 1.0, 25);
 var cylinderMaterial2 = new THREE.MeshPhongMaterial( {color:'rgb(255,100,100)'} );
 var cylinder2 = new THREE.Mesh( cylinderGeometry2, cylinderMaterial2 );
-cylinder.add(cylinder2);
+cylinder.add(cylinder2);*/
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false );
@@ -56,7 +56,7 @@ function rotateCylinder()
   // More info:
   // https://threejs.org/docs/#manual/en/introduction/Matrix-transformations
   cylinder.matrixAutoUpdate = false;
-  cylinder2.matrixAutoUpdate = false;
+  //cylinder2.matrixAutoUpdate = false;
 
   // Set angle's animation speed
   if(animationOn)
@@ -66,16 +66,16 @@ function rotateCylinder()
     
     var mat4 = new THREE.Matrix4();
     cylinder.matrix.identity();  // reset matrix
-    cylinder2.matrix.identity();  // reset
+    //cylinder2.matrix.identity();  // reset
 
     // Will execute T1 and then R1
     cylinder.matrix.multiply(mat4.makeRotationZ(angle)); // R1
     cylinder.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1
 
     // Will execute R2, T1 and R1 in this order
-    cylinder2.matrix.multiply(mat4.makeRotationY(angle2)); // R1
+    /*cylinder2.matrix.multiply(mat4.makeRotationY(angle2)); // R1
     cylinder2.matrix.multiply(mat4.makeTranslation(0.0, 1.0, 0.0)); // T1
-    cylinder2.matrix.multiply(mat4.makeRotationX(degreesToRadians(90))); // R2
+    cylinder2.matrix.multiply(mat4.makeRotationX(degreesToRadians(90))); // R2*/
   }
 }
 
