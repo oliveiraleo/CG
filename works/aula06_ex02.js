@@ -34,8 +34,8 @@ stats = createStats();
 document.body.appendChild( stats.domElement );
 
 // Set angles of rotation
-var angle = 0;
-var angle2 = 0;
+//var angle = 0;
+//var angle2 = 0;
 var baseAnimationSpeed = 1.0; // defines base animation speed
 var speed = baseAnimationSpeed;
 var animationOn = true; // control if animation is on or of
@@ -80,6 +80,7 @@ var baseBoxGeometry = new THREE.BoxGeometry(2.0, 2.0, 2.0);
 var baseBoxMaterial = new THREE.MeshPhongMaterial( {color:'rgb(150, 150, 150)'} ); // grey
 var baseBox = new THREE.Mesh(baseBoxGeometry, baseBoxMaterial);
 baseBox.position.set(0.0, 0.0, 1.0); // put it above the ground plane
+baseBox.receiveShadow = true;
 baseBox.castShadow = true;
 
 // Tower
@@ -89,6 +90,7 @@ var towerCylinder = new THREE.Mesh( towerCylinderGeometry, towerCylinderMaterial
 towerCylinder.rotateX(degreesToRadians(90)); // rotate // TODO add comment here
 //towerCylinder.translateX(0.0).translateY(2.5).translateZ(0.0);
 towerCylinder.position.set(0.0, 0.0, 3.5); // put it above the base box
+towerCylinder.receiveShadow = true;
 towerCylinder.castShadow = true;
 
 // Nacelle ("body"/main box)
@@ -96,6 +98,7 @@ var nacelleGeometry = new THREE.BoxGeometry(1.0, 1.0, 2.0);
 var nacelleMaterial = new THREE.MeshPhongMaterial( {color:'blue'} );
 var nacelle = new THREE.Mesh(nacelleGeometry, nacelleMaterial); // TODO change material
 nacelle.position.set(0.0, 3.0, 0.0);
+nacelle.receiveShadow = true;
 nacelle.castShadow = true;
 
 // Rotor
@@ -109,6 +112,7 @@ var rotorMaterial = new THREE.MeshPhongMaterial( {color:'red'} );
 var rotor = new THREE.Mesh(rotorGeometry, rotorMaterial); // TODO change material
 rotor.rotateX(degreesToRadians(90)); // rotate to the front side
 rotor.position.set(0.0, 0.0, 1.4);
+rotor.receiveShadow = true;
 rotor.castShadow = true;
 
 // define blades geometry
@@ -191,6 +195,8 @@ var controls = new InfoBox();
   controls.add("* Left button to rotate");
   controls.add("* Right button to translate (pan)");
   controls.add("* Scroll to zoom in/out.");
+  controls.addParagraph();
+  controls.add("TIP: Use upper panel to control the animation");
   controls.show();
 
 function render()
