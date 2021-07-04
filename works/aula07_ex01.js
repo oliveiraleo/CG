@@ -62,27 +62,40 @@ scene.add(obj);
 // Control available light and set the active light
 var lightArray = new Array();
 var activeLight = 0; // View first Light
-var lightIntensity = 1.0;
+//var lightIntensity = 1.0;
 
 //---------------------------------------------------------
 // Default light position, color, ambient color and intensity
 var lightPosition = new THREE.Vector3(1.7, 0.8, 1.1);
-var lightColor = "rgb(255,255,255)";
+//var lightColor = "rgb(255,255,255)";
 var ambientColor = "rgb(50,50,50)";
 
 // Sphere to represent the light
-var lightSphere = createLightSphere(scene, 0.05, 10, 10, lightPosition);
+//var lightSphere = createLightSphere(scene, 0.05, 10, 10, lightPosition);
 
 //---------------------------------------------------------
 // Create and set all lights. Only Spot and ambient will be visible at first
-var spotLight = new THREE.SpotLight(lightColor);
-setSpotLight(lightPosition);
+//var spotLight = new THREE.SpotLight(lightColor);
+//setSpotLight(lightPosition);
 
-var pointLight = new THREE.PointLight(lightColor);
+var redSpotLight = new THREE.SpotLight("rgb(255,20,20)"); // red spotlight
+var redLightPosition = new THREE.Vector3(1.7, 0.8, 0.5);
+//var redLightSphere = createLightSphere(scene, 0.05, 10, 10, redLightPosition);
+//scene.add(redSpotLight);
+setSpotLights(redLightPosition, 0);
+
+var geometryRedLightSphere = new THREE.SphereGeometry(0.05, 10, 10, 0, Math.PI * 2, 0, Math.PI);
+var materialRedLightSphere = new THREE.MeshBasicMaterial({color:"rgb(255,20,20)"});
+var redLightSphere = new THREE.Mesh(geometryRedLightSphere, materialRedLightSphere);
+redLightSphere.visible = true;
+redLightSphere.position.copy(redLightPosition);
+scene.add(redLightSphere);
+
+/*var pointLight = new THREE.PointLight(lightColor);
 setPointLight(lightPosition);
 
 var dirLight = new THREE.DirectionalLight(lightColor);
-setDirectionalLighting(lightPosition);
+setDirectionalLighting(lightPosition);*/
 
 // More info here: https://threejs.org/docs/#api/en/lights/AmbientLight
 var ambientLight = new THREE.AmbientLight(ambientColor);
@@ -93,7 +106,7 @@ render();
 
 // Set Point Light
 // More info here: https://threejs.org/docs/#api/en/lights/PointLight
-function setPointLight(position)
+/*function setPointLight(position)
 {
   pointLight.position.copy(position);
   pointLight.name = "Point Light"
@@ -103,11 +116,11 @@ function setPointLight(position)
   
   scene.add( pointLight );
   lightArray.push( pointLight );
-}
+}*/
 
 // Set Spotlight
 // More info here: https://threejs.org/docs/#api/en/lights/SpotLight
-function setSpotLight(position)
+/*function setSpotLight(position)
 {
   spotLight.position.copy(position);
   spotLight.shadow.mapSize.width = 512;
@@ -120,11 +133,30 @@ function setSpotLight(position)
 
   scene.add(spotLight);
   lightArray.push( spotLight );
+}*/
+
+function setSpotLights(position, id)
+{
+  if(id == 0){
+
+  //}
+      redSpotLight.position.copy(position);
+      redSpotLight.shadow.mapSize.width = 512;
+      redSpotLight.shadow.mapSize.height = 512;
+      redSpotLight.angle = degreesToRadians(40);    
+      redSpotLight.castShadow = true;
+      redSpotLight.decay = 2;
+      redSpotLight.penumbra = 0.5;
+      redSpotLight.name = "Red Spot Light"
+
+      scene.add(redSpotLight);
+    }
+  //lightArray.push( spotLight );
 }
 
 // Set Directional Light
 // More info here: https://threejs.org/docs/#api/en/lights/DirectionalLight
-function setDirectionalLighting(position)
+/*function setDirectionalLighting(position)
 {
   dirLight.position.copy(position);
   dirLight.shadow.mapSize.width = 512;
@@ -142,7 +174,7 @@ function setDirectionalLighting(position)
 
   scene.add(dirLight);
   lightArray.push( dirLight );
-}
+}*/
 
 // Update light position of the current light
 function updateLightPosition()
@@ -154,10 +186,10 @@ function updateLightPosition()
 }
 
 // Update light intensity of the current light
-function updateLightIntensity()
+/*function updateLightIntensity()
 {
   lightArray[activeLight].intensity = lightIntensity;
-}
+}*/
 
 function buildInterface()
 {
@@ -166,10 +198,10 @@ function buildInterface()
   var controls = new function ()
   {
     this.viewAxes = false;
-    this.color = objColor;
-    this.shininess = objShininess;
-    this.lightIntensity = lightIntensity;
-    this.lightType = 'Spot'
+    //this.color = objColor;
+    //this.shininess = objShininess;
+    //this.lightIntensity = lightIntensity;
+    //this.lightType = 'Spot'
     this.ambientLight = true;
 
     this.onViewAxes = function(){
@@ -178,7 +210,7 @@ function buildInterface()
     this.onEnableAmbientLight = function(){
       ambientLight.visible = this.ambientLight;
     };
-    this.updateColor = function(){
+    /*this.updateColor = function(){
       material.color.set(this.color);
     };
     this.onUpdateShininess = function(){
@@ -206,25 +238,25 @@ function buildInterface()
       lightArray[activeLight].visible = true;
       updateLightPosition();
       updateLightIntensity();
-    };
+    };*/
   };
 
   var gui = new GUI();
   /*gui.addColor(controls, 'color')
     .name("Obj Color")
     .onChange(function(e) { controls.updateColor() });*/
-  gui.add(controls, 'shininess', 0, 1000)
+  /*gui.add(controls, 'shininess', 0, 1000)
     .name("Obj Shininess")
-    .onChange(function(e) { controls.onUpdateShininess() });
+    .onChange(function(e) { controls.onUpdateShininess() });*/
   gui.add(controls, 'viewAxes', false)
     .name("View Axes")
     .onChange(function(e) { controls.onViewAxes() });
-  gui.add(controls, 'lightType', ['Spot', 'Point', 'Direction'])
+  /*gui.add(controls, 'lightType', ['Spot', 'Point', 'Direction'])
     .name("Light Type")
-    .onChange(function(e) { controls.onChangeLight(); });
-  gui.add(controls, 'lightIntensity', 0, 5)
+    .onChange(function(e) { controls.onChangeLight(); });*/
+  /*gui.add(controls, 'lightIntensity', 0, 5)
     .name("Light Intensity")
-    .onChange(function(e) { controls.onUpdateLightIntensity() });
+    .onChange(function(e) { controls.onUpdateLightIntensity() });*/
   gui.add(controls, 'ambientLight', true)
     .name("Ambient Light")
     .onChange(function(e) { controls.onEnableAmbientLight() });
