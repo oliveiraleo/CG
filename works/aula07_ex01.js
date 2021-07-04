@@ -79,11 +79,20 @@ var ambientColor = "rgb(50,50,50)";
 //var spotLight = new THREE.SpotLight(lightColor);
 //setSpotLight(lightPosition);
 
+// TRACKS
+// Define materials
+var trackGeometry = new THREE.BoxGeometry(4.5, 0.01, 0.01);
+var trackMaterial = new THREE.MeshBasicMaterial( {color: "white"} );
+// front
+var frontTrack = new THREE.Mesh(trackGeometry, trackMaterial);
+frontTrack.position.set(0.0, 1.2, 1.5);
+scene.add(frontTrack);
+
+// LIGHTS
+// Red light
 var redSpotLight = new THREE.SpotLight("rgb(255,20,20)"); // red spotlight
-var redLightPosition = new THREE.Vector3(1.7, 1.2, 1.5);
-var redLightId = 0;
-//var redLightSphere = createLightSphere(scene, 0.05, 10, 10, redLightPosition);
-//scene.add(redSpotLight);
+var redLightPosition = new THREE.Vector3(0.0, 1.2, 1.5); // red light initial position
+var redLightId = 0; // unique id
 setSpotLights(redLightPosition, redLightId);
 
 // Defines red light sphere
@@ -279,35 +288,40 @@ function buildInterface()
 function keyboardUpdate()
 {
   keyboard.update();
-  if ( keyboard.pressed("D") )
+  if ( keyboard.pressed("D") ) // move red light to right
   {
-    redLightPosition.x += 0.05;
-    updateLightsPosition(redLightId);
+    if (redLightPosition.x <= 2.2){ // limit the movement only when on track
+      redLightPosition.x += 0.05;
+      updateLightsPosition(redLightId);
+    }
+    
   }
-  if ( keyboard.pressed("A") )
+  if ( keyboard.pressed("A") ) // move red light to left
   {
-    redLightPosition.x -= 0.05;
-    updateLightsPosition(redLightId);
+    if (redLightPosition.x >= -2.2){ // limit the movement only when on track
+      redLightPosition.x -= 0.05;
+      updateLightsPosition(redLightId);
+    }
   }
   if ( keyboard.pressed("W") )
   {
-    lightPosition.y += 0.05;
-    updateLightPosition();
+    ///lightPosition.y += 0.05;
+    //updateLightPosition();
   }
   if ( keyboard.pressed("S") )
   {
-    lightPosition.y -= 0.05;
-    updateLightPosition();
+    //lightPosition.y -= 0.05;
+    //updateLightPosition();
   }
   if ( keyboard.pressed("E") )
   {
-    lightPosition.z -= 0.05;
-    updateLightPosition();
+    //lightPosition.z -= 0.05;
+    //updateLightPosition();
   }
   if ( keyboard.pressed("Q") )
   {
-    lightPosition.z += 0.05;
-    updateLightPosition();
+    //lightPosition.z += 0.05;
+    //updateLightPosition();
   }
 }
 
