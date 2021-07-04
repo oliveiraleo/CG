@@ -296,6 +296,8 @@ function buildInterface()
     //this.lightIntensity = lightIntensity;
     //this.lightType = 'Spot'
     this.ambientLight = true;
+    this.redSpotLight = true; // initial state
+    this.blueSpotLight = true; // initial state
     this.greenSpotLight = true; // initial state
 
     this.onViewAxes = function(){
@@ -304,13 +306,14 @@ function buildInterface()
     this.onEnableAmbientLight = function(){
       ambientLight.visible = this.ambientLight;
     };
+    this.onEnableRedLight = function(){ // Red light power toggle
+      redSpotLight.visible = this.redSpotLight;
+    };
+    this.onEnableBlueLight = function(){ // Blue light power toggle
+      blueSpotLight.visible = this.blueSpotLight;
+    };
     this.onEnableGreenLight = function(){ // Green light power toggle
-      if (greenSpotLight.visible){
-        greenSpotLight.visible = !this.greenSpotLight;
-      } else{
-        greenSpotLight.visible = this.greenSpotLight;
-      }
-      //greenSpotLight.visible = this.greenSpotLight;
+      greenSpotLight.visible = this.greenSpotLight;
     };
     
     /*this.updateColor = function(){
@@ -363,7 +366,13 @@ function buildInterface()
   gui.add(controls, 'ambientLight', true)
     .name("Ambient Light")
     .onChange(function(e) { controls.onEnableAmbientLight() });
-  gui.add(controls, 'ambientLight', true)
+  gui.add(controls, 'redSpotLight', true)
+    .name("Red Spot Light")
+    .onChange(function(e) { controls.onEnableRedLight() });
+  gui.add(controls, 'blueSpotLight', true)
+    .name("Blue Spot Light")
+    .onChange(function(e) { controls.onEnableBlueLight() });
+  gui.add(controls, 'greenSpotLight', true)
     .name("Green Spot Light")
     .onChange(function(e) { controls.onEnableGreenLight() });
 }
