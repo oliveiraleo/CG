@@ -67,7 +67,7 @@ scene.add(obj);
 
 //---------------------------------------------------------
 // Default light position, color, ambient color and intensity
-var lightPosition = new THREE.Vector3(1.7, 0.8, 1.1);
+//var lightPosition = new THREE.Vector3(1.7, 0.8, 1.1);
 //var lightColor = "rgb(255,255,255)";
 var ambientColor = "rgb(50,50,50)";
 
@@ -96,12 +96,25 @@ var redLightId = 0; // unique id
 setSpotLights(redLightPosition, redLightId);
 
 // Defines red light sphere
-var geometryRedLightSphere = new THREE.SphereGeometry(0.05, 10, 10, 0, Math.PI * 2, 0, Math.PI);
+var geometryLightsSphere = new THREE.SphereGeometry(0.05, 10, 10, 0, Math.PI * 2, 0, Math.PI);
 var materialRedLightSphere = new THREE.MeshBasicMaterial({color:"rgb(255,20,20)"});
-var redLightSphere = new THREE.Mesh(geometryRedLightSphere, materialRedLightSphere);
-redLightSphere.visible = true;
+var redLightSphere = new THREE.Mesh(geometryLightsSphere, materialRedLightSphere);
+//redLightSphere.visible = true;
 redLightSphere.position.copy(redLightPosition);
 scene.add(redLightSphere);
+
+// Blue light
+var blueSpotLight = new THREE.SpotLight("rgb(0,0,255)"); // blue spotlight
+var blueLightPosition = new THREE.Vector3(2.2, 1.2, 0.0); // blue light initial position
+var blueLightId = 1; // unique id
+setSpotLights(blueLightPosition, blueLightId);
+
+// Defines blue light sphere
+var materialBlueLightSphere = new THREE.MeshBasicMaterial({color:"rgb(0,0,255)"});
+var blueLightSphere = new THREE.Mesh(geometryLightsSphere, materialBlueLightSphere);
+//blueLightSphere.visible = true;
+blueLightSphere.position.copy(blueSpotLight);
+scene.add(blueLightSphere);
 
 /*var pointLight = new THREE.PointLight(lightColor);
 setPointLight(lightPosition);
@@ -150,20 +163,29 @@ render();
 function setSpotLights(position, id)
 {
   if(id == 0){
+    redSpotLight.position.copy(position);
+    redSpotLight.shadow.mapSize.width = 512;
+    redSpotLight.shadow.mapSize.height = 512;
+    redSpotLight.angle = degreesToRadians(40);    
+    redSpotLight.castShadow = true;
+    redSpotLight.decay = 2;
+    redSpotLight.penumbra = 0.5;
+    redSpotLight.name = "Red Spot Light"
 
-  //}
-      redSpotLight.position.copy(position);
-      redSpotLight.shadow.mapSize.width = 512;
-      redSpotLight.shadow.mapSize.height = 512;
-      redSpotLight.angle = degreesToRadians(40);    
-      redSpotLight.castShadow = true;
-      redSpotLight.decay = 2;
-      redSpotLight.penumbra = 0.5;
-      redSpotLight.name = "Red Spot Light"
+    scene.add(redSpotLight);
+  }
+  if(id == 1){
+    blueSpotLight.position.copy(position);
+    blueSpotLight.shadow.mapSize.width = 512;
+    blueSpotLight.shadow.mapSize.height = 512;
+    blueSpotLight.angle = degreesToRadians(40);    
+    blueSpotLight.castShadow = true;
+    blueSpotLight.decay = 2;
+    blueSpotLight.penumbra = 0.5;
+    blueSpotLight.name = "Blue Spot Light"
 
-      scene.add(redSpotLight);
+    scene.add(blueSpotLight);
     }
-  //lightArray.push( spotLight );
 }
 
 // Set Directional Light
@@ -205,6 +227,12 @@ function updateLightsPosition(id)
     redLightSphere.position.copy(redLightPosition);
     infoBox.changeMessage("Red Light Position: " + redLightPosition.x.toFixed(2) + ", " +
                           redLightPosition.y.toFixed(2) + ", " + redLightPosition.z.toFixed(2));
+  }
+  if (id == 1){
+    blueSpotLight.position.copy(blueLightPosition);
+    blueLightSphere.position.copy(blueLightPosition);
+    infoBox.changeMessage("Blue Light Position: " + blueLightPosition.x.toFixed(2) + ", " +
+                          blueLightPosition.y.toFixed(2) + ", " + blueLightPosition.z.toFixed(2));
   }
 }
 
@@ -317,11 +345,19 @@ function keyboardUpdate()
   {
     //lightPosition.z -= 0.05;
     //updateLightPosition();
+    if (blueLightPosition.z <= 2.2){ // limit the movement only when on track
+      blueLightPosition.z += 0.05;
+      updateLightsPosition(blueLightId);
+    }
   }
   if ( keyboard.pressed("Q") )
   {
     //lightPosition.z += 0.05;
     //updateLightPosition();
+    if (blueLightPosition.z >= -2.2){ // limit the movement only when on track
+      blueLightPosition.z -= 0.05;
+      updateLightsPosition(blueLightId);
+    }
   }
 }
 
