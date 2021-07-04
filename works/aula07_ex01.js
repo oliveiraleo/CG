@@ -81,12 +81,22 @@ var ambientColor = "rgb(50,50,50)";
 
 // TRACKS
 // Define materials
-var trackGeometry = new THREE.BoxGeometry(4.5, 0.01, 0.01);
+var frontTrackGeometry = new THREE.BoxGeometry(4.5, 0.01, 0.01);
+var sideTracksGeometry = new THREE.BoxGeometry(0.01, 0.01, 3.0);
 var trackMaterial = new THREE.MeshBasicMaterial( {color: "white"} );
 // front
-var frontTrack = new THREE.Mesh(trackGeometry, trackMaterial);
+var frontTrack = new THREE.Mesh(frontTrackGeometry, trackMaterial);
 frontTrack.position.set(0.0, 1.2, 1.5);
 scene.add(frontTrack);
+
+// right
+var rightTrack = new THREE.Mesh(sideTracksGeometry, trackMaterial);
+rightTrack.position.set(2.25, 1.2, 0.0);
+scene.add(rightTrack);
+// left
+var leftTrack = new THREE.Mesh(sideTracksGeometry, trackMaterial);
+leftTrack.position.set(-2.25, 1.2, 0.0);
+scene.add(leftTrack);
 
 // LIGHTS
 // Red light
@@ -105,7 +115,7 @@ scene.add(redLightSphere);
 
 // Blue light
 var blueSpotLight = new THREE.SpotLight("rgb(0,0,255)"); // blue spotlight
-var blueLightPosition = new THREE.Vector3(2.2, 1.2, 0.0); // blue light initial position
+var blueLightPosition = new THREE.Vector3(2.25, 1.2, 0.0); // blue light initial position
 var blueLightId = 1; // unique id
 setSpotLights(blueLightPosition, blueLightId);
 
@@ -345,7 +355,7 @@ function keyboardUpdate()
   {
     //lightPosition.z -= 0.05;
     //updateLightPosition();
-    if (blueLightPosition.z <= 2.2){ // limit the movement only when on track
+    if (blueLightPosition.z <= 1.5){ // limit the movement only when on track
       blueLightPosition.z += 0.05;
       updateLightsPosition(blueLightId);
     }
@@ -354,7 +364,7 @@ function keyboardUpdate()
   {
     //lightPosition.z += 0.05;
     //updateLightPosition();
-    if (blueLightPosition.z >= -2.2){ // limit the movement only when on track
+    if (blueLightPosition.z >= -1.5){ // limit the movement only when on track
       blueLightPosition.z -= 0.05;
       updateLightsPosition(blueLightId);
     }
