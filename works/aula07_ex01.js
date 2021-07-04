@@ -58,6 +58,7 @@ var obj = new THREE.Mesh(geometry, material);
   obj.position.set(0.0, 0.5, 0.0);
 scene.add(obj);
 var animationOn = true; // Controls the teapot animation state
+var rotateTeapotClockwise = false; // Controls the teapot animation state
 
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
@@ -227,7 +228,11 @@ function setSpotLights(position, id)
 function rotateTeapot(){
   var angle = 1; // set speed of rotation
   if(animationOn){
-    obj.rotateY(degreesToRadians(+angle));
+    if(rotateTeapotClockwise){
+      obj.rotateY(degreesToRadians(-angle));
+    } else {
+      obj.rotateY(degreesToRadians(+angle));
+    }
   }
 }
 
@@ -306,10 +311,10 @@ function buildInterface()
     //this.lightIntensity = lightIntensity;
     //this.lightType = 'Spot'
     this.ambientLight = true;
-    this.redSpotLight = true; // initial state
-    this.blueSpotLight = true; // initial state
-    this.greenSpotLight = true; // initial state
-    this.rotateTeapot = true; // initial state
+    this.redSpotLight = true; // initial status
+    this.blueSpotLight = true; // initial status
+    this.greenSpotLight = true; // initial status
+    this.rotateTeapot = true; // initial status
 
     this.onViewAxes = function(){
       axesHelper.visible = this.viewAxes;
@@ -325,6 +330,9 @@ function buildInterface()
     };
     this.onEnableGreenLight = function(){ // Green light power toggle
       greenSpotLight.visible = this.greenSpotLight;
+    };
+    this.onChangeClockwiseRotation = function(){ // Rotation toggle
+      rotateTeapotClockwise = !rotateTeapotClockwise;
     };
     this.onChangeAnimation = function(){ // Controls Teapot rotation
       animationOn = !animationOn;
@@ -389,6 +397,7 @@ function buildInterface()
   gui.add(controls, 'greenSpotLight', true)
     .name("Green Spot Light")
     .onChange(function(e) { controls.onEnableGreenLight() });
+  gui.add(controls, 'onChangeClockwiseRotation',true).name("Change Rotation");
   gui.add(controls, 'onChangeAnimation',true).name("Teapot Rotation");
 }
 
