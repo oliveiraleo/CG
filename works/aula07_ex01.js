@@ -21,7 +21,8 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
   camera.lookAt(0, 0, 0);
   camera.position.set(2.18, 1.62, 3.31);
   camera.up.set( 0, 1, 0 );
-var objColor = "rgb(255,20,20)";
+//var objColor = "rgb(255,20,20)";
+var objColor = "rgb(255,255,255)"; // white
 var objShininess = 200;
 
 // To use the keyboard
@@ -209,9 +210,9 @@ function buildInterface()
   };
 
   var gui = new GUI();
-  gui.addColor(controls, 'color')
+  /*gui.addColor(controls, 'color')
     .name("Obj Color")
-    .onChange(function(e) { controls.updateColor() });
+    .onChange(function(e) { controls.updateColor() });*/
   gui.add(controls, 'shininess', 0, 1000)
     .name("Obj Shininess")
     .onChange(function(e) { controls.onUpdateShininess() });
