@@ -19,7 +19,8 @@ var renderer = initRenderer();    // View function in util/utils
   renderer.setClearColor("rgb(30, 30, 42)");
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.lookAt(0, 0, 0);
-  camera.position.set(2.18, 1.62, 3.31);
+  //camera.position.set(2.18, 1.62, 3.31);
+  camera.position.set(0.0, 2.0, 4.0);
   camera.up.set( 0, 1, 0 );
 //var objColor = "rgb(255,20,20)";
 var objColor = "rgb(255,255,255)"; // white
@@ -60,8 +61,8 @@ scene.add(obj);
 //----------------------------------------------------------------------------
 //----------------------------------------------------------------------------
 // Control available light and set the active light
-var lightArray = new Array();
-var activeLight = 0; // View first Light
+//var lightArray = new Array();
+//var activeLight = 0; // View first Light
 //var lightIntensity = 1.0;
 
 //---------------------------------------------------------
@@ -79,11 +80,13 @@ var ambientColor = "rgb(50,50,50)";
 //setSpotLight(lightPosition);
 
 var redSpotLight = new THREE.SpotLight("rgb(255,20,20)"); // red spotlight
-var redLightPosition = new THREE.Vector3(1.7, 0.8, 0.5);
+var redLightPosition = new THREE.Vector3(1.7, 1.2, 1.5);
+var redLightId = 0;
 //var redLightSphere = createLightSphere(scene, 0.05, 10, 10, redLightPosition);
 //scene.add(redSpotLight);
-setSpotLights(redLightPosition, 0);
+setSpotLights(redLightPosition, redLightId);
 
+// Defines red light sphere
 var geometryRedLightSphere = new THREE.SphereGeometry(0.05, 10, 10, 0, Math.PI * 2, 0, Math.PI);
 var materialRedLightSphere = new THREE.MeshBasicMaterial({color:"rgb(255,20,20)"});
 var redLightSphere = new THREE.Mesh(geometryRedLightSphere, materialRedLightSphere);
@@ -177,12 +180,23 @@ function setSpotLights(position, id)
 }*/
 
 // Update light position of the current light
-function updateLightPosition()
+/*function updateLightPosition()
 {
   lightArray[activeLight].position.copy(lightPosition);
   lightSphere.position.copy(lightPosition);
   infoBox.changeMessage("Light Position: " + lightPosition.x.toFixed(2) + ", " +
                           lightPosition.y.toFixed(2) + ", " + lightPosition.z.toFixed(2));
+}*/
+
+function updateLightsPosition(id)
+{
+  //lightArray[activeLight].position.copy(lightPosition);
+  if (id == 0){
+    redSpotLight.position.copy(redLightPosition);
+    redLightSphere.position.copy(redLightPosition);
+    infoBox.changeMessage("Red Light Position: " + redLightPosition.x.toFixed(2) + ", " +
+                          redLightPosition.y.toFixed(2) + ", " + redLightPosition.z.toFixed(2));
+  }
 }
 
 // Update light intensity of the current light
@@ -267,13 +281,13 @@ function keyboardUpdate()
   keyboard.update();
   if ( keyboard.pressed("D") )
   {
-    lightPosition.x += 0.05;
-    updateLightPosition();
+    redLightPosition.x += 0.05;
+    updateLightsPosition(redLightId);
   }
   if ( keyboard.pressed("A") )
   {
-    lightPosition.x -= 0.05;
-    updateLightPosition();
+    redLightPosition.x -= 0.05;
+    updateLightsPosition(redLightId);
   }
   if ( keyboard.pressed("W") )
   {
