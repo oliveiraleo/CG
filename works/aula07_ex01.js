@@ -217,7 +217,7 @@ function setSpotLights(position, id)
     greenSpotLight.castShadow = true;
     greenSpotLight.decay = 2;
     greenSpotLight.penumbra = 0.5;
-    greenSpotLight.name = "Blue Spot Light"
+    greenSpotLight.name = "Green Spot Light"
 
     scene.add(greenSpotLight);
   }
@@ -254,6 +254,7 @@ function setSpotLights(position, id)
                           lightPosition.y.toFixed(2) + ", " + lightPosition.z.toFixed(2));
 }*/
 
+// Update light position of the spot lights
 function updateLightsPosition(id)
 {
   //lightArray[activeLight].position.copy(lightPosition);
@@ -295,6 +296,7 @@ function buildInterface()
     //this.lightIntensity = lightIntensity;
     //this.lightType = 'Spot'
     this.ambientLight = true;
+    this.greenSpotLight = true; // initial state
 
     this.onViewAxes = function(){
       axesHelper.visible = this.viewAxes;
@@ -302,6 +304,15 @@ function buildInterface()
     this.onEnableAmbientLight = function(){
       ambientLight.visible = this.ambientLight;
     };
+    this.onEnableGreenLight = function(){ // Green light power toggle
+      if (greenSpotLight.visible){
+        greenSpotLight.visible = !this.greenSpotLight;
+      } else{
+        greenSpotLight.visible = this.greenSpotLight;
+      }
+      //greenSpotLight.visible = this.greenSpotLight;
+    };
+    
     /*this.updateColor = function(){
       material.color.set(this.color);
     };
@@ -352,6 +363,9 @@ function buildInterface()
   gui.add(controls, 'ambientLight', true)
     .name("Ambient Light")
     .onChange(function(e) { controls.onEnableAmbientLight() });
+  gui.add(controls, 'ambientLight', true)
+    .name("Green Spot Light")
+    .onChange(function(e) { controls.onEnableGreenLight() });
 }
 
 function keyboardUpdate()
