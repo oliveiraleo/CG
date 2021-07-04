@@ -443,9 +443,18 @@ function showInformation()
 {
   // Use this to show information onscreen
   var controls = new InfoBox();
-    controls.add("Lighting - Types of Lights");
+    controls.add("Tea Light Party");
     controls.addParagraph();
-    controls.add("Use the WASD-QE keys to move the light");
+    controls.add("Use Q and E to move the blue light");
+    controls.add("Use A and D to move the red light");
+    controls.add("Use Z and C to move the green light");
+    controls.addParagraph();
+    controls.add("Use mouse to control camera:");
+    controls.add("* Left button to rotate");
+    controls.add("* Right button to translate (pan)");
+    controls.add("* Scroll to zoom in/out.");
+    controls.addParagraph();
+    controls.add("TIP: Try the control box above");
     controls.show();
 }
 
