@@ -101,14 +101,14 @@ scene.add(leftTrack);
 
 // LIGHTS
 // Red light
-var redSpotLight = new THREE.SpotLight("rgb(255,20,20)"); // red spotlight
+var redSpotLight = new THREE.SpotLight("rgb(255,0,0)"); // red spotlight
 var redLightPosition = new THREE.Vector3(0.0, 1.2, 1.5); // red light initial position
 var redLightId = 0; // unique id
 setSpotLights(redLightPosition, redLightId);
 
 // Defines red light sphere
 var geometryLightsSphere = new THREE.SphereGeometry(0.05, 10, 10, 0, Math.PI * 2, 0, Math.PI);
-var materialRedLightSphere = new THREE.MeshBasicMaterial({color:"rgb(255,20,20)"});
+var materialRedLightSphere = new THREE.MeshBasicMaterial({color:"rgb(255,0,0)"});
 var redLightSphere = new THREE.Mesh(geometryLightsSphere, materialRedLightSphere);
 //redLightSphere.visible = true;
 redLightSphere.position.copy(redLightPosition);
