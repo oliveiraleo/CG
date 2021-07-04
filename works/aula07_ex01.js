@@ -20,7 +20,7 @@ var renderer = initRenderer();    // View function in util/utils
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.lookAt(0, 0, 0);
   //camera.position.set(2.18, 1.62, 3.31);
-  camera.position.set(0.0, 2.0, 4.0);
+  camera.position.set(0.0, 3.0, 6.0);
   camera.up.set( 0, 1, 0 );
 //var objColor = "rgb(255,20,20)";
 var objColor = "rgb(255,255,255)"; // white
@@ -126,6 +126,19 @@ var blueLightSphere = new THREE.Mesh(geometryLightsSphere, materialBlueLightSphe
 blueLightSphere.position.copy(blueSpotLight);
 scene.add(blueLightSphere);
 
+// Green light
+var greenSpotLight = new THREE.SpotLight("rgb(0,255,0)"); // green spotlight
+var greenLightPosition = new THREE.Vector3(-2.25, 1.2, 0.0); // green light initial position
+var greenLightId = 2; // unique id
+setSpotLights(greenLightPosition, greenLightId);
+
+// Defines green light sphere
+var materialGreenLightSphere = new THREE.MeshBasicMaterial({color:"rgb(0,255,0)"});
+var greenLightSphere = new THREE.Mesh(geometryLightsSphere, materialGreenLightSphere);
+//greenLightSphere.visible = true;
+greenLightSphere.position.copy(greenSpotLight);
+scene.add(greenLightSphere);
+
 /*var pointLight = new THREE.PointLight(lightColor);
 setPointLight(lightPosition);
 
@@ -195,7 +208,19 @@ function setSpotLights(position, id)
     blueSpotLight.name = "Blue Spot Light"
 
     scene.add(blueSpotLight);
-    }
+  }
+  if(id == 2){
+    greenSpotLight.position.copy(position);
+    greenSpotLight.shadow.mapSize.width = 512;
+    greenSpotLight.shadow.mapSize.height = 512;
+    greenSpotLight.angle = degreesToRadians(40);    
+    greenSpotLight.castShadow = true;
+    greenSpotLight.decay = 2;
+    greenSpotLight.penumbra = 0.5;
+    greenSpotLight.name = "Blue Spot Light"
+
+    scene.add(greenSpotLight);
+  }
 }
 
 // Set Directional Light
@@ -243,6 +268,12 @@ function updateLightsPosition(id)
     blueLightSphere.position.copy(blueLightPosition);
     infoBox.changeMessage("Blue Light Position: " + blueLightPosition.x.toFixed(2) + ", " +
                           blueLightPosition.y.toFixed(2) + ", " + blueLightPosition.z.toFixed(2));
+  }
+  if (id == 2){
+    greenSpotLight.position.copy(greenLightPosition);
+    greenLightSphere.position.copy(greenLightPosition);
+    infoBox.changeMessage("Green Light Position: " + greenLightPosition.x.toFixed(2) + ", " +
+                          greenLightPosition.y.toFixed(2) + ", " + greenLightPosition.z.toFixed(2));
   }
 }
 
@@ -341,29 +372,29 @@ function keyboardUpdate()
       updateLightsPosition(redLightId);
     }
   }
-  if ( keyboard.pressed("W") )
+  if ( keyboard.pressed("Z") )
   {
-    ///lightPosition.y += 0.05;
-    //updateLightPosition();
+    if (greenLightPosition.z <= 1.5){ // limit the movement only when on track
+      greenLightPosition.z += 0.05;
+      updateLightsPosition(greenLightId);
+    }
   }
-  if ( keyboard.pressed("S") )
+  if ( keyboard.pressed("C") )
   {
-    //lightPosition.y -= 0.05;
-    //updateLightPosition();
+    if (greenLightPosition.z >= -1.5){ // limit the movement only when on track
+      greenLightPosition.z -= 0.05;
+      updateLightsPosition(greenLightId);
+    }
   }
-  if ( keyboard.pressed("E") )
+  if ( keyboard.pressed("E") ) // move blue light to the front
   {
-    //lightPosition.z -= 0.05;
-    //updateLightPosition();
     if (blueLightPosition.z <= 1.5){ // limit the movement only when on track
       blueLightPosition.z += 0.05;
       updateLightsPosition(blueLightId);
     }
   }
-  if ( keyboard.pressed("Q") )
+  if ( keyboard.pressed("Q") ) // move blue light backwards
   {
-    //lightPosition.z += 0.05;
-    //updateLightPosition();
     if (blueLightPosition.z >= -1.5){ // limit the movement only when on track
       blueLightPosition.z -= 0.05;
       updateLightsPosition(blueLightId);
