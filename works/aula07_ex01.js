@@ -119,26 +119,28 @@ scene.add(redLightSphere);
 var blueSpotLight = new THREE.SpotLight("rgb(0,0,255)"); // blue spotlight
 var blueLightPosition = new THREE.Vector3(2.25, 1.2, 0.0); // blue light initial position
 var blueLightId = 1; // unique id
-setSpotLights(blueLightPosition, blueLightId);
+//setSpotLights(blueLightPosition, blueLightId);
 
 // Defines blue light sphere
 var materialBlueLightSphere = new THREE.MeshBasicMaterial({color:"rgb(0,0,255)"});
 var blueLightSphere = new THREE.Mesh(geometryLightsSphere, materialBlueLightSphere);
 //blueLightSphere.visible = true;
 blueLightSphere.position.copy(blueSpotLight);
+setSpotLights(blueLightPosition, blueLightId);
 scene.add(blueLightSphere);
 
 // Green light
 var greenSpotLight = new THREE.SpotLight("rgb(0,255,0)"); // green spotlight
 var greenLightPosition = new THREE.Vector3(-2.25, 1.2, 0.0); // green light initial position
 var greenLightId = 2; // unique id
-setSpotLights(greenLightPosition, greenLightId);
+//setSpotLights(greenLightPosition, greenLightId);
 
 // Defines green light sphere
 var materialGreenLightSphere = new THREE.MeshBasicMaterial({color:"rgb(0,255,0)"});
 var greenLightSphere = new THREE.Mesh(geometryLightsSphere, materialGreenLightSphere);
 //greenLightSphere.visible = true;
 greenLightSphere.position.copy(greenSpotLight);
+setSpotLights(greenLightPosition, greenLightId);
 scene.add(greenLightSphere);
 
 /*var pointLight = new THREE.PointLight(lightColor);
@@ -209,6 +211,7 @@ function setSpotLights(position, id)
     blueSpotLight.penumbra = 0.5;
     blueSpotLight.name = "Blue Spot Light"
 
+    blueLightSphere.position.copy(blueLightPosition); // fix sphere not showing until movement
     scene.add(blueSpotLight);
   }
   if(id == 2){ // green
@@ -221,6 +224,7 @@ function setSpotLights(position, id)
     greenSpotLight.penumbra = 0.5;
     greenSpotLight.name = "Green Spot Light"
 
+    greenLightSphere.position.copy(greenLightPosition); // fix sphere not showing until movement
     scene.add(greenSpotLight);
   }
 }
