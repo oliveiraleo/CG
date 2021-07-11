@@ -13,14 +13,13 @@ var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
 //initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+// Adds some lights to the scene
 //var hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.85 );
 scene.add( hemisphereLight );
-
 // White directional light shining from the top.
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
 //directionalLight.castShadow = true; // TODO fix airplane shadows
-//directionalLight.rotateY(degreesToRadians(-90));
 //directionalLight.position.set(new THREE.Vector3(0, 20, 0)); // TODO Fix light comming from the front
 scene.add( directionalLight );
 
@@ -45,7 +44,7 @@ function createStats() {
 // airplane config
 var planePositionX = 0.0;
 var planePositionY = -370.0; // previous value was +20.0
-var planePositionZ = 45.0; // previous value was +5.0
+var planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
 
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
 var mockPlaneGeometry = new THREE.BoxGeometry(0, 0, 0, 32);
@@ -365,7 +364,7 @@ window.addEventListener( 'resize', function(){onWindowResize(cameraInspection, r
 showInformation(); // displays information about the controls
 
 // Variaveis de movimento do aviao
-var speed = 0.2; // velocidade base dos movimentos
+var speed = 0.0; // velocidade base dos movimentos // o aviao agora comeca parado
 var savedSpeed = speed; // salva a velocidade do aviao na simulacao
 var isPressed = [false,false]; // x,y controla se os botoes de controle de rotacao estao sendo pressionados
 var anglesVet = [0,0,0]; // salva qual o angulo atual do aviao para depois retornar a origem
