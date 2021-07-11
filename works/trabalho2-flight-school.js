@@ -12,7 +12,17 @@ import {initRenderer,
 var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
-initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+//initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+//var hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.85 );
+scene.add( hemisphereLight );
+
+// White directional light shining from the top.
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+//directionalLight.castShadow = true; // TODO fix airplane shadows
+//directionalLight.rotateY(degreesToRadians(-90));
+//directionalLight.position.set(new THREE.Vector3(0, 20, 0)); // TODO Fix light comming from the front
+scene.add( directionalLight );
 
 // FPS panel config
 function createStats() {
