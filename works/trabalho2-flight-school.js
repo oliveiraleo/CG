@@ -43,7 +43,7 @@ function createStats() {
 
 // airplane config
 var planePositionX = 0.0;
-var planePositionY = -370.0; // previous value was +20.0
+var planePositionY = -470.0; // previous value was -370.0
 var planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
 
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
@@ -86,7 +86,7 @@ var trackballControls = new TrackballControls( cameraInspection, renderer.domEle
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"});
+var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", opacity:"0.0"}); // TODO make glass
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
@@ -355,6 +355,37 @@ groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pesp
 // Adiciona ambos os objetos na cena
 scene.add(groundPlaneWired);
 groundPlaneWired.add(axesHelper);
+
+//-----------------------------------//
+// LANDING TRACK CONFIGURATION BEGIN //
+//-----------------------------------//
+// Landing track (pista de pouso)
+var landingTrackLenghtY = 250.0;
+var landingTrackLinesLenghtY = 15.0;
+var landingTrackGeometry = new THREE.BoxGeometry(30.0, landingTrackLenghtY, 0.2);
+var landingTrackMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
+// create the landing track
+var landingTrack = new THREE.Mesh(landingTrackGeometry, landingTrackMaterial);
+landingTrack.position.set(0.0, -350.0, 0.0);
+landingTrack.receiveShadow = true;
+groundPlaneWired.add(landingTrack);
+
+var vetLandingLines = [];
+var linesPosition = (landingTrackLenghtY / 2) - (landingTrackLinesLenghtY * 1.5); // start positioning the lines within the beginning of the track
+var landingTrackLinesGeometry = new THREE.BoxGeometry(1.0, landingTrackLinesLenghtY, 0.2);
+var landingTrackLinesMaterial = new THREE.MeshLambertMaterial({color:"rgb(255, 255, 255)"}); // white
+// create the landing track
+var landingTrackLines = new THREE.Mesh(landingTrackLinesGeometry, landingTrackLinesMaterial);
+for(let i = 0; i < 8; i++){ // sets the number of lines on track
+    let distance = 30.0; // distance between lines
+    var landingTrackLines = new THREE.Mesh(landingTrackLinesGeometry, landingTrackLinesMaterial);
+    vetLandingLines[i] = landingTrackLines; // add the newly created object to the array
+    vetLandingLines[i].position.set(0.0, linesPosition-(i*distance), 0.02);
+    landingTrack.add(vetLandingLines[i]); // add the newly created object to the scene
+}
+//-----------------------------------//
+// LANDING TRACK CONFIGURATION END   //
+//-----------------------------------//
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
