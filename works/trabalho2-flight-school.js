@@ -86,7 +86,8 @@ var trackballControls = new TrackballControls( cameraInspection, renderer.domEle
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", opacity:"0.0"}); // TODO make glass
+var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"1.0"});
+var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
@@ -203,7 +204,7 @@ var hub = new THREE.Mesh(hubGeometry, hubMaterial);
 var bladeGeometry = new THREE.BoxGeometry(0.4, 0.05, 5.0);
 var wingsBladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 4.0);
 // create blades
-var blade = new THREE.Mesh(bladeGeometry, cockpitMaterial);
+var blade = new THREE.Mesh(bladeGeometry, bladesMaterial);
 // adds blade to the hub
 hub.add(blade);
 // Base hub sphere
@@ -215,9 +216,9 @@ hubBaseSphere.translateX(0.0).translateY(0.75).translateZ(0.0);
 hubBaseSphere.add(hub);
 // engines on wings
 var leftHub = new THREE.Mesh(hubGeometry, hubMaterial);
-var leftBlade = new THREE.Mesh(wingsBladeGeometry, cockpitMaterial);
+var leftBlade = new THREE.Mesh(wingsBladeGeometry, bladesMaterial);
 var rightHub = new THREE.Mesh(hubGeometry, hubMaterial);
-var rightBlade = new THREE.Mesh(wingsBladeGeometry, cockpitMaterial);
+var rightBlade = new THREE.Mesh(wingsBladeGeometry, bladesMaterial);
 var leftHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 var rightHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
@@ -352,7 +353,7 @@ axesHelper.translateX(20);
 // Plano base que simula agua
 var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "blue");
 groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
-// Adiciona ambos os objetos na cena
+// Adiciona ambos objetos na cena
 scene.add(groundPlaneWired);
 groundPlaneWired.add(axesHelper);
 
@@ -385,6 +386,20 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 }
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION END   //
+//-----------------------------------//
+
+//-----------------------------------//
+// FLIGHT PATH CONFIGURATION BEGIN   //
+//-----------------------------------//
+var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
+var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
+var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
+checkPoint.rotateX(degreesToRadians(90));
+checkPoint.position.set(0.0, 30.0, 20.0);
+landingTrack.add(checkPoint);
+// TODO fazer o resto do caminho depois
+//-----------------------------------//
+// FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
 // Listen window size changes
