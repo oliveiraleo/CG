@@ -58,7 +58,7 @@ var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
-var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue"});
+var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
 var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"}); // bright red
 
