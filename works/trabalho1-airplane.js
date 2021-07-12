@@ -53,7 +53,8 @@ scene.add(plane);
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white"});
+var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"1.0"});
+var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
@@ -173,7 +174,7 @@ var hub = new THREE.Mesh(hubGeometry, hubMaterial);
 var bladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 5.0);
 var wingsBladeGeometry = new THREE.BoxGeometry(0.2, 0.05, 4.0);
 // create blades
-var blade = new THREE.Mesh(bladeGeometry, cockpitMaterial);
+var blade = new THREE.Mesh(bladeGeometry, bladesMaterial);
 // adds blade to the hub
 hub.add(blade);
 // Base hub sphere
@@ -185,9 +186,9 @@ hubBaseSphere.translateX(0.0).translateY(0.75).translateZ(0.0);
 hubBaseSphere.add(hub);
 // engines on wings
 var leftHub = new THREE.Mesh(hubGeometry, hubMaterial);
-var leftBlade = new THREE.Mesh(wingsBladeGeometry, cockpitMaterial);
+var leftBlade = new THREE.Mesh(wingsBladeGeometry, bladesMaterial);
 var rightHub = new THREE.Mesh(hubGeometry, hubMaterial);
-var rightBlade = new THREE.Mesh(wingsBladeGeometry, cockpitMaterial);
+var rightBlade = new THREE.Mesh(wingsBladeGeometry, bladesMaterial);
 var leftHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 var rightHubBaseSphere = new THREE.Mesh( hubBaseSphereGeometry, material );
 // Set initial position of the sphere
