@@ -15,12 +15,12 @@ var renderer = initRenderer();  // View function in util/utils
 //initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
 // Adds some lights to the scene
 //var hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.85 );
+var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.75 );
 scene.add( hemisphereLight );
 // White directional light shining from the top.
-var directionalLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 //directionalLight.castShadow = true; // TODO fix airplane shadows
-//directionalLight.position.set(new THREE.Vector3(0, 20, 0)); // TODO Fix light comming from the front
+directionalLight.position.set(20, 20, 20); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
 scene.add( directionalLight );
 
 // FPS panel config
@@ -42,7 +42,7 @@ function createStats() {
 //-----------------------------------//
 
 // airplane config
-var planePositionX = 0.0;
+var planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
 var planePositionY = -470.0; // previous value was -370.0
 var planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
 
