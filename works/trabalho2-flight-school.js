@@ -439,7 +439,7 @@ var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 
 var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
 var treeCrownSphereGeometry = new THREE.SphereGeometry(3.5, 8, 8);
 var treeLeavesSphereGeometry = new THREE.SphereGeometry(1.5, 6, 6);
-var vetScenarioTrees = []; // To save and create the trees later
+//var vetScenarioTrees = []; // To save and create the trees later
 // Function to create one tree
 function generateModelTree(){
     // Crown and leaves
@@ -476,23 +476,22 @@ function generateModelTree(){
 // Function to return a random number within a restriction
 function getRandomNumber(min, max) {
     return Math.random() * (max - min) + min;
-  }
+}
 
 // Function to create all needed trees
 function createScenarioTrees(){
-    //let distance = 10.0; // distance between trees
-    //let maxDistance = Math.random(); // distance between trees
-    let maxDistance = getRandomNumber(-500, 500); // distance between trees
-    //let maxDistance = genOneRandomNumber();
-    let numberOfTrees = 2; // the number of trees to be created and added to the scene
+    let numberOfTrees = 50; // the number of trees to be created and added to the scene
     for (let i = 0; i < numberOfTrees; i++) {
-        let tree = generateModelTree();
-        //tree.position.set((1.0*maxDistance), (-370.0*maxDistance), 5.0); // TODO adjust position later, this one is only for testing
-        tree.position.set(maxDistance, maxDistance, 5.0); // TODO fix positioning
+        //let distance = 10.0; // distance between trees
+        let positionX = getRandomNumber(-500, 500); // coordinate X
+        let positionY = getRandomNumber(-500, 500); // coordinate Y
+        let tree = generateModelTree(); // Generate a new tree
+        tree.position.set(positionX, positionY, 5.0);
         groundPlane.add(tree);
     }
 }
 // TODO fix tree shadows
+// TODO limit tree spawn to avoid conflic with the mountains
 //-----------------------------------//
 // TREES CONFIGURATION END           //
 //-----------------------------------//
