@@ -89,7 +89,7 @@ var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
 var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"1.0"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
-var tiresMaterial = new THREE.MeshPhongMaterial({color:"black"}); 
+var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // mimic black rubber
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
@@ -606,12 +606,13 @@ function keyboardUpdateHolder() {
             mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
             renderCamera = camera;
         } else { 
+            // saves the current airplane coordinates for later
             savedPlanePositionX = getAirplanePositionX();
             savedPlanePositionY = getAirplanePositionY();
             savedPlanePositionZ = getAirplaneHeightPosition();
             //groundPlaneWired.visible = false;
             groundPlane.visible = false;
-            savedSpeed = speed;
+            savedSpeed = speed; // saves the current speed
             speed = 0.0; // para o aviao
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
             isInInspectionMode = true; // inspection mode on
