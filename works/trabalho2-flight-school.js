@@ -432,40 +432,54 @@ landingTrack.add(checkPoint);
 //-----------------------------------//
 // TREES CONFIGURATION BEGIN         //
 //-----------------------------------//
-// create trees
-// materials
+// Materials config
 var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
 var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
-// Crown and leaves
 var treeCrownSphereGeometry = new THREE.SphereGeometry(3.5, 8, 8);
 var treeLeavesSphereGeometry = new THREE.SphereGeometry(1.5, 6, 6);
-var treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
-var treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-var treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-// Trunk
-var treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
-var treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-var treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
-treeCylinder.rotateX(degreesToRadians(90));
-treeCylinder.rotateY(degreesToRadians(90));
-//treeCylinder.receiveShadow = true; // shadown
-treeLeftBranchCylinder.position.set(0.0, 0.5, 1.75);
-treeLeftBranchCylinder.rotateX(degreesToRadians(45));
-treeRightBranchCylinder.position.set(0.0, 1.5, -1.75);
-treeRightBranchCylinder.rotateX(degreesToRadians(-45));
-treeCrownSphere.position.set(0.0, 7.5, 0.0);
-treeLeftLeavesSphere.position.set(0.0, 3.0, 0.0);
-treeRightLeavesSphere.position.set(0.0, 3.0, 0.0);
-// add parts to scene
-treeCylinder.add(treeLeftBranchCylinder);
-treeCylinder.add(treeRightBranchCylinder);
-treeCylinder.add(treeCrownSphere);
-treeLeftBranchCylinder.add(treeLeftLeavesSphere);
-treeRightBranchCylinder.add(treeRightLeavesSphere);
-groundPlane.add(treeCylinder);
+var vetScenarioTrees = []; // To save and create the trees later
+// Function to create one tree
+function generateModelTree(){
+    // Crown and leaves
+    let treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
+    let treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
+    let treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
+    // Trunk
+    let treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
+    let treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
+    let treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
+    // adjust tree parts relative positions
+    treeCylinder.rotateX(degreesToRadians(90));
+    treeCylinder.rotateY(degreesToRadians(90));
+    //treeCylinder.receiveShadow = true; // shadown
+    treeLeftBranchCylinder.position.set(0.0, 0.5, 1.75);
+    treeLeftBranchCylinder.rotateX(degreesToRadians(45));
+    treeRightBranchCylinder.position.set(0.0, 1.5, -1.75);
+    treeRightBranchCylinder.rotateX(degreesToRadians(-45));
+    treeCrownSphere.position.set(0.0, 7.5, 0.0);
+    treeLeftLeavesSphere.position.set(0.0, 3.0, 0.0);
+    treeRightLeavesSphere.position.set(0.0, 3.0, 0.0);
+    // add parts to scene
+    treeCylinder.add(treeLeftBranchCylinder);
+    treeCylinder.add(treeRightBranchCylinder);
+    treeCylinder.add(treeCrownSphere);
+    treeLeftBranchCylinder.add(treeLeftLeavesSphere);
+    treeRightBranchCylinder.add(treeRightLeavesSphere);
+    // adjust the entire tree position
+    //treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
+    // add everything to the scene
+    //groundPlane.add(treeCylinder);
+    return treeCylinder;
+}
+
+function createScenarioTrees(){
+    let tree = generateModelTree();
+    //let distance = 30.0; // distance between trees
+    tree.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
+    groundPlane.add(tree);
+}
 // TODO create trees in another function
 // TODO fix tree shadows
 //-----------------------------------//
@@ -578,7 +592,9 @@ function keyboardUpdateHolder() {
                 speed -= 0.01;
             }
         }
-
+        if (keyboard.pressed("P")){ // for debug
+            createScenarioTrees();
+        }
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
             isPressed[1] = false;
