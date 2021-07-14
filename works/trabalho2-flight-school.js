@@ -473,17 +473,25 @@ function generateModelTree(){
     //groundPlane.add(treeCylinder);
     return treeCylinder;
 }
+// Function to return a random number within a restriction
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
 // Function to create all needed trees
 function createScenarioTrees(){
-    let distance = 10.0; // distance between trees
-    let numberOfTrees = 3; // the number of trees to be created and added to the scene
+    //let distance = 10.0; // distance between trees
+    //let maxDistance = Math.random(); // distance between trees
+    let maxDistance = getRandomNumber(-500, 500); // distance between trees
+    //let maxDistance = genOneRandomNumber();
+    let numberOfTrees = 2; // the number of trees to be created and added to the scene
     for (let i = 0; i < numberOfTrees; i++) {
         let tree = generateModelTree();
-        tree.position.set(0.0, ((-370.0)+(i*distance)), 5.0); // TODO adjust position later, this one is only for testing
+        //tree.position.set((1.0*maxDistance), (-370.0*maxDistance), 5.0); // TODO adjust position later, this one is only for testing
+        tree.position.set(maxDistance, maxDistance, 5.0); // TODO fix positioning
         groundPlane.add(tree);
     }
 }
-// TODO create trees in another function
 // TODO fix tree shadows
 //-----------------------------------//
 // TREES CONFIGURATION END           //
@@ -595,7 +603,7 @@ function keyboardUpdateHolder() {
                 speed -= 0.01;
             }
         }
-        if (keyboard.pressed("P")){ // for debug
+        if (keyboard.down("P")){ // for debug
             createScenarioTrees();
         }
         // Verifica se o botao foi solto
