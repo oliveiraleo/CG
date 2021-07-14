@@ -358,17 +358,17 @@ scene.add(groundPlaneWired);
 groundPlaneWired.add(axesHelper);*/
 
 // create the ground plane
-var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
-planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var planeMaterial = new THREE.MeshBasicMaterial({
+var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
+groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
+var groundPlaneMaterial = new THREE.MeshBasicMaterial({
     //color: "rgba(150, 150, 150)", // light grey
     color: "green", // TODO adjust the color
     //side: THREE.DoubleSide,
 });
-var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
 // add the ground plane to the scene
-scene.add(plane);
-plane.add(axesHelper);
+scene.add(groundPlane);
+groundPlane.add(axesHelper);
 
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
@@ -383,7 +383,7 @@ var landingTrack = new THREE.Mesh(landingTrackGeometry, landingTrackMaterial);
 landingTrack.position.set(0.0, -350.0, 0.0);
 landingTrack.receiveShadow = true;
 //groundPlaneWired.add(landingTrack);
-plane.add(landingTrack);
+groundPlane.add(landingTrack);
 
 var vetLandingLines = [];
 var linesPosition = (landingTrackLenghtY / 2) - (landingTrackLinesLenghtY * 1.5); // start positioning the lines within the beginning of the track
@@ -430,26 +430,27 @@ var isPressed = [false,false]; // x,y controla se os botoes de controle de rotac
 var anglesVet = [0,0,0]; // salva qual o angulo atual do aviao para depois retornar a origem
 var speedVet = [0,0,0]; // salva a velocidade dos movimentos laterais e verticais atual do aviao para depois retornar a origem
 var isInInspectionMode = false; // verifica se o modo inspecao esta ativo e trava os controles do teclado se verdadeiro
+// creates vars to save the actual position of the airplane
 var savedPlanePositionX = 0.0;
 var savedPlanePositionY = 0.0;
 var savedPlanePositionZ = 0.0;
 
 // Obtem as coordenadas globais atuais do aviao
 var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
-function getAirplaneHeightPosition(){ // retorna a altura do avião em relação ao plano
+function getAirplanePositionX(){ // retorna a posicao X do avião em relação a origem do plano
     mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
-    var airplaneZ = airplaneWorldPosition.getComponent(2); // airplane height    
-    return airplaneZ;
-}
-function getAirplanePositionX(){ // retorna a altura do avião em relação ao plano
-    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
-    var airplaneX = airplaneWorldPosition.getComponent(0); // airplane height    
+    var airplaneX = airplaneWorldPosition.getComponent(0); // airplane coordinate X
     return airplaneX;
 }
-function getAirplanePositionY(){ // retorna a altura do avião em relação ao plano
+function getAirplanePositionY(){ // retorna a posicao Y do avião em relação a origem do plano
     mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
-    var airplaneY = airplaneWorldPosition.getComponent(1); // airplane height    
+    var airplaneY = airplaneWorldPosition.getComponent(1); // airplane coordinate Y
     return airplaneY;
+}
+function getAirplaneHeightPosition(){ // retorna a altura do avião em relação ao plano
+    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    var airplaneZ = airplaneWorldPosition.getComponent(2); // airplane height
+    return airplaneZ;
 }
 
 mockPlane.matrix.identity(); // afeta a perspectiva das cameras
@@ -596,10 +597,10 @@ function keyboardUpdateHolder() {
     // inspection mode switch
     if (keyboard.down("space")){
         //if(groundPlaneWired.visible == false){
-        if(plane.visible == false){
+        if(groundPlane.visible == false){
             isInInspectionMode = false; // inspection mode off
             //groundPlaneWired.visible = true; // ground plane appears again
-            plane.visible = true; // ground plane appears again
+            groundPlane.visible = true; // ground plane appears again
             speed = savedSpeed; // restore the preious speed
             //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
             mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
@@ -609,7 +610,7 @@ function keyboardUpdateHolder() {
             savedPlanePositionY = getAirplanePositionY();
             savedPlanePositionZ = getAirplaneHeightPosition();
             //groundPlaneWired.visible = false;
-            plane.visible = false;
+            groundPlane.visible = false;
             savedSpeed = speed;
             speed = 0.0; // para o aviao
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
@@ -677,7 +678,7 @@ function render() {
 	renderer.render( scene, renderCamera );
     stats.update(); // Update FPS
     keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
-    mockPlane.translateY(speed); // moves the plane automatically
+    mockPlane.translateY(speed); // moves the airplane foward
     trackballControls.update(); // Enable mouse movements
     rotateBlades(); // Enable airplane blades rotation
     slowSpeed(); // Checks if airplane is too slow
