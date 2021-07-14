@@ -3,10 +3,10 @@ import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
 import Stats from               '../build/jsm/libs/stats.module.js';
 import KeyboardState from       '../libs/util/KeyboardState.js';
 import {initRenderer, 
-        createGroundPlaneWired,
+        //createGroundPlaneWired,
         onWindowResize, 
         degreesToRadians,
-        initDefaultBasicLight,
+        //initDefaultBasicLight,
         InfoBox} from "../libs/util/util.js";
 
 var stats = new Stats();        // To show FPS information
@@ -19,8 +19,17 @@ var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.75 );
 scene.add( hemisphereLight );
 // White directional light shining from the top.
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
+// directional light configs
+directionalLight.shadow.mapSize.width = 512;
+directionalLight.shadow.mapSize.height = 512;
+/*directionalLight.shadow.camera.left = -500;
+directionalLight.shadow.camera.right = 500;
+directionalLight.shadow.camera.top = 500;
+directionalLight.shadow.camera.bottom = -500;*/
+directionalLight.shadow.camera.near = 0.5; // default
+directionalLight.shadow.camera.far = 500; // default
 //directionalLight.castShadow = true; // TODO fix airplane shadows
-directionalLight.position.set(20, 20, 20); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
+directionalLight.position.set(50, 50, 50); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
 scene.add( directionalLight );
 
 // FPS panel config
@@ -425,13 +434,13 @@ landingTrack.add(checkPoint);
 //-----------------------------------//
 // create trees
 // materials
-var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 20.0, 32);
-var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 8.0, 32);
+var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
+var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
 var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
 // Crown and leaves
-var treeCrownSphereGeometry = new THREE.SphereGeometry(7.0, 8, 8);
-var treeLeavesSphereGeometry = new THREE.SphereGeometry(3.0, 6, 6);
+var treeCrownSphereGeometry = new THREE.SphereGeometry(3.5, 8, 8);
+var treeLeavesSphereGeometry = new THREE.SphereGeometry(1.5, 6, 6);
 var treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
 var treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
 var treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
@@ -439,17 +448,17 @@ var treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeaves
 var treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
 var treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
 var treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-treeCylinder.position.set(0.0, -370.0, 10.0); // TODO adjust position later, this one is only for testing
+treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
 treeCylinder.rotateX(degreesToRadians(90));
 treeCylinder.rotateY(degreesToRadians(90));
-//treeCylinder.receiveShadow = true;
-treeLeftBranchCylinder.position.set(0.0, 1.0, 3.5);
+//treeCylinder.receiveShadow = true; // shadown
+treeLeftBranchCylinder.position.set(0.0, 0.5, 1.75);
 treeLeftBranchCylinder.rotateX(degreesToRadians(45));
-treeRightBranchCylinder.position.set(0.0, 3.0, -3.5);
+treeRightBranchCylinder.position.set(0.0, 1.5, -1.75);
 treeRightBranchCylinder.rotateX(degreesToRadians(-45));
-treeCrownSphere.position.set(0.0, 15.0, 0.0);
-treeLeftLeavesSphere.position.set(0.0, 6.0, 0.0);
-treeRightLeavesSphere.position.set(0.0, 6.0, 0.0);
+treeCrownSphere.position.set(0.0, 7.5, 0.0);
+treeLeftLeavesSphere.position.set(0.0, 3.0, 0.0);
+treeRightLeavesSphere.position.set(0.0, 3.0, 0.0);
 // add parts to scene
 treeCylinder.add(treeLeftBranchCylinder);
 treeCylinder.add(treeRightBranchCylinder);
