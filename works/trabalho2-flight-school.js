@@ -89,7 +89,7 @@ var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
 var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"1.0"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
-var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // mimic black rubber
+var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // to mimic black rubber
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
@@ -364,6 +364,7 @@ var groundPlaneMaterial = new THREE.MeshBasicMaterial({
     //color: "rgba(150, 150, 150)", // light grey
     color: "green", // TODO adjust the color
     //side: THREE.DoubleSide,
+    //receiveShadow: true,
 });
 var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
 // add the ground plane to the scene
@@ -414,6 +415,39 @@ landingTrack.add(checkPoint);
 // TODO fazer o resto do caminho depois
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION END     //
+//-----------------------------------//
+
+// Reference URL to all tree parts names
+// https://www.nps.gov/choh/learn/kidsyouth/images/Parts-of-a-tree-Color-image_KellySavannah3.jpg?maxwidth=1200&maxheight=1200&autorotate=false
+
+//-----------------------------------//
+// TREES CONFIGURATION BEGIN         //
+//-----------------------------------//
+// create trees
+// materials
+var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 20.0, 32);
+var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 8.0, 32);
+var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
+// objects
+var treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
+var treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
+var treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
+treeCylinder.position.set(0.0, -370.0, 10.0); // TODO adjust position later, this one is only for testing
+treeCylinder.rotateX(degreesToRadians(90));
+treeCylinder.rotateY(degreesToRadians(90));
+//treeCylinder.receiveShadow = true;
+treeLeftBranchCylinder.position.set(0.0, 1.0, 3.5);
+treeLeftBranchCylinder.rotateX(degreesToRadians(45));
+treeRightBranchCylinder.position.set(0.0, 3.0, -3.5);
+treeRightBranchCylinder.rotateX(degreesToRadians(-45));
+// add parts to scene
+treeCylinder.add(treeLeftBranchCylinder);
+treeCylinder.add(treeRightBranchCylinder);
+groundPlane.add(treeCylinder);
+// TODO finish modeling the tree (add crown and leaves)
+// TODO create trees in another function
+//-----------------------------------//
+// TREES CONFIGURATION END           //
 //-----------------------------------//
 
 // Listen window size changes
