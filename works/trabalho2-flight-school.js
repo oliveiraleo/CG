@@ -360,7 +360,7 @@ groundPlaneWired.add(axesHelper);*/
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
 groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var groundPlaneMaterial = new THREE.MeshBasicMaterial({
+var groundPlaneMaterial = new THREE.MeshBasicMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
     //color: "rgba(150, 150, 150)", // light grey
     color: "green", // TODO adjust the color
     //side: THREE.DoubleSide,
@@ -428,7 +428,14 @@ landingTrack.add(checkPoint);
 var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 20.0, 32);
 var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 8.0, 32);
 var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
-// objects
+var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
+// Crown and leaves
+var treeCrownSphereGeometry = new THREE.SphereGeometry(7.0, 8, 8);
+var treeLeavesSphereGeometry = new THREE.SphereGeometry(3.0, 6, 6);
+var treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
+var treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
+var treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
+// Trunk
 var treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
 var treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
 var treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
@@ -440,12 +447,18 @@ treeLeftBranchCylinder.position.set(0.0, 1.0, 3.5);
 treeLeftBranchCylinder.rotateX(degreesToRadians(45));
 treeRightBranchCylinder.position.set(0.0, 3.0, -3.5);
 treeRightBranchCylinder.rotateX(degreesToRadians(-45));
+treeCrownSphere.position.set(0.0, 15.0, 0.0);
+treeLeftLeavesSphere.position.set(0.0, 6.0, 0.0);
+treeRightLeavesSphere.position.set(0.0, 6.0, 0.0);
 // add parts to scene
 treeCylinder.add(treeLeftBranchCylinder);
 treeCylinder.add(treeRightBranchCylinder);
+treeCylinder.add(treeCrownSphere);
+treeLeftBranchCylinder.add(treeLeftLeavesSphere);
+treeRightBranchCylinder.add(treeRightLeavesSphere);
 groundPlane.add(treeCylinder);
-// TODO finish modeling the tree (add crown and leaves)
 // TODO create trees in another function
+// TODO fix tree shadows
 //-----------------------------------//
 // TREES CONFIGURATION END           //
 //-----------------------------------//
