@@ -351,11 +351,24 @@ axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(20);
 
 // Plano base que simula agua
-var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "blue");
+/*var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "green");
 groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
 // Adiciona ambos objetos na cena
 scene.add(groundPlaneWired);
-groundPlaneWired.add(axesHelper);
+groundPlaneWired.add(axesHelper);*/
+
+// create the ground plane
+var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
+planeGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
+var planeMaterial = new THREE.MeshBasicMaterial({
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "green", // TODO adjust the color
+    //side: THREE.DoubleSide,
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+// add the ground plane to the scene
+scene.add(plane);
+plane.add(axesHelper);
 
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
@@ -369,7 +382,8 @@ var landingTrackMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)
 var landingTrack = new THREE.Mesh(landingTrackGeometry, landingTrackMaterial);
 landingTrack.position.set(0.0, -350.0, 0.0);
 landingTrack.receiveShadow = true;
-groundPlaneWired.add(landingTrack);
+//groundPlaneWired.add(landingTrack);
+plane.add(landingTrack);
 
 var vetLandingLines = [];
 var linesPosition = (landingTrackLenghtY / 2) - (landingTrackLinesLenghtY * 1.5); // start positioning the lines within the beginning of the track
@@ -578,14 +592,17 @@ function keyboardUpdateHolder() {
 
     // inspection mode switch
     if (keyboard.down("space")){
-        if(groundPlaneWired.visible == false){
+        //if(groundPlaneWired.visible == false){
+        if(plane.visible == false){
             isInInspectionMode = false; // inspection mode off
-            groundPlaneWired.visible = true; // ground plane appears again
+            //groundPlaneWired.visible = true; // ground plane appears again
+            plane.visible = true; // ground plane appears again
             speed = savedSpeed; // restore the preious speed
             mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
             renderCamera = camera;
         } else { 
-            groundPlaneWired.visible = false;
+            //groundPlaneWired.visible = false;
+            plane.visible = false;
             savedSpeed = speed;
             speed = 0.0; // para o aviao
             mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
