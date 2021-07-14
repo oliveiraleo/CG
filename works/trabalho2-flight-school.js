@@ -473,12 +473,15 @@ function generateModelTree(){
     //groundPlane.add(treeCylinder);
     return treeCylinder;
 }
-
+// Function to create all needed trees
 function createScenarioTrees(){
-    let tree = generateModelTree();
-    //let distance = 30.0; // distance between trees
-    tree.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
-    groundPlane.add(tree);
+    let distance = 10.0; // distance between trees
+    let numberOfTrees = 3; // the number of trees to be created and added to the scene
+    for (let i = 0; i < numberOfTrees; i++) {
+        let tree = generateModelTree();
+        tree.position.set(0.0, ((-370.0)+(i*distance)), 5.0); // TODO adjust position later, this one is only for testing
+        groundPlane.add(tree);
+    }
 }
 // TODO create trees in another function
 // TODO fix tree shadows
