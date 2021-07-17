@@ -9,6 +9,8 @@ import {initRenderer,
         //initDefaultBasicLight,
         InfoBox} from "../libs/util/util.js";
 
+import { gerarArvores } from './classes/arvore.js';
+
 var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
@@ -426,75 +428,6 @@ landingTrack.add(checkPoint);
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
-// Reference URL to all tree parts names
-// https://www.nps.gov/choh/learn/kidsyouth/images/Parts-of-a-tree-Color-image_KellySavannah3.jpg?maxwidth=1200&maxheight=1200&autorotate=false
-
-//-----------------------------------//
-// TREES CONFIGURATION BEGIN         //
-//-----------------------------------//
-// Materials config
-var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
-var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
-var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
-var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
-var treeCrownSphereGeometry = new THREE.SphereGeometry(3.5, 8, 8);
-var treeLeavesSphereGeometry = new THREE.SphereGeometry(1.5, 6, 6);
-//var vetScenarioTrees = []; // To save and create the trees later
-// Function to create one tree
-function generateModelTree(){
-    // Crown and leaves
-    let treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
-    let treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-    let treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-    // Trunk
-    let treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
-    let treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-    let treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-    // adjust tree parts relative positions
-    treeCylinder.rotateX(degreesToRadians(90));
-    treeCylinder.rotateY(degreesToRadians(90));
-    //treeCylinder.receiveShadow = true; // shadown
-    treeLeftBranchCylinder.position.set(0.0, 0.5, 1.75);
-    treeLeftBranchCylinder.rotateX(degreesToRadians(45));
-    treeRightBranchCylinder.position.set(0.0, 1.5, -1.75);
-    treeRightBranchCylinder.rotateX(degreesToRadians(-45));
-    treeCrownSphere.position.set(0.0, 7.5, 0.0);
-    treeLeftLeavesSphere.position.set(0.0, 3.0, 0.0);
-    treeRightLeavesSphere.position.set(0.0, 3.0, 0.0);
-    // add parts to scene
-    treeCylinder.add(treeLeftBranchCylinder);
-    treeCylinder.add(treeRightBranchCylinder);
-    treeCylinder.add(treeCrownSphere);
-    treeLeftBranchCylinder.add(treeLeftLeavesSphere);
-    treeRightBranchCylinder.add(treeRightLeavesSphere);
-    // adjust the entire tree position
-    //treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
-    // add everything to the scene
-    //groundPlane.add(treeCylinder);
-    return treeCylinder;
-}
-// Function to return a random number within a restriction
-function getRandomNumber(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-// Function to create all needed trees
-function createScenarioTrees(){
-    let numberOfTrees = 50; // the number of trees to be created and added to the scene
-    for (let i = 0; i < numberOfTrees; i++) {
-        //let distance = 10.0; // distance between trees
-        let positionX = getRandomNumber(-500, 500); // coordinate X
-        let positionY = getRandomNumber(-500, 500); // coordinate Y
-        let tree = generateModelTree(); // Generate a new tree
-        tree.position.set(positionX, positionY, 5.0);
-        groundPlane.add(tree);
-    }
-}
-// TODO fix tree shadows
-// TODO limit tree spawn to avoid conflic with the mountains
-//-----------------------------------//
-// TREES CONFIGURATION END           //
-//-----------------------------------//
 
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
@@ -742,6 +675,8 @@ function rotateBlades(){
     leftHub.matrix.multiply(mat4.makeRotationY(speed*2)); // R1
   }
 }
+
+gerarArvores(scene);
 
 function showInformation()
 {
