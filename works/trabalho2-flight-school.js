@@ -676,7 +676,7 @@ function rotateBlades(){
   }
 }
 
-gerarArvores(scene);
+gerarArvores(groundPlane);
 
 function showInformation()
 {

@@ -1,10 +1,12 @@
 import * as THREE from  '../../build/three.module.js';
-import {initRenderer, 
+import {degreesToRadians,
+    //initRenderer, 
     //createGroundPlaneWired,
-    onWindowResize, 
-    degreesToRadians,
+    //onWindowResize, 
+    //degreesToRadians,
     //initDefaultBasicLight,
-    InfoBox} from "../../libs/util/util.js";
+    //InfoBox
+} from "../../libs/util/util.js";
 
 
 // Reference URL to all tree parts names
