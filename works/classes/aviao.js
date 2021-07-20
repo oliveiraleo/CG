@@ -346,9 +346,18 @@ baseCylinder.add(backTiresCylinder);
 baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
 
+// enabling shadows
+// temporarily disabled for performance
+/*frontCylinder.castShadow = true;
+baseCylinder.castShadow = true;
+leftWing.castShadow = true;
+rightWing.castShadow = true;
+backCylinder.castShadow = true;*/
+
 // add all airplane objects to the scene
 baseCylinderX.add(baseCylinder);
 mockPlane.add(baseCylinderX);
+
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //
@@ -424,9 +433,12 @@ Aviao.prototype.keyboardUpdateHolder = function () {
                 speed -= 0.01;
             }
         }
-        if (keyboard.down("P")){ // for debug
-            createScenarioTrees();
-        }
+        /*if (keyboard.down("P")){ // for debug
+            //createScenarioTrees();
+            //if (!helper.visible) {
+                helper.visible = !helper.visible;
+            //}
+        }*/
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
             isPressed[1] = false;

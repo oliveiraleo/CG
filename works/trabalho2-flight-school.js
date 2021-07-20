@@ -23,18 +23,27 @@ var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.75 );
 scene.add( hemisphereLight );
 // White directional light shining from the top.
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
-// directional light configs
+// Directional light configs
+// shadow resolution
 directionalLight.shadow.mapSize.width = 512;
 directionalLight.shadow.mapSize.height = 512;
-/*directionalLight.shadow.camera.left = -500;
+// area where shadows appear // 500 x 500 = size of gound plane
+directionalLight.shadow.camera.left = -500;
 directionalLight.shadow.camera.right = 500;
 directionalLight.shadow.camera.top = 500;
-directionalLight.shadow.camera.bottom = -500;*/
+directionalLight.shadow.camera.bottom = -500;
+// near and far // TODO configure that later
 directionalLight.shadow.camera.near = 0.5; // default
 directionalLight.shadow.camera.far = 500; // default
-//directionalLight.castShadow = true; // TODO fix airplane shadows
-directionalLight.position.set(50, 50, 50); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
+// enable shadows
+directionalLight.castShadow = true; // TODO fix airplane shadows
+// directional light position
+directionalLight.position.set(0, 0, 100); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
+var directionalLightHelper = new THREE.CameraHelper( directionalLight.shadow.camera ); // creates a helper to better visualize the light
+// add to the scene
+scene.add( directionalLightHelper );
 scene.add( directionalLight );
+directionalLightHelper.visible = false; // comment to display the helper
 
 //remover camera
 //var camera = initCamera(new THREE.Vector3(0, -500, 15)); // Init camera in this position
@@ -76,7 +85,7 @@ groundPlaneWired.add(axesHelper);*/
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
 groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var groundPlaneMaterial = new THREE.MeshBasicMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
+var groundPlaneMaterial = new THREE.MeshLambertMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
     //color: "rgba(150, 150, 150)", // light grey
     color: "green", // TODO adjust the color
     //side: THREE.DoubleSide,
@@ -84,6 +93,7 @@ var groundPlaneMaterial = new THREE.MeshBasicMaterial({ // TODO change the mater
 });
 var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
 // add the ground plane to the scene
+groundPlane.receiveShadow = true; // enables shadows
 scene.add(groundPlane);
 groundPlane.add(axesHelper);
 
