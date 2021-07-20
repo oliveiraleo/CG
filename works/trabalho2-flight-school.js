@@ -259,13 +259,12 @@ function checkPointPositionZ (){ // retorna a altura do avião em relação ao p
 }
 
 function keyboardUpdate() {
-    keyboard.update(); // verifica qual tecla esta sendo pressionada
-    if (keyboard.pressed("G")){
-        console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
+    //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
+    if (keyboard.down("G")){
+        //console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
+        //console.log(aviao.getPosicao());
+        directionalLightHelper.visible = !directionalLightHelper.visible;
         //console.log(aviao.getAirplanePositionX(), aviao.getAirplanePositionY(), aviao.getAirplaneHeightPosition());
-    }
-    if (keyboard.pressed("F")){
-        keyboard.debug();
     }
 }
 
@@ -322,7 +321,7 @@ function render() {
     trackballControls.update(); // Enable mouse movements
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
-    //keyboardUpdate();
+    keyboardUpdate();
     //checkPoint.translateX(+0.1);
     //getAirplaneHeightPosition(); // Updates the airplane position data
 }
