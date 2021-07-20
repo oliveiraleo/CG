@@ -629,6 +629,6 @@ Aviao.prototype.getCameraPiloto = function (){
 }
 
 Aviao.prototype.getPosicao = function (){
-    var vetorPosicao = [planePositionX, planePositionY, planePositionZ];
+    var vetorPosicao = [getAirplanePositionX(), getAirplanePositionY(), getAirplaneHeightPosition()];
     return vetorPosicao;
 }
