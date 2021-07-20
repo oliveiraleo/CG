@@ -2,12 +2,15 @@ import * as THREE from  '../build/three.module.js';
 import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
 import Stats from               '../build/jsm/libs/stats.module.js';
 import KeyboardState from       '../libs/util/KeyboardState.js';
+import {ConvexGeometry} from '../build/jsm/geometries/ConvexGeometry.js';
 import {initRenderer, 
         //createGroundPlaneWired,
         onWindowResize, 
         degreesToRadians,
         //initDefaultBasicLight,
         initCamera,
+        //BufferGeometry,
+        //ConvexGeometry,
         InfoBox} from "../libs/util/util.js";
 
 import { gerarArvores } from './classes/arvore.js';
@@ -17,6 +20,9 @@ var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
 //initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+//-----------------------------------//
+// SCENE LIGHTS CONFIGURATION BEGIN  //
+//-----------------------------------//
 // Adds some lights to the scene
 //var hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.75 );
@@ -27,6 +33,7 @@ var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 // shadow resolution
 directionalLight.shadow.mapSize.width = 512;
 directionalLight.shadow.mapSize.height = 512;
+//directionalLight.penunbra = 0.7; TODO config this
 // area where shadows appear // 500 x 500 = size of gound plane
 directionalLight.shadow.camera.left = -500;
 directionalLight.shadow.camera.right = 500;
@@ -44,11 +51,95 @@ var directionalLightHelper = new THREE.CameraHelper( directionalLight.shadow.cam
 scene.add( directionalLightHelper );
 scene.add( directionalLight );
 directionalLightHelper.visible = false; // comment to display the helper
+//-----------------------------------//
+// SCENE LIGHTS CONFIGURATION END    //
+//-----------------------------------//
 
 //remover camera
 //var camera = initCamera(new THREE.Vector3(0, -500, 15)); // Init camera in this position
 
+//-----------------------------------//
+// MOUNTAINS CONFIGURATION BEGIN     //
+//-----------------------------------//
+var points1 = [// cume
+              new THREE.Vector3( 0, 1.0, 6 ),
+              new THREE.Vector3( 0, 2.0, 8.5 ),
+              new THREE.Vector3( 0, 4.0, 8 ),
+              new THREE.Vector3( 0, 6.0, 8 ),
+              new THREE.Vector3( 0, 8.0, 4 ),
+              new THREE.Vector3( 5, 5.0, 6 ),
+              new THREE.Vector3( -4, 2.0, 3 ),
+              // base
+              new THREE.Vector3( 0, 0.0, 0 ),
+              new THREE.Vector3( 0, 10.0, 0 ),
+              new THREE.Vector3( 10, 10.0, 0 ),
+              new THREE.Vector3( -5, 5.0, 0 ),
+              new THREE.Vector3( 6, 2.0, 0 ),
+              new THREE.Vector3( 5, 12.0, 0 ),
+              new THREE.Vector3( 7, 5.0, 0 )
+            ];
 
+var points2 = [// cume
+                new THREE.Vector3( 0, -1.0, 6 ),
+                new THREE.Vector3( 0, -2.0, 10 ),
+                new THREE.Vector3( 0, -4.0, 8 ),
+                new THREE.Vector3( 0, -6.0, 8 ),
+                new THREE.Vector3( 0, -8.0, 4 ),
+                new THREE.Vector3( 5, -5.0, 6 ),
+                new THREE.Vector3( -4, -2.0, 3 ),
+                // base
+                new THREE.Vector3( 0, 0.0, 0 ),
+                new THREE.Vector3( 0, 10.0, 0 ),
+                new THREE.Vector3( 10, 8.0, 0 ),
+                new THREE.Vector3( -5, -5.0, 0 ),
+                new THREE.Vector3( 6, 2.0, 0 ),
+                new THREE.Vector3( 5, -12.0, 0 ),
+                new THREE.Vector3( 7, 5.0, 0 )
+            ];
+var points3 = [// cume
+                new THREE.Vector3( 0, -1.0, 6 ),
+                new THREE.Vector3( 0, -2.0, 10 ),
+                new THREE.Vector3( 0, -4.0, 8 ),
+                new THREE.Vector3( 0, -6.0, 8 ),
+                //new THREE.Vector3( 0, -8.0, 4 ),
+                new THREE.Vector3( 5, -5.0, 6 ),
+                //new THREE.Vector3( -4, -2.0, 3 ),
+                // base
+                /*new THREE.Vector3( 0, -1.75, 5 ),
+                new THREE.Vector3( 0, -2.0, 9 ),
+                new THREE.Vector3( 0, -4.0, 7 ),
+                new THREE.Vector3( 0, -6.0, 7 ),
+                new THREE.Vector3( 0, -8.0, 3 ),
+                //new THREE.Vector3( 5, -5.0, 5 ),
+                new THREE.Vector3( -4, -2.0, 2 )*/
+                /*new THREE.Vector3( 0, 0.0, 0 ),
+                new THREE.Vector3( 0, 10.0, 0 ),
+                new THREE.Vector3( 10, 10.0, 0 ),
+                new THREE.Vector3( -5, -5.0, 0 ),
+                new THREE.Vector3( 6, 2.0, 0 ),
+                new THREE.Vector3( 5, -12.0, 0 ),
+                new THREE.Vector3( 7, 5.0, 0 )];*/
+                ];
+//var points = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
+var geometry1 = new ConvexGeometry( points1 );
+var geometry2 = new ConvexGeometry( points2 );
+var geometry3 = new ConvexGeometry( points3 );
+//var geometry = new THREE.ConvexBufferGeometry(points);
+//var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
+var materialIce = new THREE.MeshLambertMaterial( { color:"rgb(150, 150, 180)" } ); // light grey
+var mesh1 = new THREE.Mesh( geometry1, materialRock );
+var mesh2 = new THREE.Mesh( geometry2, materialRock );
+var mesh3 = new THREE.Mesh( geometry3, materialIce );
+mesh1.position.set(0,-350,0);
+//mesh2.position.set(20,-300,0);
+scene.add( mesh1 );
+mesh1.add( mesh2 );
+mesh2.add( mesh3 );
+//scene.add( mesh2 );
+//-----------------------------------//
+// MOUNTAINS CONFIGURATION END       //
+//-----------------------------------//
 
 // FPS panel config
 function createStats() {
@@ -143,6 +234,40 @@ landingTrack.add(checkPoint);
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
+var checkPointPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
+checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
+var checkPointX = checkPointPosition.getComponent(0);
+var checkPointY = checkPointPosition.getComponent(1);
+var checkPointZ = checkPointPosition.getComponent(2);
+//console.log(checkPointX, checkPointY, checkPointZ);
+//console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
+
+function checkPointPositionX (){ // retorna a posicao X do avião em relação a origem do plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
+    let airplaneX = checkPointPosition.getComponent(0); // airplane coordinate X
+    return airplaneX;
+}
+function checkPointPositionY (){ // retorna a posicao Y do avião em relação a origem do plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
+    let airplaneY = checkPointPosition.getComponent(1); // airplane coordinate Y
+    return airplaneY;
+}
+function checkPointPositionZ (){ // retorna a altura do avião em relação ao plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
+    let airplaneZ = checkPointPosition.getComponent(2); // airplane height
+    return airplaneZ;
+}
+
+function keyboardUpdate() {
+    keyboard.update(); // verifica qual tecla esta sendo pressionada
+    if (keyboard.pressed("G")){
+        console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
+        //console.log(aviao.getAirplanePositionX(), aviao.getAirplanePositionY(), aviao.getAirplaneHeightPosition());
+    }
+    if (keyboard.pressed("F")){
+        keyboard.debug();
+    }
+}
 
 // Listen window size changes
 //window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
@@ -194,10 +319,11 @@ function render() {
     stats.update(); // Update FPS
     aviao.keyboardUpdateHolder(groundPlane); // listens to keyboard inputs and controls cameraHolder
     aviao.moverAviao(); // moves the airplane foward
-    //controls.update();
     trackballControls.update(); // Enable mouse movements
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
+    //keyboardUpdate();
+    //checkPoint.translateX(+0.1);
     //getAirplaneHeightPosition(); // Updates the airplane position data
 }
 render();
