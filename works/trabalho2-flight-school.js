@@ -183,14 +183,19 @@ function showInformation()
 
 var aviao = new Aviao(scene);
 
-//var trackballControls = new TrackballControls( camera, renderer.domElement );
+// Listen window size changes
+window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraNormal(), renderer)}, false ); // no modo simulacao
+window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraInspecao(), renderer)}, false ); // no modo inspecao
+
+var trackballControls = new TrackballControls( aviao.getCameraInspecao(), renderer.domElement );
 function render() {
     requestAnimationFrame( render );
 	renderer.render( scene, aviao.getCameraAtual() );
     stats.update(); // Update FPS
-    aviao.keyboardUpdateHolder(); // listens to keyboard inputs and controls cameraHolder
+    aviao.keyboardUpdateHolder(groundPlane); // listens to keyboard inputs and controls cameraHolder
     aviao.moverAviao(); // moves the airplane foward
-    //trackballControls.update(); // Enable mouse movements
+    //controls.update();
+    trackballControls.update(); // Enable mouse movements
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
     //getAirplaneHeightPosition(); // Updates the airplane position data

@@ -17,7 +17,6 @@ let mockPlane;
 let baseCylinder;
 let baseCylinderX;
 
-
 //Helices
 var animationOn = true;
 var hub;
@@ -59,7 +58,8 @@ var savedPlanePositionZ = 0.0;
 
 //Outras variáveis
 let keyboard = new KeyboardState();
-
+let aviaoInsp;
+let sceneSalva;
 
 export function Aviao (scene) {
     
@@ -67,6 +67,7 @@ export function Aviao (scene) {
 }
 
 function gerarAviao(scene){
+    sceneSalva = scene;
 //-----------------------------------//
 // AIRPLANE CONFIGURATION BEGIN      //
 //-----------------------------------//
@@ -90,7 +91,7 @@ mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance be
 mockBaseSphere.add(cameraHolder);
 mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
-mockPlane.add(cameraInspection);
+
 
 // Enable mouse rotation, pan, zoom etc.
 renderCamera = camera; // Faz o papel de troca das cameras das cenas
@@ -346,27 +347,23 @@ baseCylinder.add(backTiresCylinder);
 baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
 
-// enabling shadows
-// temporarily disabled for performance
-/*frontCylinder.castShadow = true;
-baseCylinder.castShadow = true;
-leftWing.castShadow = true;
-rightWing.castShadow = true;
-backCylinder.castShadow = true;*/
-
 // add all airplane objects to the scene
 baseCylinderX.add(baseCylinder);
 mockPlane.add(baseCylinderX);
 
 
+
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //
 //-----------------------------------//
+
+mockPlane.add(cameraInspection);
 scene.add(mockPlane);
+
 }
 
 
-Aviao.prototype.keyboardUpdateHolder = function () {
+Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
     keyboard.update(); // verifica qual tecla esta sendo pressionada
     var angle = degreesToRadians(1); // determina o angulo dos movimentos de rotacao
 
@@ -375,8 +372,8 @@ Aviao.prototype.keyboardUpdateHolder = function () {
     var camZ = new THREE.Vector3(0, 0, 1); // Set Z axis
 
 
-   // if (!isInInspectionMode){ // Only enables the airplane controls if not in inspection mode
-        if (keyboard.pressed("left")){
+    if (!isInInspectionMode){ // Only enables the airplane controls if not in inspection mode
+        if (keyboard.pressed("left") && getAirplaneHeightPosition() >= 0.0){
             isPressed[1] = true;
             // limita o movimento de rotacao lateral
             if(anglesVet[1] < degreesToRadians(45)){
@@ -387,7 +384,7 @@ Aviao.prototype.keyboardUpdateHolder = function () {
             mockPlane.rotateOnAxis(camZ, speedVet[1]); // realiza a rotacao no plano
         }
 
-        if (keyboard.pressed("right")){
+        if (keyboard.pressed("right") && getAirplaneHeightPosition() >= 0.0){
             isPressed[1] = true;
             // limita o movimento de rotacao lateral
             if(anglesVet[1]> degreesToRadians(-45)){
@@ -409,7 +406,7 @@ Aviao.prototype.keyboardUpdateHolder = function () {
                 mockPlane.translateZ(speedVet[0]);
             }
         }
-        if (keyboard.pressed("down")){
+        if (keyboard.pressed("down") && speed > 0.2){
             isPressed[0] = true;
             //Regula o visual da inclinação
             if(anglesVet[0] <degreesToRadians(45)){
@@ -434,10 +431,7 @@ Aviao.prototype.keyboardUpdateHolder = function () {
             }
         }
         /*if (keyboard.down("P")){ // for debug
-            //createScenarioTrees();
-            //if (!helper.visible) {
-                helper.visible = !helper.visible;
-            //}
+            createScenarioTrees();
         }*/
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
@@ -508,39 +502,51 @@ Aviao.prototype.keyboardUpdateHolder = function () {
                 }
             }
         }
-   // } // end of only enables the airplane controls if not in inspection mode
+    } // end of only enables the airplane controls if not in inspection mode
 
     // inspection mode switch
     if (keyboard.down("space")){
         //if(groundPlaneWired.visible == false){
-        if(!groundPlane.visible == false){
-            isInInspectionMode = false; // inspection mode off
-            //groundPlaneWired.visible = true; // ground plane appears again
-            groundPlane.visible = true; // ground plane appears again
-            speed = savedSpeed; // restore the preious speed
-            //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
-            mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
-            renderCamera = camera;
-        } else { 
-            // saves the current airplane coordinates for later
-            savedPlanePositionX = getAirplanePositionX();
-            savedPlanePositionY = getAirplanePositionY();
-            savedPlanePositionZ = getAirplaneHeightPosition();
-            //groundPlaneWired.visible = false;
-            groundPlane.visible = false;
-            savedSpeed = speed; // saves the current speed
-            speed = 0.0; // para o aviao
-            mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
-            isInInspectionMode = true; // inspection mode on
-            renderCamera = cameraInspection;
+            if(groundPlane.visible == false){
+                isInInspectionMode = false; // inspection mode off
+                //groundPlaneWired.visible = true; // ground plane appears again
+                groundPlane.visible = true; // ground plane appears again
+                speed = savedSpeed; // restore the preious speed
+                //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
+                mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
+                //renderCamera = camera;
+                isPressed[0] = false;
+                isPressed[1] = false;
+
+
+                renderCamera = camera;
+
+            } else { 
+                // saves the current airplane coordinates for later
+                savedPlanePositionX = getAirplanePositionX();
+                savedPlanePositionY = getAirplanePositionY();
+                savedPlanePositionZ = getAirplaneHeightPosition();
+                //groundPlaneWired.visible = false;
+                groundPlane.visible = false;
+                savedSpeed = speed; // saves the current speed
+                speed = 0.0; // para o aviao
+                mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
+                isInInspectionMode = true; // inspection mode on
+
+                //mockPlane.visible = false;
+                //var aviaoInspecao = new Aviao(sceneSalva);
+                //renderCamera = aviaoInspecao.getCameraInspecao();
+                
+                renderCamera = cameraInspection;
+
+
+            }
         }
-    }
 }
+
 
 // Obtem as coordenadas globais atuais do aviao
 var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
-
-
 
 
 function getAirplanePositionX (){ // retorna a posicao X do avião em relação a origem do plano
@@ -598,8 +604,25 @@ Aviao.prototype.rotateBlades = function (){
       rightHub.matrix.multiply(mat4.makeRotationY(-speed*2)); // R1
       leftHub.matrix.multiply(mat4.makeRotationY(speed*2)); // R1
     }
-  }
+}
 
-  Aviao.prototype.getCameraAtual = function (){
-      return renderCamera;
-  }
+Aviao.prototype.getCameraAtual = function (){
+    return renderCamera;
+}
+
+Aviao.prototype.getCameraNormal = function (){
+    return camera;
+}
+
+Aviao.prototype.getCameraInspecao = function (){
+    return cameraInspection;
+}
+
+Aviao.prototype.getCameraPiloto = function (){
+    return renderCamera;
+}
+
+Aviao.prototype.getPosicao = function (){
+    var vetorPosicao = [planePositionX, planePositionY, planePositionZ];
+    return vetorPosicao;
+}

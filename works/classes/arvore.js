@@ -33,8 +33,7 @@ var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 
 export function gerarArvores(scene){
     //Gera entre 60 e 90 arvores
-    //var quantidadeArvore = Math.random() *30 + 60;
-    var quantidadeArvore = 50;
+    var quantidadeArvore = Math.random() *30 + 60;
     //var mapa = mapaPlano();
     for (let i = 0; i < quantidadeArvore; i++) {
         //let distance = 10.0; // distance between trees
@@ -110,7 +109,6 @@ function gerarModeloArvore(){
             treeCrownCylinder3.add(treeCrownCylinder2);
 
             treeCylinder.add(treeCrownCylinder3);
-            
         }
         // enable shadows
         // some are disabled for performance reasons
