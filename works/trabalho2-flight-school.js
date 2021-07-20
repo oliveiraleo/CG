@@ -242,32 +242,50 @@ var checkPointZ = checkPointPosition.getComponent(2);
 //console.log(checkPointX, checkPointY, checkPointZ);
 //console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
 
-function checkPointPositionX (){ // retorna a posicao X do avião em relação a origem do plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
-    let airplaneX = checkPointPosition.getComponent(0); // airplane coordinate X
-    return airplaneX;
+function checkPointPositionX (){ // retorna a posicao X do checkpoint em relação a origem do plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint
+    let checkPointX = checkPointPosition.getComponent(0); // checkpoint coordinate X
+    return checkPointX;
 }
-function checkPointPositionY (){ // retorna a posicao Y do avião em relação a origem do plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
-    let airplaneY = checkPointPosition.getComponent(1); // airplane coordinate Y
-    return airplaneY;
+function checkPointPositionY (){ // retorna a posicao Y do checkpoint em relação a origem do plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint
+    let checkPointY = checkPointPosition.getComponent(1); // checkpoint coordinate Y
+    return checkPointY;
 }
-function checkPointPositionZ (){ // retorna a altura do avião em relação ao plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
-    let airplaneZ = checkPointPosition.getComponent(2); // airplane height
-    return airplaneZ;
+function checkPointPositionZ (){ // retorna a altura do checkpoint em relação ao plano
+    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint torus
+    let checkPointZ = checkPointPosition.getComponent(2); // checkpoint height
+    return checkPointZ;
 }
 
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
-    if (keyboard.down("G")){
-        //console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
-        //console.log(aviao.getPosicao());
+    if (keyboard.down("G")){ // Toggles the directional light helper
         directionalLightHelper.visible = !directionalLightHelper.visible;
-        //console.log(aviao.getAirplanePositionX(), aviao.getAirplanePositionY(), aviao.getAirplaneHeightPosition());
     }
 }
-
+function isInRange(x, min, max) {
+    
+    min = Math.round(min);
+    max = Math.round(max);
+    x = Math.round(x);
+    
+    if (x >= min && x <= max) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+//Math.round
+function checkHit(){
+    //console.log(Math.round(checkPointPositionX()), Math.round(aviao.getPosicao()[0]));
+    if (isInRange(aviao.getPosicao()[0], checkPointPositionX() - 5, checkPointPositionX() + 5) &&
+    isInRange(aviao.getPosicao()[1], checkPointPositionY() - 5, checkPointPositionY() + 5) &&
+    isInRange(aviao.getPosicao()[2], checkPointPositionZ() - 5, checkPointPositionZ() + 5)
+    ) {
+        console.log("hit!");
+    }
+}
 // Listen window size changes
 //window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
 //window.addEventListener( 'resize', function(){onWindowResize(cameraInspection, renderer)}, false ); // no modo inspecao
@@ -322,6 +340,7 @@ function render() {
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
     keyboardUpdate();
+    checkHit();
     //checkPoint.translateX(+0.1);
     //getAirplaneHeightPosition(); // Updates the airplane position data
 }
