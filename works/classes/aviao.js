@@ -351,7 +351,13 @@ baseCylinder.add(backRightTire);
 baseCylinderX.add(baseCylinder);
 mockPlane.add(baseCylinderX);
 
-
+// enabling shadows
+// temporarily disabled for performance
+frontCylinder.castShadow = true;
+baseCylinder.castShadow = true;
+leftWing.castShadow = true;
+rightWing.castShadow = true;
+backCylinder.castShadow = true;
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //
