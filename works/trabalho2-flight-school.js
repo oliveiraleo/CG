@@ -365,6 +365,7 @@ function checkHit(){
         ) {
             if (i == 0) {
                 console.log("START!");
+                //TODO time the performance
             } else if (i == (vetCheckPointsPositions.length - 1)) {
                 console.log("END!");
                 //pathObject.visible = false;
@@ -401,9 +402,12 @@ function showInformation()
     controls.add("Flight Simulator controls:");
     controls.addParagraph();
     controls.add("Press arrow keys to change airplane direction");
-    controls.add("Press SPACE to toggle inspection mode");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
+    controls.add("Press H to toggle the axes helper");
+    controls.add("Press G to toggle the sunlight helper");
+    controls.add("Press ENTER to toggle the path helper");
+    controls.add("Press SPACE to toggle inspection mode");
     controls.show();
 }
 
@@ -423,8 +427,8 @@ function render() {
     trackballControls.update(); // Enable mouse movements
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
-    keyboardUpdate();
-    checkHit();
+    keyboardUpdate(); // listens to keyboard inputs and controls some objects
+    checkHit(); // Checks if the airplane hit some check point
     //checkPoint.translateX(+0.1);
     //getAirplaneHeightPosition(); // Updates the airplane position data
 }
