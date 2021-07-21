@@ -224,11 +224,24 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 // FLIGHT PATH CONFIGURATION BEGIN   //
 //-----------------------------------//
 // Path points configuration
-var pathPoint1 = new THREE.Vector3( 0, -350, 20 );
-var pathPoint2 = new THREE.Vector3( 30, -300, 20 );
-var pathPoint3 = new THREE.Vector3( -30, -250, 20 );
-var pathPoint4 = new THREE.Vector3( 0, -150, 20 );
-var pathPoint5 = new THREE.Vector3( 50, -50, 20 );
+var vetPathPoints = [];
+vetPathPoints[0] = new THREE.Vector3( 0, -350, 20 );
+vetPathPoints[1] = new THREE.Vector3( 0, -250, 30 );
+vetPathPoints[2] = new THREE.Vector3( 50, -50, 20 );
+vetPathPoints[3] = new THREE.Vector3( 150, 50, 20 );
+vetPathPoints[4] = new THREE.Vector3( 50, 150, 30 );
+vetPathPoints[5] = new THREE.Vector3( 50, 250, 20 );
+vetPathPoints[6] = new THREE.Vector3( 0, 350, 20 );
+vetPathPoints[7] = new THREE.Vector3( 50, 450, 20 );
+vetPathPoints[8] = new THREE.Vector3( 50, 460, 20 );
+vetPathPoints[9] = new THREE.Vector3( 50, 500, 20 );
+
+function getAllPathPoints(){
+    for (let i = 0; i < vetPathPoints.length; i++) {
+        return vetPathPoints[i];
+    }
+}
+
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
 	/*new THREE.Vector3( 0, -350, 20 ),
@@ -236,59 +249,72 @@ var path = new THREE.CatmullRomCurve3( [
 	new THREE.Vector3( 0, 0, 20 ),
 	new THREE.Vector3( 5, -5, 20 ),
 	new THREE.Vector3( 10, 0, 20 )*/
-    pathPoint1,
-    pathPoint2,
-    pathPoint3,
-    pathPoint4,
-    pathPoint5
-] );
+    vetPathPoints[0],
+    vetPathPoints[1],
+    vetPathPoints[2],
+    vetPathPoints[3],
+    vetPathPoints[4],
+    vetPathPoints[5],
+    vetPathPoints[6],
+    vetPathPoints[7],
+    vetPathPoints[8],
+    vetPathPoints[9]
+]
+);
 
-var pathPoints = path.getPoints( 100 );
+var pathPoints = path.getPoints( 100 ); // TODO adjust later
 var pathGeometry = new THREE.BufferGeometry().setFromPoints( pathPoints );
-
-var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-
-// Create the final object to add to the scene
+var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } ); // red
+// Create the final path object and add it to the scene
 var pathObject = new THREE.Line( pathGeometry, pathMaterial );
 scene.add(pathObject);
 
+// Vars to save the objects for later usage
 var vetCheckPoints = [];
 var vetCheckPointsPositions = [];
-var numCheckPoints = 5;
-/*function createCheckPoints(){
+// Configure and create one check point object
+function generateOneCheckPoint(){ // auxiliary function
     var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
     var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
     var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
-    for (let i = 0; i < numCheckPoints; i++) {
-        vetCheckPoints[i] = checkPoint;
-        vetCheckPoints[i].rotateX(degreesToRadians(90)); // TODO rotate according to the path
-        vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
+    checkPoint.rotateX(degreesToRadians(90));
+
+    return checkPoint;
+}
+// Instantiate the check points on screen
+function createCheckPoints(){
+    for (let i = 0; i < vetPathPoints.length; i++) {
+        vetCheckPoints[i] = generateOneCheckPoint();
+        //vetCheckPoints[i].rotateX(degreesToRadians(90)); // TODO rotate according to the path
+        //vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
+        vetCheckPoints[i].position.copy(vetPathPoints[i]);
+        vetCheckPointsPositions[i] = vetPathPoints[i];
         scene.add(vetCheckPoints[i]);
     }
-}*/
-var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
+}
+createCheckPoints();
+/*var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
 var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
 var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
 checkPoint.rotateX(degreesToRadians(90)); // TODO rotate according to the path
 //checkPoint.position.set(0.0, 30.0, 20.0);
-checkPoint.position.copy(pathPoint1);
+//checkPoint.position.copy(pathPoint1);
+checkPoint.position.copy(vetPathPoints[0]);*/
 //landingTrack.add(checkPoint);
-scene.add(checkPoint);
-
-// TODO fazer o resto do caminho depois
+//scene.add(checkPoint);
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
-var checkPointPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
-checkPoint.getWorldPosition(checkPointPosition); // updates the position from the checkpoint
+//var checkPointPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
+//checkPoint.getWorldPosition(checkPointPosition); // updates the position from the checkpoint
 /*var checkPointX = checkPointPosition.getComponent(0);
 var checkPointY = checkPointPosition.getComponent(1);
 var checkPointZ = checkPointPosition.getComponent(2);*/
 //console.log(checkPointX, checkPointY, checkPointZ);
 //console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
 
-function checkPointPositionX (){ // retorna a posicao X do checkpoint em relação a origem do plano
+/*function checkPointPositionX (){ // retorna a posicao X do checkpoint em relação a origem do plano
     checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint
     let checkPointX = checkPointPosition.getComponent(0); // checkpoint coordinate X
     return checkPointX;
@@ -302,7 +328,7 @@ function checkPointPositionZ (){ // retorna a altura do checkpoint em relação 
     checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint torus
     let checkPointZ = checkPointPosition.getComponent(2); // checkpoint coordinate Z
     return checkPointZ;
-}
+}*/
 
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
@@ -312,9 +338,12 @@ function keyboardUpdate() {
     if (keyboard.down("H")){ // Toggles the axes helper
         axesHelper.visible = !axesHelper.visible;
     }
+    if (keyboard.down("enter")){ // Toggles the path visualization
+        pathObject.visible = !pathObject.visible;
+    }
 }
+// Check if a integer number is inside a range
 function isInRange(x, min, max) {
-    
     min = Math.round(min);
     max = Math.round(max);
     x = Math.round(x);
@@ -324,26 +353,32 @@ function isInRange(x, min, max) {
     } else {
         return false;
     }
-  }
-//Math.round
+}
+
+// Checks if a check point was reached
 function checkHit(){
-    //console.log(Math.round(checkPointPositionX()), Math.round(aviao.getPosicao()[0]));
-    // TODO adjust positions below
-    if (isInRange(aviao.getPosicao()[0], checkPointPositionX() - 5, checkPointPositionX() + 5) &&
-    isInRange(aviao.getPosicao()[1], checkPointPositionY() - 5, checkPointPositionY() + 5)
-    //isInRange(aviao.getPosicao()[2], checkPointPositionZ() - 5, checkPointPositionZ() + 5)
-    ) {
-        //console.log("hit!");
-        //vetCheckPoints[0].visible = false;
-        checkPoint.visible = false;
+    for (let i = 0; i < vetCheckPointsPositions.length; i++) {
+        if (
+        isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[i].getComponent(0) - 5, vetCheckPointsPositions[i].getComponent(0) + 5) &&
+        isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - 5, vetCheckPointsPositions[i].getComponent(1) + 5) &&
+        isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - 5, vetCheckPointsPositions[i].getComponent(2) + 5)
+        ) {
+            if (i == 0) {
+                console.log("START!");
+            } else if (i == (vetCheckPointsPositions.length - 1)) {
+                console.log("END!");
+                //pathObject.visible = false;
+                scene.remove(pathObject);
+            } else {
+                console.log("hit!");
+            }
+            vetCheckPoints[i].visible = false;
+        }
     }
 }
 
 // Show text information onscreen
 showInformation(); // displays information about the controls
-
-
-
 
 /*
 var planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
