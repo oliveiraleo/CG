@@ -61,43 +61,46 @@ directionalLightHelper.visible = false; // comment to display the helper
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION BEGIN     //
 //-----------------------------------//
-var mountainScale = 3;
+var mountainScaleSmall = 3;
+var mountainScaleMedium = 5;
+var mountainScaleHigh = 10;
 // Smaller mountain
 var points1 = [// cume
-              new THREE.Vector3( 0.0 * mountainScale, 1.0 * mountainScale, 6.0 * mountainScale ),
-              new THREE.Vector3( 0.0 * mountainScale, 2.0 * mountainScale, 8.5 * mountainScale ),
-              new THREE.Vector3( 0.0 * mountainScale, 4.0 * mountainScale, 8.0 * mountainScale ),
-              new THREE.Vector3( 0.0 * mountainScale, 6.0 * mountainScale, 8.0 * mountainScale ),
-              new THREE.Vector3( 0.0 * mountainScale, 8.0 * mountainScale, 4.0 * mountainScale ),
-              new THREE.Vector3( 5.0 * mountainScale, 5.0 * mountainScale, 6.0*mountainScale ),
-              new THREE.Vector3( -4.0*mountainScale, 2.0*mountainScale, 3.0*mountainScale ),
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 1.0 * mountainScaleSmall, 6.0 * mountainScaleSmall ),
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 2.0 * mountainScaleSmall, 8.5 * mountainScaleSmall ),
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 4.0 * mountainScaleSmall, 8.0 * mountainScaleSmall ),
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 6.0 * mountainScaleSmall, 8.0 * mountainScaleSmall ),
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 8.0 * mountainScaleSmall, 4.0 * mountainScaleSmall ),
+              new THREE.Vector3( 5.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 6.0*mountainScaleSmall ),
+              new THREE.Vector3( -4.0*mountainScaleSmall, 2.0*mountainScaleSmall, 3.0*mountainScaleSmall ),
               // base
               new THREE.Vector3( 0.0, 0.0, 0.0 ),
-              new THREE.Vector3( 0.0 * mountainScale, 10.0 * mountainScale, 0.0 ),
-              new THREE.Vector3( 10.0 * mountainScale, 10.0 * mountainScale, 0.0 ),
-              new THREE.Vector3( -5.0 * mountainScale, 5.0 * mountainScale, 0.0 ),
-              new THREE.Vector3( 6.0 * mountainScale, 2.0 * mountainScale, 0.0 ),
-              new THREE.Vector3( 5.0 * mountainScale, 12.0 * mountainScale, 0.0 ),
-              new THREE.Vector3( 7.0 * mountainScale, 5.0 * mountainScale, 0.0 )
+              new THREE.Vector3( 0.0 * mountainScaleSmall, 10.0 * mountainScaleSmall, 0.0 ),
+              new THREE.Vector3( 10.0 * mountainScaleSmall, 10.0 * mountainScaleSmall, 0.0 ),
+              new THREE.Vector3( -5.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 ),
+              new THREE.Vector3( 6.0 * mountainScaleSmall, 2.0 * mountainScaleSmall, 0.0 ),
+              new THREE.Vector3( 5.0 * mountainScaleSmall, 12.0 * mountainScaleSmall, 0.0 ),
+              new THREE.Vector3( 7.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 )
             ];
 
 var points2 = [// cume
-                new THREE.Vector3( 0.0 * mountainScale, -1.0 * mountainScale, 6.0 * mountainScale ),
-                new THREE.Vector3( 0.0 * mountainScale, -2.0 * mountainScale, 10.0 * mountainScale ),
-                new THREE.Vector3( 0.0 * mountainScale, -4.0 * mountainScale, 8.0 * mountainScale ),
-                new THREE.Vector3( 0.0 * mountainScale, -6.0 * mountainScale, 8.0 * mountainScale ),
-                new THREE.Vector3( 0.0 * mountainScale, -8.0 * mountainScale, 4.0 * mountainScale ),
-                new THREE.Vector3( 5.0 * mountainScale, -5.0 * mountainScale, 6.0 * mountainScale ),
-                new THREE.Vector3( -4.0 * mountainScale, -2.0 * mountainScale, 3.0 * mountainScale ),
+                new THREE.Vector3( 0.0 * mountainScaleSmall, -1.0 * mountainScaleSmall, 6.0 * mountainScaleSmall ),
+                new THREE.Vector3( 0.0 * mountainScaleSmall, -2.0 * mountainScaleSmall, 10.0 * mountainScaleSmall ),
+                new THREE.Vector3( 0.0 * mountainScaleSmall, -4.0 * mountainScaleSmall, 8.0 * mountainScaleSmall ),
+                new THREE.Vector3( 0.0 * mountainScaleSmall, -6.0 * mountainScaleSmall, 8.0 * mountainScaleSmall ),
+                new THREE.Vector3( 0.0 * mountainScaleSmall, -8.0 * mountainScaleSmall, 4.0 * mountainScaleSmall ),
+                new THREE.Vector3( 5.0 * mountainScaleSmall, -5.0 * mountainScaleSmall, 6.0 * mountainScaleSmall ),
+                new THREE.Vector3( -4.0 * mountainScaleSmall, -2.0 * mountainScaleSmall, 3.0 * mountainScaleSmall ),
                 // base
                 new THREE.Vector3( 0.0, 0.0, 0.0 ),
-                new THREE.Vector3( 0.0 * mountainScale, 10.0 * mountainScale, 0.0 * mountainScale ),
-                new THREE.Vector3( 10.0 * mountainScale, 8.0 * mountainScale, 0.0 * mountainScale ),
-                new THREE.Vector3( -5.0 * mountainScale, -5.0 * mountainScale, 0.0 * mountainScale ),
-                new THREE.Vector3( 6.0 * mountainScale, 2.0 * mountainScale, 0.0 * mountainScale ),
-                new THREE.Vector3( 5.0 * mountainScale, -12.0 * mountainScale, 0.0 * mountainScale ),
-                new THREE.Vector3( 7.0 * mountainScale, 5.0 * mountainScale, 0.0 * mountainScale )
+                new THREE.Vector3( 0.0 * mountainScaleSmall, 10.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
+                new THREE.Vector3( 10.0 * mountainScaleSmall, 8.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
+                new THREE.Vector3( -5.0 * mountainScaleSmall, -5.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
+                new THREE.Vector3( 6.0 * mountainScaleSmall, 2.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
+                new THREE.Vector3( 5.0 * mountainScaleSmall, -12.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
+                new THREE.Vector3( 7.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 * mountainScaleSmall )
             ];
+// medium mountain
 var points3 = [// cume // TODO Fix the snow
                 new THREE.Vector3( 0, -1.0, 6 ),
                 new THREE.Vector3( 0, -2.0, 10 ),
@@ -122,22 +125,75 @@ var points3 = [// cume // TODO Fix the snow
                 new THREE.Vector3( 5, -12.0, 0 ),
                 new THREE.Vector3( 7, 5.0, 0 )];*/
                 ];
+// taller mountain
+var points4 = [// cume
+                new THREE.Vector3(0.0, 0.0, 12.0 * mountainScaleHigh), // pico mais alto
+                // meio
+                new THREE.Vector3(-3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
+                new THREE.Vector3(3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
+
+                new THREE.Vector3(0.0, -4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
+                new THREE.Vector3(0.0, 4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
+                // base
+                new THREE.Vector3(8.0 * mountainScaleHigh, -3.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-8.0 * mountainScaleHigh, 3.0 * mountainScaleHigh, 0.0),
+
+                new THREE.Vector3(5.0 * mountainScaleHigh, 5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-5.0 * mountainScaleHigh, 5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-5.0 * mountainScaleHigh, -5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(5.0 * mountainScaleHigh, -5.0 * mountainScaleHigh, 0.0)
+];
+var points5 = [// cume
+                new THREE.Vector3(0.0, 0.0, 10.0 * mountainScaleHigh), // pico mais alto
+                // meio
+                new THREE.Vector3(-3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
+                new THREE.Vector3(3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
+
+                new THREE.Vector3(0.0, -4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
+                new THREE.Vector3(0.0, 4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
+                // base
+                new THREE.Vector3(8.0 * mountainScaleHigh, -3.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-8.0 * mountainScaleHigh, 3.0 * mountainScaleHigh, 0.0),
+
+                new THREE.Vector3(5.0 * mountainScaleHigh*2, 5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-5.0 * mountainScaleHigh*2, 5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(-5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0),
+                new THREE.Vector3(5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0)
+];
+    
 //var points = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
 var geometry1 = new ConvexGeometry( points1 );
 var geometry2 = new ConvexGeometry( points2 );
 var geometry3 = new ConvexGeometry( points3 );
+
+var geometry4 = new ConvexGeometry( points4 );
+var geometry5 = new ConvexGeometry( points5 );
 //var geometry = new THREE.ConvexBufferGeometry(points);
 //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
 var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
-var materialIce = new THREE.MeshLambertMaterial( { color:"rgb(150, 150, 180)" } ); // ice grey
-var mesh1 = new THREE.Mesh( geometry1, materialRock );
-var mesh2 = new THREE.Mesh( geometry2, materialRock );
-var mesh3 = new THREE.Mesh( geometry3, materialIce );
-mesh1.position.set(0,-350,0);
-//mesh2.position.set(20,-300,0);
+var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" } ); // brick orange
+var mesh1 = new THREE.Mesh( geometry1, materialLand );
+var mesh2 = new THREE.Mesh( geometry2, materialLand );
+var mesh3 = new THREE.Mesh( geometry3, materialBrick );
+mesh1.position.set(200,-50,0);
+
 scene.add( mesh1 );
 mesh1.add( mesh2 );
+
+var mesh4 = new THREE.Mesh( geometry4, materialRock );
+var mesh5 = new THREE.Mesh( geometry5, materialRock );
+var mesh6 = new THREE.Mesh( geometry5, materialRock );
+//mesh4.position.set(0,-300,0);
+mesh5.position.set( 0 * mountainScaleHigh, -3 * mountainScaleHigh, 0 * mountainScaleHigh);
+mesh6.position.set( 3 * mountainScaleHigh, 3 * mountainScaleHigh, 0 * mountainScaleHigh);
+mesh5.rotateZ(25);
+mesh6.rotateZ(-90);
+//mesh2.position.set(20,-300,0);
+
+scene.add( mesh4 );
+mesh4.add( mesh5 );
+mesh5.add( mesh6 );
 //mesh2.add( mesh3 );
 //scene.add( mesh2 );
 //-----------------------------------//
@@ -247,11 +303,7 @@ vetPathPoints[9] = new THREE.Vector3( 50, 500, 20 );
 
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
-	/*new THREE.Vector3( 0, -350, 20 ),
-	new THREE.Vector3( -5, 5, 20 ),
-	new THREE.Vector3( 0, 0, 20 ),
-	new THREE.Vector3( 5, -5, 20 ),
-	new THREE.Vector3( 10, 0, 20 )*/
+	//new THREE.Vector3( 0, -350, 20 ),
     vetPathPoints[0],
     vetPathPoints[1],
     vetPathPoints[2],
@@ -351,6 +403,8 @@ function keyboardUpdate() {
     }
     if (keyboard.down("P")){ // Toggles the directional light helper
         //clearPath();
+        mesh1.visible = !mesh1.visible; // esconde a montanha menor
+        mesh4.visible = !mesh4.visible; // esconde a montanha maior
     }
 }
 // Check if a integer number is in a given range
@@ -367,6 +421,7 @@ function isInRange(x, min, max) {
 }
 
 // Function to clear the flight school path
+// TODO mudar o caminho por conta das montanhas
 function clearPath(){
     for (let i = 0; i < vetCheckPoints.length; i++) {
         //scene.remove(vetCheckPoints[i]); // Removes every remnant check point
