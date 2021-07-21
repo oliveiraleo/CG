@@ -23,47 +23,23 @@ var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 // Function to create one tree
 
 // TODO limit tree spawn to avoid conflic with the mountains
-//
-function getRandomPosition(coord){
-    let num = Math.random() * 1000 + -500;
-    //let numX = Math.random() * 1000 + -500;
-    //let numY = Math.random() * 1000 + -500;
-    //let vetNum = [numX, numY];
-    if(coord == "x"){
-        /*if (num > 200) {
-            getRandomPosition("x");
-        } else {*/
-            return num;
-        //}
-    } else if(coord == "y"){
-        if (num < -225) {
-            getRandomPosition("y");
-        } else {
-            return num;
-        }
-    }
-    /*if (vetNum[0] < 200 && vetNum[1] < 200) {
-        getRandomPosition();
-    } else {
-        return vetNum;
-    }*/
-}
-
 export function gerarArvores(scene){
     //Gera entre 60 e 90 arvores
     var quantidadeArvore = Math.random() *30 + 60;
-    let position = [];
     //var mapa = mapaPlano();
     for (let i = 0; i < quantidadeArvore; i++) {
         //let distance = 10.0; // distance between trees
-        //let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
-        //let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
-        let positionX = getRandomPosition("x");//getRandomNumber(-500, 500); // coordinate X
-        let positionY = getRandomPosition("y");;//getRandomNumber(-500, 500); // coordinate Y
-        //position = getRandomPosition();
+        let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
+        let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
+        //let positionX = getRandomPosition("x");//getRandomNumber(-500, 500); // coordinate X
+        //let positionY = getRandomPosition("y");//getRandomNumber(-500, 500); // coordinate Y
+        // do not generate near the landing track again
+        if ((positionX > -50 && positionX < 50) && positionY < -225) {
+            positionX = Math.random() *1000 + -500;
+            positionY = Math.random() *1000 + -225;
+        }
         let tree = gerarModeloArvore(); // Generate a new tree
         tree.position.set(positionX, positionY, 5.0);
-        //tree.position.set(position[0], position[1], 5.0);
         scene.add(tree);
     }
 }
