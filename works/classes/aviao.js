@@ -576,13 +576,15 @@ function getAirplaneHeightPosition (){ // retorna a altura do avião em relaçã
 
 Aviao.prototype.slowSpeed = function (){
     var gravity = 0.3; // sets the strength of (simulated) gravity
+    // minimum height between airplane and ground plane
+    let planeMinHeight = planePositionZ + 1.5; // necessario pois a altura agora eh calculada em relacao ao centro do aviao
     if(speed > 0.05 && speed < 0.2){
-        if(getAirplaneHeightPosition() >= 0.0){ // stops at ground plane
+        if(getAirplaneHeightPosition() >= planeMinHeight){ // stops at ground plane
             mockPlane.translateZ(-gravity);
         }
     }
     if(speed >= 0.0 && speed <= 0.05 && !isInInspectionMode){ // verifies the inspection mode too
-        if(getAirplaneHeightPosition() >= 0.0){ // stops at ground plane
+        if(getAirplaneHeightPosition() >= planeMinHeight){ // stops at ground plane
             mockPlane.translateZ(-gravity*3);
         }
     }
