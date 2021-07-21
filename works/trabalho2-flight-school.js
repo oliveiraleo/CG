@@ -223,22 +223,68 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION BEGIN   //
 //-----------------------------------//
+// Path points configuration
+var pathPoint1 = new THREE.Vector3( 0, -350, 20 );
+var pathPoint2 = new THREE.Vector3( 30, -300, 20 );
+var pathPoint3 = new THREE.Vector3( -30, -250, 20 );
+var pathPoint4 = new THREE.Vector3( 0, -150, 20 );
+var pathPoint5 = new THREE.Vector3( 50, -50, 20 );
+//Create the path
+var path = new THREE.CatmullRomCurve3( [
+	/*new THREE.Vector3( 0, -350, 20 ),
+	new THREE.Vector3( -5, 5, 20 ),
+	new THREE.Vector3( 0, 0, 20 ),
+	new THREE.Vector3( 5, -5, 20 ),
+	new THREE.Vector3( 10, 0, 20 )*/
+    pathPoint1,
+    pathPoint2,
+    pathPoint3,
+    pathPoint4,
+    pathPoint5
+] );
+
+var pathPoints = path.getPoints( 100 );
+var pathGeometry = new THREE.BufferGeometry().setFromPoints( pathPoints );
+
+var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+
+// Create the final object to add to the scene
+var pathObject = new THREE.Line( pathGeometry, pathMaterial );
+scene.add(pathObject);
+
+var vetCheckPoints = [];
+var vetCheckPointsPositions = [];
+var numCheckPoints = 5;
+/*function createCheckPoints(){
+    var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
+    var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
+    var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
+    for (let i = 0; i < numCheckPoints; i++) {
+        vetCheckPoints[i] = checkPoint;
+        vetCheckPoints[i].rotateX(degreesToRadians(90)); // TODO rotate according to the path
+        vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
+        scene.add(vetCheckPoints[i]);
+    }
+}*/
 var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
 var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
 var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
-checkPoint.rotateX(degreesToRadians(90));
-checkPoint.position.set(0.0, 30.0, 20.0);
-landingTrack.add(checkPoint);
+checkPoint.rotateX(degreesToRadians(90)); // TODO rotate according to the path
+//checkPoint.position.set(0.0, 30.0, 20.0);
+checkPoint.position.copy(pathPoint1);
+//landingTrack.add(checkPoint);
+scene.add(checkPoint);
+
 // TODO fazer o resto do caminho depois
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
 var checkPointPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
-checkPoint.getWorldPosition(checkPointPosition); // updates the position from the airplane
-var checkPointX = checkPointPosition.getComponent(0);
+checkPoint.getWorldPosition(checkPointPosition); // updates the position from the checkpoint
+/*var checkPointX = checkPointPosition.getComponent(0);
 var checkPointY = checkPointPosition.getComponent(1);
-var checkPointZ = checkPointPosition.getComponent(2);
+var checkPointZ = checkPointPosition.getComponent(2);*/
 //console.log(checkPointX, checkPointY, checkPointZ);
 //console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
 
@@ -254,7 +300,7 @@ function checkPointPositionY (){ // retorna a posicao Y do checkpoint em relaç�
 }
 function checkPointPositionZ (){ // retorna a altura do checkpoint em relação ao plano
     checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint torus
-    let checkPointZ = checkPointPosition.getComponent(2); // checkpoint height
+    let checkPointZ = checkPointPosition.getComponent(2); // checkpoint coordinate Z
     return checkPointZ;
 }
 
@@ -262,6 +308,9 @@ function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
     if (keyboard.down("G")){ // Toggles the directional light helper
         directionalLightHelper.visible = !directionalLightHelper.visible;
+    }
+    if (keyboard.down("H")){ // Toggles the axes helper
+        axesHelper.visible = !axesHelper.visible;
     }
 }
 function isInRange(x, min, max) {
@@ -279,16 +328,16 @@ function isInRange(x, min, max) {
 //Math.round
 function checkHit(){
     //console.log(Math.round(checkPointPositionX()), Math.round(aviao.getPosicao()[0]));
+    // TODO adjust positions below
     if (isInRange(aviao.getPosicao()[0], checkPointPositionX() - 5, checkPointPositionX() + 5) &&
-    isInRange(aviao.getPosicao()[1], checkPointPositionY() - 5, checkPointPositionY() + 5) &&
-    isInRange(aviao.getPosicao()[2], checkPointPositionZ() - 5, checkPointPositionZ() + 5)
+    isInRange(aviao.getPosicao()[1], checkPointPositionY() - 5, checkPointPositionY() + 5)
+    //isInRange(aviao.getPosicao()[2], checkPointPositionZ() - 5, checkPointPositionZ() + 5)
     ) {
-        console.log("hit!");
+        //console.log("hit!");
+        //vetCheckPoints[0].visible = false;
+        checkPoint.visible = false;
     }
 }
-// Listen window size changes
-//window.addEventListener( 'resize', function(){onWindowResize(camera, renderer)}, false ); // no modo simulacao
-//window.addEventListener( 'resize', function(){onWindowResize(cameraInspection, renderer)}, false ); // no modo inspecao
 
 // Show text information onscreen
 showInformation(); // displays information about the controls
