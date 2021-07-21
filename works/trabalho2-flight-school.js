@@ -267,7 +267,8 @@ var pathGeometry = new THREE.BufferGeometry().setFromPoints( pathPoints );
 var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } ); // red
 // Create the final path object and add it to the scene
 var pathObject = new THREE.Line( pathGeometry, pathMaterial );
-scene.add(pathObject);
+//scene.add(pathObject);
+groundPlane.add(pathObject);
 
 // Vars to save the objects for later usage
 var vetCheckPoints = [];
@@ -291,7 +292,8 @@ function createCheckPoints(){
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
         vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
-        scene.add(vetCheckPoints[i]);
+        //scene.add(vetCheckPoints[i]);
+        groundPlane.add(vetCheckPoints[i]);
     }
     vetCheckPoints[0].visible = true; // Displays the first check point
 }
@@ -364,22 +366,26 @@ function isInRange(x, min, max) {
 // Function to clear the flight school path
 function clearPath(){
     for (let i = 0; i < vetCheckPoints.length; i++) {
-        scene.remove(vetCheckPoints[i]); // Removes every remnant check point
+        //scene.remove(vetCheckPoints[i]); // Removes every remnant check point
+        groundPlane.remove(vetCheckPoints[i]); // Removes every remnant check point
     }
     //vetCheckPoints.length = 0; // Cleaning the array completely
     vetCheckPointsPositions.length = 0; // Cleaning the array completely
-    scene.remove(pathObject); // Disposes the path helper
+    //scene.remove(pathObject); // Disposes the path helper
+    groundPlane.remove(pathObject); // Disposes the path helper
 }
 var cont = 0; // keeps track of what is the next check point
 function pathUpdate(i){
     if (i < vetCheckPoints.length - 2) { // the last two check points will be removed without updating any other check point objects
-        scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
+        //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
+        groundPlane.remove(vetCheckPoints[i]); // removes the reached check point from scene
         //vetCheckPoints[i].visible = false;
         vetCheckPoints[i+1].visible = true;
         vetCheckPoints[i+2].visible = true;
         cont++;
     } else {
-        scene.remove(vetCheckPoints[i]); // removes the last check point before the final one
+        //scene.remove(vetCheckPoints[i]); // removes the last check point before the final one
+        groundPlane.remove(vetCheckPoints[i]); // removes the last check point before the final one
         //vetCheckPoints[i].visible = false;
         cont++;
     }
