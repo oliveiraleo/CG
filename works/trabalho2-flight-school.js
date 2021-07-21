@@ -196,6 +196,14 @@ mesh4.add( mesh5 );
 mesh5.add( mesh6 );
 //mesh2.add( mesh3 );
 //scene.add( mesh2 );
+
+// mountains shadows
+mesh1.receiveShadow = true;
+mesh2.receiveShadow = true;
+mesh3.receiveShadow = true;
+mesh4.receiveShadow = true;
+mesh5.receiveShadow = true;
+mesh6.receiveShadow = true;
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//
