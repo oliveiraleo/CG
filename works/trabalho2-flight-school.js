@@ -161,7 +161,7 @@ function createStats() {
 var keyboard = new KeyboardState();
 
 // Show axes (parameter is size of each axis)
-var axesHelper = new THREE.AxesHelper( 25 );
+var axesHelper = new THREE.AxesHelper( 100 );
 // Reposition of helper to better visualization of it
 axesHelper.translateY(20); // TODO remove translation from axes helper
 axesHelper.translateX(20);
@@ -289,10 +289,10 @@ function createCheckPoints(){
         //vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
-        vetCheckPoints[i].visible = false;
+        vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
         scene.add(vetCheckPoints[i]);
     }
-    vetCheckPoints[0].visible = true; // Enables the first check point
+    vetCheckPoints[0].visible = true; // Displays the first check point
 }
 createCheckPoints();
 /*var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
