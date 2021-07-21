@@ -353,11 +353,14 @@ mockPlane.add(baseCylinderX);
 
 // enabling shadows
 // temporarily disabled for performance
-frontCylinder.castShadow = true;
+//frontCylinder.castShadow = true;
 baseCylinder.castShadow = true;
 leftWing.castShadow = true;
 rightWing.castShadow = true;
-backCylinder.castShadow = true;
+/*backCylinder.castShadow = true;
+tailCylinder.castShadow = true;
+leftStabilizer.castShadow = true;
+rightStabilizer.castShadow = true;*/
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //
@@ -439,6 +442,9 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
         /*if (keyboard.down("P")){ // for debug
             createScenarioTrees();
         }*/
+        if (keyboard.down("C")){ // cockpit mode toggle
+            //baseCylinder.cockpit.visible = !baseCylinder.cockpit.visible;
+        }
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
             isPressed[1] = false;

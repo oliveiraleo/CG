@@ -113,14 +113,24 @@ function gerarModeloArvore(){
         // enable shadows
         // some are disabled for performance reasons
         treeCylinder.castShadow = true;
+        
         //treeLeftBranchCylinder.castShadow = true;
         //treeRightBranchCylinder.castShadow = true;
-        //treeCrownCylinder1.castShadow = true;
-        //treeCrownCylinder2.castShadow = true;
+        
+        treeCrownCylinder1.castShadow = true;
+        treeCrownCylinder2.castShadow = true;
         treeCrownCylinder3.castShadow = true;
+        treeCrownCylinder1.receiveShadow = true;
+        treeCrownCylinder2.receiveShadow = true;
+        treeCrownCylinder3.receiveShadow = true;
+        
         treeCrownSphere.castShadow = true;
+        //treeCrownSphere.receiveShadow = true;
+        
         //treeLeftLeavesSphere.castShadow = true;
+        //treeLeftLeavesSphere.receiveShadow = true;
         //treeRightLeavesSphere.castShadow = true;
+        //treeRightLeavesSphere.receiveShadow = true;
 
         // adjust the entire tree position
         //treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
