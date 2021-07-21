@@ -12,9 +12,6 @@ import {degreesToRadians,
 // Reference URL to all tree parts names
 // https://www.nps.gov/choh/learn/kidsyouth/images/Parts-of-a-tree-Color-image_KellySavannah3.jpg?maxwidth=1200&maxheight=1200&autorotate=false
 
-//-----------------------------------//
-// TREES CONFIGURATION BEGIN         //
-//-----------------------------------//
 // Materials config
 
 var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
@@ -25,22 +22,48 @@ var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 //var vetScenarioTrees = []; // To save and create the trees later
 // Function to create one tree
 
-// TODO fix tree shadows
 // TODO limit tree spawn to avoid conflic with the mountains
-//-----------------------------------//
-// TREES CONFIGURATION END           //
-//-----------------------------------//
+//
+function getRandomPosition(coord){
+    let num = Math.random() * 1000 + -500;
+    //let numX = Math.random() * 1000 + -500;
+    //let numY = Math.random() * 1000 + -500;
+    //let vetNum = [numX, numY];
+    if(coord == "x"){
+        /*if (num > 200) {
+            getRandomPosition("x");
+        } else {*/
+            return num;
+        //}
+    } else if(coord == "y"){
+        if (num < -225) {
+            getRandomPosition("y");
+        } else {
+            return num;
+        }
+    }
+    /*if (vetNum[0] < 200 && vetNum[1] < 200) {
+        getRandomPosition();
+    } else {
+        return vetNum;
+    }*/
+}
 
 export function gerarArvores(scene){
     //Gera entre 60 e 90 arvores
     var quantidadeArvore = Math.random() *30 + 60;
+    let position = [];
     //var mapa = mapaPlano();
     for (let i = 0; i < quantidadeArvore; i++) {
         //let distance = 10.0; // distance between trees
-        let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
-        let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
+        //let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
+        //let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
+        let positionX = getRandomPosition("x");//getRandomNumber(-500, 500); // coordinate X
+        let positionY = getRandomPosition("y");;//getRandomNumber(-500, 500); // coordinate Y
+        //position = getRandomPosition();
         let tree = gerarModeloArvore(); // Generate a new tree
         tree.position.set(positionX, positionY, 5.0);
+        //tree.position.set(position[0], position[1], 5.0);
         scene.add(tree);
     }
 }
@@ -54,7 +77,6 @@ function gerarModeloArvore(){
         let treeCrownCylinderGeometry2 = new THREE.CylinderGeometry(1, 5.5, 10.0, 32);
         let treeCrownCylinderGeometry3 = new THREE.CylinderGeometry(2, 7.5, 10.0, 32);
 
-        //let treeTrunkCylinderGeometry = new THREE.CylinderGeometry((Math.random()* 2 +1.5), (Math.random()* 2 +1.5), 10.0, 32);
         let treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
         let treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
         let treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
@@ -73,7 +95,6 @@ function gerarModeloArvore(){
         treeCrownCylinderGeometry2.rotateY(degreesToRadians(90));
         treeCrownCylinderGeometry3.rotateY(degreesToRadians(90));
 
-        //treeCylinder.receiveShadow = true; // shadown
         treeLeftBranchCylinder.position.set(0.0, 0.5, 1.75);
         treeLeftBranchCylinder.rotateX(degreesToRadians(45));
         treeRightBranchCylinder.position.set(0.0, 1.5, -1.75);
