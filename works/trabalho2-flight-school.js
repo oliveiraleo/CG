@@ -368,7 +368,6 @@ function clearPath(){
     //vetCheckPoints.length = 0; // Cleaning the array completely
     vetCheckPointsPositions.length = 0; // Cleaning the array completely
     scene.remove(pathObject); // Disposes the path helper
-    // TODO fix the last check point isn't working
 }
 var cont = 0; // keeps track of what is the next check point
 function pathUpdate(i){
@@ -381,6 +380,7 @@ function pathUpdate(i){
     } else {
         scene.remove(vetCheckPoints[i]); // removes the last check point before the final one
         //vetCheckPoints[i].visible = false;
+        cont++;
     }
     
 }
