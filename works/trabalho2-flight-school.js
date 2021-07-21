@@ -289,8 +289,10 @@ function createCheckPoints(){
         //vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
+        vetCheckPoints[i].visible = false;
         scene.add(vetCheckPoints[i]);
     }
+    vetCheckPoints[0].visible = true; // Enables the first check point
 }
 createCheckPoints();
 /*var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
@@ -341,6 +343,9 @@ function keyboardUpdate() {
     if (keyboard.down("enter")){ // Toggles the path visualization
         pathObject.visible = !pathObject.visible;
     }
+    if (keyboard.down("P")){ // Toggles the directional light helper
+        clearPath();
+    }
 }
 // Check if a integer number is in a given range
 function isInRange(x, min, max) {
@@ -360,10 +365,26 @@ function clearPath(){
     for (let i = 0; i < vetCheckPoints.length; i++) {
         scene.remove(vetCheckPoints[i]); // Removes every remnant check point
     }
-    vetCheckPoints.length = 0; // Cleaning the array completely
+    //vetCheckPoints.length = 0; // Cleaning the array completely
+    vetCheckPointsPositions.length = 0; // Cleaning the array completely
     scene.remove(pathObject); // Disposes the path helper
+    // TODO fix the last check point isn't working
 }
-
+var cont = 0; // keeps track of what is the next check point
+function pathUpdate(i){
+    if (i < vetCheckPoints.length - 2) { // the last two check points will be removed without updating any other check point objects
+        scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
+        //vetCheckPoints[i].visible = false;
+        vetCheckPoints[i+1].visible = true;
+        vetCheckPoints[i+2].visible = true;
+        cont++;
+    } else {
+        scene.remove(vetCheckPoints[i]); // removes the last check point before the final one
+        //vetCheckPoints[i].visible = false;
+    }
+    
+}
+//var cont = displayedCheckPoints;
 // Checks if a check point was reached
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
@@ -372,16 +393,33 @@ function checkHit(){
         isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - 5, vetCheckPointsPositions[i].getComponent(1) + 5) &&
         isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - 5, vetCheckPointsPositions[i].getComponent(2) + 5)
         ) {
-            if (i == 0) { // checks if it's the first check point
+            if (cont == 0) { // checks if it's the first check point
                 console.log("START!");
+                //vetCheckPoints[cont].visible = false;
+                //vetCheckPoints[cont+1].visible = true;
+                //displayedCheckPoints++;
+                pathUpdate(cont);
+                //cont++;
+                //pathUpdate(cont);
                 //TODO time the performance
-            } else if (i == (vetCheckPointsPositions.length - 1)) { // checks if it's the last check point
+            } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
+                console.log("hit!");
+                //displayedCheckPoints++;
+                //vetCheckPoints[cont].visible = false;
+                //vetCheckPoints[cont+1].visible = true;
+                pathUpdate(cont);
+                //cont++;
+                //pathUpdate(cont);
+            } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
                 console.log("END!");
                 clearPath();
-            } else { // the other check points
-                console.log("hit!");
             }
-            scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
+            //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
+            //displayedCheckPoints++;
+            //vetCheckPoints[i+displayedCheckPoints].visible = true;
+            //pathUpdate(i);
+            //vetCheckPoints.shift();
+            vetCheckPointsPositions.shift();
         }
     }
 }
