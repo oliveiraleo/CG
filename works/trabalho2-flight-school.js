@@ -8,7 +8,7 @@ import {initRenderer,
         onWindowResize, 
         degreesToRadians,
         //initDefaultBasicLight,
-        initCamera,
+        //initCamera,
         //BufferGeometry,
         //ConvexGeometry,
         InfoBox} from "../libs/util/util.js";
@@ -43,7 +43,7 @@ directionalLight.shadow.camera.bottom = -500;
 directionalLight.shadow.camera.near = 0.5; // default
 directionalLight.shadow.camera.far = 500; // default
 // enable shadows
-directionalLight.castShadow = true; // TODO fix airplane shadows
+directionalLight.castShadow = true;
 // directional light position
 directionalLight.position.set(0, 0, 100); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
 var directionalLightHelper = new THREE.CameraHelper( directionalLight.shadow.camera ); // creates a helper to better visualize the light
@@ -96,7 +96,7 @@ var points2 = [// cume
                 new THREE.Vector3( 5, -12.0, 0 ),
                 new THREE.Vector3( 7, 5.0, 0 )
             ];
-var points3 = [// cume
+var points3 = [// cume // TODO Fix the snow
                 new THREE.Vector3( 0, -1.0, 6 ),
                 new THREE.Vector3( 0, -2.0, 10 ),
                 new THREE.Vector3( 0, -4.0, 8 ),
@@ -236,11 +236,11 @@ vetPathPoints[7] = new THREE.Vector3( 50, 450, 20 );
 vetPathPoints[8] = new THREE.Vector3( 50, 460, 20 );
 vetPathPoints[9] = new THREE.Vector3( 50, 500, 20 );
 
-function getAllPathPoints(){
+/*function getAllPathPoints(){
     for (let i = 0; i < vetPathPoints.length; i++) {
         return vetPathPoints[i];
     }
-}
+}*/
 
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
@@ -342,7 +342,7 @@ function keyboardUpdate() {
         pathObject.visible = !pathObject.visible;
     }
 }
-// Check if a integer number is inside a range
+// Check if a integer number is in a given range
 function isInRange(x, min, max) {
     min = Math.round(min);
     max = Math.round(max);
@@ -355,6 +355,15 @@ function isInRange(x, min, max) {
     }
 }
 
+// Function to clear the flight school path
+function clearPath(){
+    for (let i = 0; i < vetCheckPoints.length; i++) {
+        scene.remove(vetCheckPoints[i]); // Removes every remnant check point
+    }
+    vetCheckPoints.length = 0; // Cleaning the array completely
+    scene.remove(pathObject); // Disposes the path helper
+}
+
 // Checks if a check point was reached
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
@@ -363,17 +372,16 @@ function checkHit(){
         isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - 5, vetCheckPointsPositions[i].getComponent(1) + 5) &&
         isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - 5, vetCheckPointsPositions[i].getComponent(2) + 5)
         ) {
-            if (i == 0) {
+            if (i == 0) { // checks if it's the first check point
                 console.log("START!");
                 //TODO time the performance
-            } else if (i == (vetCheckPointsPositions.length - 1)) {
+            } else if (i == (vetCheckPointsPositions.length - 1)) { // checks if it's the last check point
                 console.log("END!");
-                //pathObject.visible = false;
-                scene.remove(pathObject);
-            } else {
+                clearPath();
+            } else { // the other check points
                 console.log("hit!");
             }
-            vetCheckPoints[i].visible = false;
+            scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
         }
     }
 }
@@ -429,7 +437,6 @@ function render() {
     aviao.slowSpeed(); // Checks if airplane is too slow
     keyboardUpdate(); // listens to keyboard inputs and controls some objects
     checkHit(); // Checks if the airplane hit some check point
-    //checkPoint.translateX(+0.1);
     //getAirplaneHeightPosition(); // Updates the airplane position data
 }
 render();
