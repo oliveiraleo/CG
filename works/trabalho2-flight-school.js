@@ -61,40 +61,42 @@ directionalLightHelper.visible = false; // comment to display the helper
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION BEGIN     //
 //-----------------------------------//
+var mountainScale = 3;
+// Smaller mountain
 var points1 = [// cume
-              new THREE.Vector3( 0, 1.0, 6 ),
-              new THREE.Vector3( 0, 2.0, 8.5 ),
-              new THREE.Vector3( 0, 4.0, 8 ),
-              new THREE.Vector3( 0, 6.0, 8 ),
-              new THREE.Vector3( 0, 8.0, 4 ),
-              new THREE.Vector3( 5, 5.0, 6 ),
-              new THREE.Vector3( -4, 2.0, 3 ),
+              new THREE.Vector3( 0.0 * mountainScale, 1.0 * mountainScale, 6.0 * mountainScale ),
+              new THREE.Vector3( 0.0 * mountainScale, 2.0 * mountainScale, 8.5 * mountainScale ),
+              new THREE.Vector3( 0.0 * mountainScale, 4.0 * mountainScale, 8.0 * mountainScale ),
+              new THREE.Vector3( 0.0 * mountainScale, 6.0 * mountainScale, 8.0 * mountainScale ),
+              new THREE.Vector3( 0.0 * mountainScale, 8.0 * mountainScale, 4.0 * mountainScale ),
+              new THREE.Vector3( 5.0 * mountainScale, 5.0 * mountainScale, 6.0*mountainScale ),
+              new THREE.Vector3( -4.0*mountainScale, 2.0*mountainScale, 3.0*mountainScale ),
               // base
-              new THREE.Vector3( 0, 0.0, 0 ),
-              new THREE.Vector3( 0, 10.0, 0 ),
-              new THREE.Vector3( 10, 10.0, 0 ),
-              new THREE.Vector3( -5, 5.0, 0 ),
-              new THREE.Vector3( 6, 2.0, 0 ),
-              new THREE.Vector3( 5, 12.0, 0 ),
-              new THREE.Vector3( 7, 5.0, 0 )
+              new THREE.Vector3( 0.0, 0.0, 0.0 ),
+              new THREE.Vector3( 0.0 * mountainScale, 10.0 * mountainScale, 0.0 ),
+              new THREE.Vector3( 10.0 * mountainScale, 10.0 * mountainScale, 0.0 ),
+              new THREE.Vector3( -5.0 * mountainScale, 5.0 * mountainScale, 0.0 ),
+              new THREE.Vector3( 6.0 * mountainScale, 2.0 * mountainScale, 0.0 ),
+              new THREE.Vector3( 5.0 * mountainScale, 12.0 * mountainScale, 0.0 ),
+              new THREE.Vector3( 7.0 * mountainScale, 5.0 * mountainScale, 0.0 )
             ];
 
 var points2 = [// cume
-                new THREE.Vector3( 0, -1.0, 6 ),
-                new THREE.Vector3( 0, -2.0, 10 ),
-                new THREE.Vector3( 0, -4.0, 8 ),
-                new THREE.Vector3( 0, -6.0, 8 ),
-                new THREE.Vector3( 0, -8.0, 4 ),
-                new THREE.Vector3( 5, -5.0, 6 ),
-                new THREE.Vector3( -4, -2.0, 3 ),
+                new THREE.Vector3( 0.0 * mountainScale, -1.0 * mountainScale, 6.0 * mountainScale ),
+                new THREE.Vector3( 0.0 * mountainScale, -2.0 * mountainScale, 10.0 * mountainScale ),
+                new THREE.Vector3( 0.0 * mountainScale, -4.0 * mountainScale, 8.0 * mountainScale ),
+                new THREE.Vector3( 0.0 * mountainScale, -6.0 * mountainScale, 8.0 * mountainScale ),
+                new THREE.Vector3( 0.0 * mountainScale, -8.0 * mountainScale, 4.0 * mountainScale ),
+                new THREE.Vector3( 5.0 * mountainScale, -5.0 * mountainScale, 6.0 * mountainScale ),
+                new THREE.Vector3( -4.0 * mountainScale, -2.0 * mountainScale, 3.0 * mountainScale ),
                 // base
-                new THREE.Vector3( 0, 0.0, 0 ),
-                new THREE.Vector3( 0, 10.0, 0 ),
-                new THREE.Vector3( 10, 8.0, 0 ),
-                new THREE.Vector3( -5, -5.0, 0 ),
-                new THREE.Vector3( 6, 2.0, 0 ),
-                new THREE.Vector3( 5, -12.0, 0 ),
-                new THREE.Vector3( 7, 5.0, 0 )
+                new THREE.Vector3( 0.0, 0.0, 0.0 ),
+                new THREE.Vector3( 0.0 * mountainScale, 10.0 * mountainScale, 0.0 * mountainScale ),
+                new THREE.Vector3( 10.0 * mountainScale, 8.0 * mountainScale, 0.0 * mountainScale ),
+                new THREE.Vector3( -5.0 * mountainScale, -5.0 * mountainScale, 0.0 * mountainScale ),
+                new THREE.Vector3( 6.0 * mountainScale, 2.0 * mountainScale, 0.0 * mountainScale ),
+                new THREE.Vector3( 5.0 * mountainScale, -12.0 * mountainScale, 0.0 * mountainScale ),
+                new THREE.Vector3( 7.0 * mountainScale, 5.0 * mountainScale, 0.0 * mountainScale )
             ];
 var points3 = [// cume // TODO Fix the snow
                 new THREE.Vector3( 0, -1.0, 6 ),
@@ -126,8 +128,9 @@ var geometry2 = new ConvexGeometry( points2 );
 var geometry3 = new ConvexGeometry( points3 );
 //var geometry = new THREE.ConvexBufferGeometry(points);
 //var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
-var materialIce = new THREE.MeshLambertMaterial( { color:"rgb(150, 150, 180)" } ); // light grey
+var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
+var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
+var materialIce = new THREE.MeshLambertMaterial( { color:"rgb(150, 150, 180)" } ); // ice grey
 var mesh1 = new THREE.Mesh( geometry1, materialRock );
 var mesh2 = new THREE.Mesh( geometry2, materialRock );
 var mesh3 = new THREE.Mesh( geometry3, materialIce );
@@ -135,7 +138,7 @@ mesh1.position.set(0,-350,0);
 //mesh2.position.set(20,-300,0);
 scene.add( mesh1 );
 mesh1.add( mesh2 );
-mesh2.add( mesh3 );
+//mesh2.add( mesh3 );
 //scene.add( mesh2 );
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
