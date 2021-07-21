@@ -272,10 +272,11 @@ scene.add(pathObject);
 // Vars to save the objects for later usage
 var vetCheckPoints = [];
 var vetCheckPointsPositions = [];
+var checkPointRadius = 10.0;
 // Configure and create one check point object
 function generateOneCheckPoint(){ // auxiliary function
-    var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
-    var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
+    var checkPointGeometry = new THREE.TorusGeometry(checkPointRadius, 0.5, 32, 24);
+    var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
     var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
     checkPoint.rotateX(degreesToRadians(90));
 
@@ -344,7 +345,7 @@ function keyboardUpdate() {
         pathObject.visible = !pathObject.visible;
     }
     if (keyboard.down("P")){ // Toggles the directional light helper
-        clearPath();
+        //clearPath();
     }
 }
 // Check if a integer number is in a given range
@@ -389,9 +390,9 @@ function pathUpdate(i){
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
         if (
-        isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[i].getComponent(0) - 5, vetCheckPointsPositions[i].getComponent(0) + 5) &&
-        isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - 5, vetCheckPointsPositions[i].getComponent(1) + 5) &&
-        isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - 5, vetCheckPointsPositions[i].getComponent(2) + 5)
+        isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[i].getComponent(0) - checkPointRadius, vetCheckPointsPositions[i].getComponent(0) + checkPointRadius) &&
+        isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - checkPointRadius, vetCheckPointsPositions[i].getComponent(1) + checkPointRadius) &&
+        isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - checkPointRadius, vetCheckPointsPositions[i].getComponent(2) + checkPointRadius)
         ) {
             if (cont == 0) { // checks if it's the first check point
                 console.log("START!");
@@ -401,6 +402,7 @@ function checkHit(){
                 pathUpdate(cont);
                 //cont++;
                 //pathUpdate(cont);
+                console.log(aviao.getPosicao());
                 //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
                 console.log("hit!");

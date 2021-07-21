@@ -556,17 +556,20 @@ var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plan
 
 
 function getAirplanePositionX (){ // retorna a posicao X do avião em relação a origem do plano
-    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneX = airplaneWorldPosition.getComponent(0); // airplane coordinate X
     return airplaneX;
 }
 function getAirplanePositionY (){ // retorna a posicao Y do avião em relação a origem do plano
-    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneY = airplaneWorldPosition.getComponent(1); // airplane coordinate Y
     return airplaneY;
 }
 function getAirplaneHeightPosition (){ // retorna a altura do avião em relação ao plano
-    mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
+    baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneZ = airplaneWorldPosition.getComponent(2); // airplane height
     return airplaneZ;
 }
