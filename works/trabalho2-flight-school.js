@@ -536,6 +536,8 @@ var aviao = new Aviao(scene);
 // Listen window size changes
 window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraNormal(), renderer)}, false ); // no modo simulacao
 window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraInspecao(), renderer)}, false ); // no modo inspecao
+window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraCockpit(), renderer)}, false ); // no modo inspecao
+
 
 var trackballControls = new TrackballControls( aviao.getCameraInspecao(), renderer.domElement );
 function render() {

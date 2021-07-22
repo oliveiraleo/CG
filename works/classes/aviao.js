@@ -16,6 +16,7 @@ let planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
 let mockPlane;
 let baseCylinder;
 let baseCylinderX;
+let cockpit;
 
 //Helices
 var animationOn = true;
@@ -37,12 +38,22 @@ camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); //
 let cameraInspection = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 cameraInspection.position.set (0,-30,15); // configura a posicao inicial da camera do modo inspecao
 cameraInspection.lookAt(0, 0, 0);
+//Camera do modo cockpit
+let cameraCockpit = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+cameraCockpit.position.set(0,1.5,5);
+//cameraCockpit.lookAt(0, 10, 0);
+
 
 // Config camera holder
 let cameraHolder = new THREE.Object3D();
 cameraHolder.position.set(0.0, 2.0, 0.0);
 cameraHolder.up.set(0, 1, 0);
 cameraHolder.lookAt(0, 0, 0);
+
+let cameraHolderCockPit = new THREE.Object3D();
+cameraHolderCockPit.position.set(0.0, 1.0, 0.0);
+cameraHolderCockPit.up.set(0, 1, 0);
+cameraHolderCockPit.lookAt(0, 0, 0);
 
 // Variaveis de movimento do aviao
 var speed = 0.0; // velocidade base dos movimentos // o aviao agora comeca parado
@@ -62,7 +73,6 @@ let aviaoInsp;
 let sceneSalva;
 
 export function Aviao (scene) {
-    
     gerarAviao(scene);
 }
 
@@ -91,7 +101,7 @@ mockBaseSphere.translateX(0.0).translateY(-25.0).translateZ(0.0); // distance be
 mockBaseSphere.add(cameraHolder);
 mockPlane.add(mockBaseSphere);
 cameraHolder.add(camera);
-
+cameraHolderCockPit.add(cameraCockpit);
 
 // Enable mouse rotation, pan, zoom etc.
 renderCamera = camera; // Faz o papel de troca das cameras das cenas
@@ -299,7 +309,7 @@ backTiresCylinder.position.set(0.0, -3.0, -2.2);
 
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
-var cockpit = new THREE.Mesh(cockpitGeometry, cockpitMaterial);
+cockpit = new THREE.Mesh(cockpitGeometry, cockpitMaterial);
 cockpit.position.set(0.0, -2.5, 1.25);
 
 // Joins every airplane part togheter
@@ -366,7 +376,8 @@ rightStabilizer.castShadow = true;*/
 // AIRPLANE CONFIGURATION END        //
 //-----------------------------------//
 
-mockPlane.add(cameraInspection);
+scene.add(cameraInspection);
+cockpit.add(cameraHolderCockPit);
 scene.add(mockPlane);
 
 }
@@ -442,9 +453,7 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
         /*if (keyboard.down("P")){ // for debug
             createScenarioTrees();
         }*/
-        if (keyboard.down("C")){ // cockpit mode toggle
-            //baseCylinder.cockpit.visible = !baseCylinder.cockpit.visible;
-        }
+ 
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
             isPressed[1] = false;
@@ -520,21 +529,11 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
     if (keyboard.down("space")){
         //if(groundPlaneWired.visible == false){
             if(groundPlane.visible == false){
-                isInInspectionMode = false; // inspection mode off
-                //groundPlaneWired.visible = true; // ground plane appears again
-                groundPlane.visible = true; // ground plane appears again
-                speed = savedSpeed; // restore the preious speed
-                //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
-                mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
-                //renderCamera = camera;
-                isPressed[0] = false;
-                isPressed[1] = false;
-
-
-                renderCamera = camera;
+                voltarEstadoAnteriorAviao(groundPlane);
 
             } else { 
                 // saves the current airplane coordinates for later
+                cockpit.visible = true;
                 savedPlanePositionX = getAirplanePositionX();
                 savedPlanePositionY = getAirplanePositionY();
                 savedPlanePositionZ = getAirplaneHeightPosition();
@@ -553,9 +552,38 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
 
 
             }
+    }
+
+        if (keyboard.down("C")){ // cockpit mode toggle
+            //baseCylinder.cockpit.visible = !baseCylinder.cockpit.visible;
+            
+
+            if(!cockpit.visible){
+                cockpit.visible = true;
+                renderCamera = camera;
+            } else {
+                if(groundPlane.visible==false){
+                    voltarEstadoAnteriorAviao(groundPlane);
+                }
+                cockpit.visible = false;
+                renderCamera = cameraCockpit;
+
+            }
         }
 }
 
+function voltarEstadoAnteriorAviao(groundPlane){
+    isInInspectionMode = false; // inspection mode off
+    //groundPlaneWired.visible = true; // ground plane appears again
+    groundPlane.visible = true; // ground plane appears again
+    speed = savedSpeed; // restore the preious speed
+    //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
+    mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
+    //renderCamera = camera;
+    isPressed[0] = false;
+    isPressed[1] = false;
+    renderCamera = camera;
+}
 
 // Obtem as coordenadas globais atuais do aviao
 var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
@@ -635,8 +663,8 @@ Aviao.prototype.getCameraInspecao = function (){
     return cameraInspection;
 }
 
-Aviao.prototype.getCameraPiloto = function (){
-    return renderCamera;
+Aviao.prototype.getCameraCockpit = function (){
+    return cameraCockpit;
 }
 
 Aviao.prototype.getPosicao = function (){
