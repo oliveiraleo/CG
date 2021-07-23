@@ -444,7 +444,6 @@ function isInRange(x, min, max) {
 }
 
 // Function to clear the flight school path
-// TODO mudar o caminho por conta das montanhas
 function clearPath(){
     for (let i = 0; i < vetCheckPoints.length; i++) {
         groundPlane.remove(vetCheckPoints[i]); // Removes every remnant check point
@@ -465,7 +464,16 @@ function pathUpdate(i){
     }
     
 }
-
+var timeStart, timeFinish; // Save time data to use later
+// Function to return a total event time in seconds
+function calcLapTime(start, finish){
+    let begin = start.getTime() / 1000;
+    let end = finish.getTime() / 1000;
+    //(end.getTime() / 1000 - start.getTime() / 1000)
+    let result = end - begin;
+    return Math.floor(result);
+}
+//var timeFinish = new Date();
 // Checks if a checkpoint was reached
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
@@ -477,6 +485,7 @@ function checkHit(){
             if (cont == 0) { // checks if it's the first check point
                 console.log("START!");
                 pathUpdate(cont);
+                timeStart = new Date();
                 //console.log(aviao.getPosicao());
                 //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
@@ -485,6 +494,8 @@ function checkHit(){
             } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
                 console.log("END!");
                 clearPath();
+                timeFinish = new Date();
+                console.log('This lap took ' + calcLapTime(timeStart, timeFinish) + ' sec');
             }
             //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
             //vetCheckPoints.shift();
