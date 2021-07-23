@@ -64,7 +64,7 @@ directionalLightHelper.visible = false; // comment to display the helper
 var mountainScaleSmall = 3;
 var mountainScaleMedium = 5;
 var mountainScaleHigh = 10;
-// Smaller mountain
+// Small mountain
 var points1 = [// cume
               new THREE.Vector3( 0.0 * mountainScaleSmall, 1.0 * mountainScaleSmall, 6.0 * mountainScaleSmall ),
               new THREE.Vector3( 0.0 * mountainScaleSmall, 2.0 * mountainScaleSmall, 8.5 * mountainScaleSmall ),
@@ -100,7 +100,7 @@ var points2 = [// cume
                 new THREE.Vector3( 5.0 * mountainScaleSmall, -12.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
                 new THREE.Vector3( 7.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 * mountainScaleSmall )
             ];
-// medium mountain
+// Medium mountain
 var points3 = [// cume
                 new THREE.Vector3( 0.0 * mountainScaleMedium, -1.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
                 new THREE.Vector3( 0.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 10.0 * mountainScaleMedium ),
@@ -136,7 +136,7 @@ var points4 = [// cume
                     //new THREE.Vector3( 5.0 * mountainScaleMedium, -12.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
                     new THREE.Vector3( 7.0 * mountainScaleMedium, 5.0 * mountainScaleMedium, 0.0 * mountainScaleMedium )
                 ];
-// taller mountain
+// Big mountain
 var points5 = [// cume
                 new THREE.Vector3(0.0, 0.0, 12.0 * mountainScaleHigh), // pico mais alto
                 // meio
@@ -172,7 +172,6 @@ var points6 = [// cume
                 new THREE.Vector3(5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0)
 ];
     
-//var points = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
 var geometry1 = new ConvexGeometry( points1 );
 var geometry2 = new ConvexGeometry( points2 );
 
@@ -186,39 +185,32 @@ var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); 
 var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
 var materialAsteroid = new THREE.MeshLambertMaterial( { color:"rgb(60, 80, 80)" } ); // deep grey
 var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" } ); // brick orange
-
+// Small mountain
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
 mesh1.position.set(-350,300,0);
-
 scene.add( mesh1 );
 mesh1.add( mesh2 );
-
+// Medium mountain
 var mesh3 = new THREE.Mesh( geometry3, materialBrick );
 var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
 mesh3.position.set(250, 50, 0);
 mesh4.position.set(0.0 * mountainScaleMedium, 0.0 * mountainScaleMedium, 8.5 * mountainScaleMedium);
 mesh4.rotateX(90);
-//mesh4.rotateZ(45);
-
 scene.add( mesh3 );
 mesh3.add( mesh4 );
-
+// Big mountain
 var mesh5 = new THREE.Mesh( geometry5, materialRock );
 var mesh6 = new THREE.Mesh( geometry6, materialRock );
 var mesh7 = new THREE.Mesh( geometry6, materialRock );
-//mesh4.position.set(0,-300,0);
+//mesh4.position.set(0,-300,0); // centered at origin
 mesh6.position.set( 0 * mountainScaleHigh, -3 * mountainScaleHigh, 0 * mountainScaleHigh);
 mesh7.position.set( 3 * mountainScaleHigh, 3 * mountainScaleHigh, 0 * mountainScaleHigh);
 mesh6.rotateZ(25);
 mesh7.rotateZ(-90);
-//mesh2.position.set(20,-300,0);
-
 scene.add( mesh5 );
 mesh5.add( mesh6 );
 mesh6.add( mesh7 );
-//mesh2.add( mesh3 );
-//scene.add( mesh2 );
 
 // mountains shadows
 mesh1.receiveShadow = true;
