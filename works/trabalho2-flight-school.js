@@ -176,7 +176,7 @@ var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" }
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
 var mesh3 = new THREE.Mesh( geometry3, materialBrick );
-mesh1.position.set(200,-50,0);
+mesh1.position.set(-350,300,0);
 
 scene.add( mesh1 );
 mesh1.add( mesh2 );
@@ -432,33 +432,26 @@ function isInRange(x, min, max) {
 // TODO mudar o caminho por conta das montanhas
 function clearPath(){
     for (let i = 0; i < vetCheckPoints.length; i++) {
-        //scene.remove(vetCheckPoints[i]); // Removes every remnant check point
         groundPlane.remove(vetCheckPoints[i]); // Removes every remnant check point
     }
-    //vetCheckPoints.length = 0; // Cleaning the array completely
     vetCheckPointsPositions.length = 0; // Cleaning the array completely
-    //scene.remove(pathObject); // Disposes the path helper
     groundPlane.remove(pathObject); // Disposes the path helper
 }
-var cont = 0; // keeps track of what is the next check point
+var cont = 0; // keeps track of what is the next checkpoint
 function pathUpdate(i){
     if (i < vetCheckPoints.length - 2) { // the last two check points will be removed without updating any other check point objects
-        //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
         groundPlane.remove(vetCheckPoints[i]); // removes the reached check point from scene
-        //vetCheckPoints[i].visible = false;
         vetCheckPoints[i+1].visible = true;
         vetCheckPoints[i+2].visible = true;
-        cont++;
+        cont++; // Updates which is the next check point
     } else {
-        //scene.remove(vetCheckPoints[i]); // removes the last check point before the final one
         groundPlane.remove(vetCheckPoints[i]); // removes the last check point before the final one
-        //vetCheckPoints[i].visible = false;
         cont++;
     }
     
 }
-//var cont = displayedCheckPoints;
-// Checks if a check point was reached
+
+// Checks if a checkpoint was reached
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
         if (
@@ -468,32 +461,19 @@ function checkHit(){
         ) {
             if (cont == 0) { // checks if it's the first check point
                 console.log("START!");
-                //vetCheckPoints[cont].visible = false;
-                //vetCheckPoints[cont+1].visible = true;
-                //displayedCheckPoints++;
                 pathUpdate(cont);
-                //cont++;
-                //pathUpdate(cont);
-                console.log(aviao.getPosicao());
+                //console.log(aviao.getPosicao());
                 //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
                 console.log("hit!");
-                //displayedCheckPoints++;
-                //vetCheckPoints[cont].visible = false;
-                //vetCheckPoints[cont+1].visible = true;
                 pathUpdate(cont);
-                //cont++;
-                //pathUpdate(cont);
             } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
                 console.log("END!");
                 clearPath();
             }
             //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
-            //displayedCheckPoints++;
-            //vetCheckPoints[i+displayedCheckPoints].visible = true;
-            //pathUpdate(i);
             //vetCheckPoints.shift();
-            vetCheckPointsPositions.shift();
+            vetCheckPointsPositions.shift(); // Disable the reached position
         }
     }
 }
