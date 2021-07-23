@@ -21,6 +21,7 @@ var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
 //initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
+var information = new SecondaryBox(""); // to display the secondary information later
 //-----------------------------------//
 // SCENE LIGHTS CONFIGURATION BEGIN  //
 //-----------------------------------//
@@ -426,8 +427,9 @@ function keyboardUpdate() {
     }
     if (keyboard.down("P")){ // Toggles the directional light helper
         //clearPath();
-        mesh1.visible = !mesh1.visible; // esconde a montanha menor
-        mesh5.visible = !mesh5.visible; // esconde a montanha maior
+        //mesh1.visible = !mesh1.visible; // esconde a montanha menor
+        //mesh5.visible = !mesh5.visible; // esconde a montanha maior
+        //showLapTimeOnScreen();
     }
 }
 // Check if a integer number is in a given range
@@ -467,13 +469,14 @@ function pathUpdate(i){
 var timeStart, timeFinish; // Save time data to use later
 // Function to return a total event time in seconds
 function calcLapTime(start, finish){
-    let begin = start.getTime() / 1000;
-    let end = finish.getTime() / 1000;
-    //(end.getTime() / 1000 - start.getTime() / 1000)
-    let result = end - begin;
+    let begin = start.getTime() / 1000; // display in seconds, not in miliseconds
+    let end = finish.getTime() / 1000; // display in seconds, not in miliseconds
+    
+    let result = end - begin; // calculate the result
+
     return Math.floor(result);
 }
-//var timeFinish = new Date();
+
 // Checks if a checkpoint was reached
 function checkHit(){
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
@@ -483,19 +486,22 @@ function checkHit(){
         isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - checkPointRadius, vetCheckPointsPositions[i].getComponent(2) + checkPointRadius)
         ) {
             if (cont == 0) { // checks if it's the first check point
-                console.log("START!");
+                //console.log("START!");
                 pathUpdate(cont);
-                timeStart = new Date();
+                timeStart = new Date(); // starts counting the time
+                showInfoOnScreen("Lap started! Good luck!");
                 //console.log(aviao.getPosicao());
                 //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
-                console.log("hit!");
+                //console.log("hit!");
+                showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints");
                 pathUpdate(cont);
             } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
-                console.log("END!");
+                //console.log("END!");
                 clearPath();
-                timeFinish = new Date();
-                console.log('This lap took ' + calcLapTime(timeStart, timeFinish) + ' sec');
+                timeFinish = new Date(); // ends counting the time
+                //console.log('This lap took ' + calcLapTime(timeStart, timeFinish) + ' sec');
+                showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
             }
             //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
             //vetCheckPoints.shift();
@@ -506,6 +512,7 @@ function checkHit(){
 
 // Show text information onscreen
 showInformation(); // displays information about the controls
+showInfoOnScreen("TIP: Follow the red path"); // displays the initial secondary message
 
 /*
 var planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
@@ -519,7 +526,12 @@ mockPlane.position.set(0, -470, 0); // initial position
 scene.add(mockPlane);
 */
 
-gerarArvores(groundPlane);
+gerarArvores(groundPlane); // coloca as arvores em cima do plano
+
+// Function to update the secondary infobox
+function showInfoOnScreen(text){
+    information.changeMessage(text);
+}
 
 function showInformation()
 {
@@ -534,8 +546,6 @@ function showInformation()
     controls.add("Press G to toggle the sunlight helper");
     controls.add("Press ENTER to toggle the path helper");
     controls.add("Press SPACE to toggle inspection mode");
-    controls.addParagraph();
-    controls.add("TIP: Follow the red path as fast as possible");
     controls.show();
 }
 
