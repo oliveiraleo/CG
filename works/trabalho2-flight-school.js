@@ -59,6 +59,51 @@ directionalLightHelper.visible = false; // comment to display the helper
 //remover camera
 //var camera = initCamera(new THREE.Vector3(0, -500, 15)); // Init camera in this position
 
+// FPS panel config
+function createStats() {
+    stats.setMode(0);
+    
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0';
+    stats.domElement.style.top = '0';
+  
+    return stats;
+  }
+  // To show FPS
+  stats = createStats();
+  document.body.appendChild( stats.domElement );
+
+
+
+// To use the keyboard
+var keyboard = new KeyboardState();
+
+// Show axes (parameter is size of each axis)
+var axesHelper = new THREE.AxesHelper( 100 );
+// Reposition of helper to better visualization of it
+//axesHelper.translateY(20);
+axesHelper.translateX(-250);
+
+// Plano base que simula agua
+/*var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "green");
+groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
+// Adiciona ambos objetos na cena
+scene.add(groundPlaneWired);
+groundPlaneWired.add(axesHelper);*/
+
+// create the ground plane
+var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
+groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
+var groundPlaneMaterial = new THREE.MeshLambertMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "green", // TODO adjust the color
+});
+var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
+// add the ground plane to the scene
+groundPlane.receiveShadow = true; // enables shadows
+scene.add(groundPlane);
+groundPlane.add(axesHelper);
+
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION BEGIN     //
 //-----------------------------------//
@@ -190,7 +235,7 @@ var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" }
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
 mesh1.position.set(-350,300,0);
-scene.add( mesh1 );
+groundPlane.add( mesh1 );
 mesh1.add( mesh2 );
 // Medium mountain
 var mesh3 = new THREE.Mesh( geometry3, materialBrick );
@@ -198,7 +243,7 @@ var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
 mesh3.position.set(250, 50, 0);
 mesh4.position.set(0.0 * mountainScaleMedium, 0.0 * mountainScaleMedium, 8.5 * mountainScaleMedium);
 mesh4.rotateX(90);
-scene.add( mesh3 );
+groundPlane.add( mesh3 );
 mesh3.add( mesh4 );
 // Big mountain
 var mesh5 = new THREE.Mesh( geometry5, materialRock );
@@ -209,7 +254,7 @@ mesh6.position.set( 0 * mountainScaleHigh, -3 * mountainScaleHigh, 0 * mountainS
 mesh7.position.set( 3 * mountainScaleHigh, 3 * mountainScaleHigh, 0 * mountainScaleHigh);
 mesh6.rotateZ(25);
 mesh7.rotateZ(-90);
-scene.add( mesh5 );
+groundPlane.add( mesh5 );
 mesh5.add( mesh6 );
 mesh6.add( mesh7 );
 
@@ -224,53 +269,6 @@ mesh7.receiveShadow = true;
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//
-
-// FPS panel config
-function createStats() {
-    stats.setMode(0);
-    
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '0';
-    stats.domElement.style.top = '0';
-  
-    return stats;
-  }
-  // To show FPS
-  stats = createStats();
-  document.body.appendChild( stats.domElement );
-
-
-
-// To use the keyboard
-var keyboard = new KeyboardState();
-
-// Show axes (parameter is size of each axis)
-var axesHelper = new THREE.AxesHelper( 100 );
-// Reposition of helper to better visualization of it
-//axesHelper.translateY(20);
-axesHelper.translateX(-250);
-
-// Plano base que simula agua
-/*var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "green");
-groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
-// Adiciona ambos objetos na cena
-scene.add(groundPlaneWired);
-groundPlaneWired.add(axesHelper);*/
-
-// create the ground plane
-var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
-groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var groundPlaneMaterial = new THREE.MeshLambertMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
-    //color: "rgba(150, 150, 150)", // light grey
-    color: "green", // TODO adjust the color
-    //side: THREE.DoubleSide,
-    //receiveShadow: true,
-});
-var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
-// add the ground plane to the scene
-groundPlane.receiveShadow = true; // enables shadows
-scene.add(groundPlane);
-groundPlane.add(axesHelper);
 
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
@@ -322,12 +320,6 @@ vetPathPoints[9] = new THREE.Vector3( 200, -350, 30 ); // inicio da floresta
 vetPathPoints[10] = new THREE.Vector3( 150, -450, 30 ); // continuacao da floresta
 vetPathPoints[11] = new THREE.Vector3( -150, -450, 40 ); // continuacao da floresta
 vetPathPoints[12] = new THREE.Vector3( -150, -250, 20 ); // continuacao da floresta
-
-/*function getAllPathPoints(){
-    for (let i = 0; i < vetPathPoints.length; i++) {
-        return vetPathPoints[i];
-    }
-}*/
 
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
