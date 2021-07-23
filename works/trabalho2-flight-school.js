@@ -74,23 +74,14 @@ function createStats() {
   stats = createStats();
   document.body.appendChild( stats.domElement );
 
-
-
 // To use the keyboard
 var keyboard = new KeyboardState();
 
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 100 );
-// Reposition of helper to better visualization of it
+// Replace the helper to better visualize it
 //axesHelper.translateY(20);
 axesHelper.translateX(-250);
-
-// Plano base que simula agua
-/*var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "green");
-groundPlaneWired.rotateX(degreesToRadians(90)); // rotacionado por conta da pespectiva da camera "arrasto no chao"
-// Adiciona ambos objetos na cena
-scene.add(groundPlaneWired);
-groundPlaneWired.add(axesHelper);*/
 
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
@@ -377,42 +368,9 @@ function createCheckPoints(){
     vetCheckPoints[0].visible = true; // Displays the first check point
 }
 createCheckPoints();
-/*var checkPointGeometry = new THREE.TorusGeometry(10.0, 0.5, 32, 24);
-var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.75"}); 
-var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
-checkPoint.rotateX(degreesToRadians(90)); // TODO rotate according to the path
-//checkPoint.position.set(0.0, 30.0, 20.0);
-//checkPoint.position.copy(pathPoint1);
-checkPoint.position.copy(vetPathPoints[0]);*/
-//landingTrack.add(checkPoint);
-//scene.add(checkPoint);
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
-
-//var checkPointPosition = new THREE.Vector3(); // creates a vector to get plane global position (x, y, z)
-//checkPoint.getWorldPosition(checkPointPosition); // updates the position from the checkpoint
-/*var checkPointX = checkPointPosition.getComponent(0);
-var checkPointY = checkPointPosition.getComponent(1);
-var checkPointZ = checkPointPosition.getComponent(2);*/
-//console.log(checkPointX, checkPointY, checkPointZ);
-//console.log(checkPointPositionX(), checkPointPositionY(), checkPointPositionZ());
-
-/*function checkPointPositionX (){ // retorna a posicao X do checkpoint em relação a origem do plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint
-    let checkPointX = checkPointPosition.getComponent(0); // checkpoint coordinate X
-    return checkPointX;
-}
-function checkPointPositionY (){ // retorna a posicao Y do checkpoint em relação a origem do plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint
-    let checkPointY = checkPointPosition.getComponent(1); // checkpoint coordinate Y
-    return checkPointY;
-}
-function checkPointPositionZ (){ // retorna a altura do checkpoint em relação ao plano
-    checkPoint.getWorldPosition(checkPointPosition); // updates the position of the checkpoint torus
-    let checkPointZ = checkPointPosition.getComponent(2); // checkpoint coordinate Z
-    return checkPointZ;
-}*/
 
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
@@ -425,11 +383,12 @@ function keyboardUpdate() {
     if (keyboard.down("enter")){ // Toggles the path visualization
         pathObject.visible = !pathObject.visible;
     }
-    if (keyboard.down("P")){ // Toggles the directional light helper
-        //clearPath();
+    if (keyboard.down("space")){ // Toggles the path visualization
+        showInfoOnScreen(""); // hide the secondary text in inspection mode
+    }
+    if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
-        //showLapTimeOnScreen();
     }
 }
 // Check if a integer number is in a given range
@@ -490,8 +449,6 @@ function checkHit(){
                 pathUpdate(cont);
                 timeStart = new Date(); // starts counting the time
                 showInfoOnScreen("Lap started! Good luck!");
-                //console.log(aviao.getPosicao());
-                //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
                 //console.log("hit!");
                 let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
@@ -501,7 +458,6 @@ function checkHit(){
                 //console.log("END!");
                 clearPath();
                 timeFinish = new Date(); // ends counting the time
-                //console.log('This lap took ' + calcLapTime(timeStart, timeFinish) + ' sec');
                 showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
             }
             //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
@@ -514,19 +470,6 @@ function checkHit(){
 // Show text information onscreen
 showInformation(); // displays information about the controls
 showInfoOnScreen("TIP: Follow the red path"); // displays the initial secondary message
-
-/*
-var planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
-var planePositionY = -470.0; // previous value was -370.0
-var planePositionZ = 2.5;
-
-var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var mockPlaneGeometry = new THREE.BoxGeometry(100, 100, 100, 320);
-var mockPlane = new THREE.Mesh(mockPlaneGeometry, fuselageMaterial);
-mockPlane.position.set(0, -470, 0); // initial position
-scene.add(mockPlane);
-*/
-
 gerarArvores(groundPlane); // coloca as arvores em cima do plano
 
 // Function to update the secondary infobox
@@ -570,6 +513,5 @@ function render() {
     aviao.slowSpeed(); // Checks if airplane is too slow
     keyboardUpdate(); // listens to keyboard inputs and controls some objects
     checkHit(); // Checks if the airplane hit some check point
-    //getAirplaneHeightPosition(); // Updates the airplane position data
 }
 render();
