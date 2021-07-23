@@ -494,7 +494,8 @@ function checkHit(){
                 //TODO time the performance
             } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
                 //console.log("hit!");
-                showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints");
+                let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
+                showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
                 pathUpdate(cont);
             } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
                 //console.log("END!");

@@ -450,9 +450,6 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                 speed -= 0.01;
             }
         }
-        /*if (keyboard.down("P")){ // for debug
-            createScenarioTrees();
-        }*/
  
         // Verifica se o botao foi solto
         if (keyboard.up("left")){ // keep camera steady
