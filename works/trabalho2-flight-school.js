@@ -11,6 +11,7 @@ import {initRenderer,
         //initCamera,
         //BufferGeometry,
         //ConvexGeometry,
+        SecondaryBox,
         InfoBox} from "../libs/util/util.js";
 
 import { gerarArvores } from './classes/arvore.js';
@@ -246,8 +247,8 @@ var keyboard = new KeyboardState();
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 100 );
 // Reposition of helper to better visualization of it
-axesHelper.translateY(20); // TODO remove translation from axes helper
-axesHelper.translateX(20);
+//axesHelper.translateY(20);
+axesHelper.translateX(-250);
 
 // Plano base que simula agua
 /*var groundPlaneWired = createGroundPlaneWired(1000, 1000, 20, 20, "green");
@@ -308,16 +309,19 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 //-----------------------------------//
 // Path points configuration
 var vetPathPoints = [];
-vetPathPoints[0] = new THREE.Vector3( 0, -350, 20 );
-vetPathPoints[1] = new THREE.Vector3( 0, -250, 30 );
-vetPathPoints[2] = new THREE.Vector3( 50, -50, 20 );
-vetPathPoints[3] = new THREE.Vector3( 150, 50, 20 );
-vetPathPoints[4] = new THREE.Vector3( 50, 150, 30 );
-vetPathPoints[5] = new THREE.Vector3( 50, 250, 20 );
-vetPathPoints[6] = new THREE.Vector3( 0, 350, 20 );
-vetPathPoints[7] = new THREE.Vector3( 50, 450, 20 );
-vetPathPoints[8] = new THREE.Vector3( 50, 460, 20 );
-vetPathPoints[9] = new THREE.Vector3( 50, 500, 20 );
+vetPathPoints[0] = new THREE.Vector3( 0, -325, 20 ); // saida da pista
+vetPathPoints[1] = new THREE.Vector3( 50, -200, 25 ); // perto da montanha alta
+vetPathPoints[2] = new THREE.Vector3( 200, -100, 30 ); // perto da montanha media
+vetPathPoints[3] = new THREE.Vector3( 300, 50, 20 ); // colado na montanha media
+vetPathPoints[4] = new THREE.Vector3( 50, 150, 30 ); // atras da montanha alta
+vetPathPoints[5] = new THREE.Vector3( -40, 80, 40 ); // inicio da subida da montanha alta
+vetPathPoints[6] = new THREE.Vector3( -60, 20, 60 ); // continuacao da subida da montanha
+vetPathPoints[7] = new THREE.Vector3( -50, -50, 70 ); // alto-frente da montanha alta
+vetPathPoints[8] = new THREE.Vector3( 50, -150, 65 ); // inicio da descida
+vetPathPoints[9] = new THREE.Vector3( 200, -350, 30 ); // inicio da floresta
+vetPathPoints[10] = new THREE.Vector3( 150, -450, 30 ); // continuacao da floresta
+vetPathPoints[11] = new THREE.Vector3( -150, -450, 40 ); // continuacao da floresta
+vetPathPoints[12] = new THREE.Vector3( -150, -250, 20 ); // continuacao da floresta
 
 /*function getAllPathPoints(){
     for (let i = 0; i < vetPathPoints.length; i++) {
@@ -337,7 +341,10 @@ var path = new THREE.CatmullRomCurve3( [
     vetPathPoints[6],
     vetPathPoints[7],
     vetPathPoints[8],
-    vetPathPoints[9]
+    vetPathPoints[9],
+    vetPathPoints[10],
+    vetPathPoints[11],
+    vetPathPoints[12]
 ]
 );
 
@@ -524,6 +531,8 @@ function showInformation()
     controls.add("Press G to toggle the sunlight helper");
     controls.add("Press ENTER to toggle the path helper");
     controls.add("Press SPACE to toggle inspection mode");
+    controls.addParagraph();
+    controls.add("TIP: Follow the red path as fast as possible");
     controls.show();
 }
 
