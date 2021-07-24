@@ -12,7 +12,8 @@ import {initRenderer,
         //BufferGeometry,
         //ConvexGeometry,
         SecondaryBox,
-        InfoBox} from "../libs/util/util.js";
+        InfoBox,
+        radiansToDegrees} from "../libs/util/util.js";
 
 import { gerarArvores } from './classes/arvore.js';
 import {Aviao} from './classes/aviao.js';
@@ -486,6 +487,7 @@ function showInformation()
     controls.add("Press arrow keys to change airplane direction");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
+    controls.add("Press C to toggle cockpit camera");
     controls.add("Press H to toggle the axes helper");
     controls.add("Press G to toggle the sunlight helper");
     controls.add("Press ENTER to toggle the path helper");
