@@ -350,7 +350,7 @@ function generateOneCheckPoint(){ // auxiliary function
     var checkPointGeometry = new THREE.TorusGeometry(checkPointRadius, 0.5, 32, 24);
     var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
     var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
-    checkPoint.rotateX(degreesToRadians(90));
+    //checkPoint.rotateX(degreesToRadians(90));
 
     return checkPoint;
 }
@@ -364,6 +364,14 @@ function createCheckPoints(){
         vetCheckPointsPositions[i] = vetPathPoints[i];
         vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
         //scene.add(vetCheckPoints[i]);
+        //let pos = vetPathPoints[i];
+        if(i == 0 || i == 3 || i == (vetPathPoints.length - 1)){ // the three checkpoints that have fixed angles
+            vetCheckPoints[i].rotateX(degreesToRadians(90));
+        } else {
+            vetCheckPoints[i].lookAt(vetPathPoints[i+1]);
+        }
+        
+        //vetCheckPoints[i].lookAt(vetPathPoints[i-1]);
         groundPlane.add(vetCheckPoints[i]);
     }
     vetCheckPoints[0].visible = true; // Displays the first check point
