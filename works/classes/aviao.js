@@ -312,7 +312,7 @@ var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 cockpit = new THREE.Mesh(cockpitGeometry, cockpitMaterial);
 cockpit.position.set(0.0, -2.5, 1.25);
 
-// Joins every airplane part togheter
+// Joins every airplane part together
 // PROPELLER
 frontCylinder.add(hubBaseSphere);
 // FUSELAGE
@@ -363,14 +363,15 @@ mockPlane.add(baseCylinderX);
 
 // enabling shadows
 // temporarily disabled for performance
-//frontCylinder.castShadow = true;
+frontCylinder.castShadow = true;
 baseCylinder.castShadow = true;
 leftWing.castShadow = true;
 rightWing.castShadow = true;
-/*backCylinder.castShadow = true;
+backCylinder.castShadow = true;
 tailCylinder.castShadow = true;
+verticalStabilizer.castShadow = true;
 leftStabilizer.castShadow = true;
-rightStabilizer.castShadow = true;*/
+rightStabilizer.castShadow = true;
 
 //-----------------------------------//
 // AIRPLANE CONFIGURATION END        //

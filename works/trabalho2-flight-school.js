@@ -34,8 +34,8 @@ scene.add( hemisphereLight );
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 // Directional light configs
 // shadow resolution
-directionalLight.shadow.mapSize.width = 512;
-directionalLight.shadow.mapSize.height = 512;
+directionalLight.shadow.mapSize.width = 8192;
+directionalLight.shadow.mapSize.height = 8192;
 //directionalLight.penunbra = 0.7; TODO config this
 // area where shadows appear // 500 x 500 = size of gound plane
 directionalLight.shadow.camera.left = -500;
@@ -259,6 +259,14 @@ mesh4.receiveShadow = true;
 mesh5.receiveShadow = true;
 mesh6.receiveShadow = true;
 mesh7.receiveShadow = true;
+
+mesh1.castShadow = true;
+mesh2.castShadow = true;
+mesh3.castShadow = true;
+mesh4.castShadow = true;
+mesh5.castShadow = true;
+mesh6.castShadow = true;
+mesh7.castShadow = true;
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//

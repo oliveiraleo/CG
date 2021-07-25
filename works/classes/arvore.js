@@ -30,13 +30,17 @@ export function gerarArvores(scene){
         let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
         let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
         // Exclude some areas of interest
-        if ((positionX > -50 && positionX < 50) && positionY < -225) { // do not spawn on landing track
+        if ((positionX > -50 && positionX < 50) &&
+            positionY < -225) { // do not spawn on landing track
             treeSpawn = false;
-        } else if ((positionX > -390 && positionX < -300) && (positionY > 250 && positionY < 350)){// do not spawn on small mountain area
+        } else if ((positionX > -390 && positionX < -300) &&
+                    (positionY > 250 && positionY < 350)){ // do not spawn on small mountain area
             treeSpawn = false;
-        } else if ((positionX > 220 && positionX < 320) && (positionY > 0 && positionY < 150)) { // do not spawn on medium mountain area
+        } else if ((positionX > 220 && positionX < 320) &&
+                    (positionY > 0 && positionY < 150)) { // do not spawn on medium mountain area
             treeSpawn = false;
-        } else if ((positionX > -150 && positionX < 150) && (positionY > -150 && positionY < 150)) { // do not spawn on big mountain area
+        } else if ((positionX > -150 && positionX < 150) &&
+                    (positionY > -150 && positionY < 150)) { // do not spawn on big mountain area
             treeSpawn = false;
         }
 
@@ -115,8 +119,8 @@ function gerarModeloArvore(){
         // some are disabled for performance reasons
         treeCylinder.castShadow = true;
         
-        //treeLeftBranchCylinder.castShadow = true;
-        //treeRightBranchCylinder.castShadow = true;
+        treeLeftBranchCylinder.castShadow = true;
+        treeRightBranchCylinder.castShadow = true;
         
         treeCrownCylinder1.castShadow = true;
         treeCrownCylinder2.castShadow = true;
@@ -126,12 +130,12 @@ function gerarModeloArvore(){
         treeCrownCylinder3.receiveShadow = true;
         
         treeCrownSphere.castShadow = true;
-        //treeCrownSphere.receiveShadow = true;
+        treeCrownSphere.receiveShadow = true;
         
-        //treeLeftLeavesSphere.castShadow = true;
-        //treeLeftLeavesSphere.receiveShadow = true;
-        //treeRightLeavesSphere.castShadow = true;
-        //treeRightLeavesSphere.receiveShadow = true;
+        treeLeftLeavesSphere.castShadow = true;
+        treeLeftLeavesSphere.receiveShadow = true;
+        treeRightLeavesSphere.castShadow = true;
+        treeRightLeavesSphere.receiveShadow = true;
 
         // adjust the entire tree position
         //treeCylinder.position.set(0.0, -370.0, 5.0); // TODO adjust position later, this one is only for testing
