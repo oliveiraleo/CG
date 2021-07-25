@@ -19,28 +19,32 @@ var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 
 var treeLeavesSphereMaterial = new THREE.MeshLambertMaterial({color:"rgb(0, 235, 0)"}); // to mimic leaves
 var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 
-//var vetScenarioTrees = []; // To save and create the trees later
-// Function to create one tree
-
-// TODO limit tree spawn to avoid conflic with the mountains
+// Function to create scenario trees
 export function gerarArvores(scene){
     //Gera entre 60 e 90 arvores
     var quantidadeArvore = Math.random() *30 + 60;
     //var mapa = mapaPlano();
     for (let i = 0; i < quantidadeArvore; i++) {
+        let treeSpawn = true;
         //let distance = 10.0; // distance between trees
         let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
         let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
-        //let positionX = getRandomPosition("x");//getRandomNumber(-500, 500); // coordinate X
-        //let positionY = getRandomPosition("y");//getRandomNumber(-500, 500); // coordinate Y
-        // do not generate near the landing track again
-        if ((positionX > -50 && positionX < 50) && positionY < -225) {
-            positionX = Math.random() *1000 + -500;
-            positionY = Math.random() *1000 + -225;
+        // Exclude some areas of interest
+        if ((positionX > -50 && positionX < 50) && positionY < -225) { // do not spawn on landing track
+            treeSpawn = false;
+        } else if ((positionX > -390 && positionX < -300) && (positionY > 250 && positionY < 350)){// do not spawn on small mountain area
+            treeSpawn = false;
+        } else if ((positionX > 220 && positionX < 320) && (positionY > 0 && positionY < 150)) { // do not spawn on medium mountain area
+            treeSpawn = false;
+        } else if ((positionX > -150 && positionX < 150) && (positionY > -150 && positionY < 150)) { // do not spawn on big mountain area
+            treeSpawn = false;
         }
-        let tree = gerarModeloArvore(); // Generate a new tree
-        tree.position.set(positionX, positionY, 5.0);
-        scene.add(tree);
+
+        if (treeSpawn == true) {
+            let tree = gerarModeloArvore(); // Generate a new tree
+            tree.position.set(positionX, positionY, 5.0);
+            scene.add(tree);
+        }
     }
 }
 

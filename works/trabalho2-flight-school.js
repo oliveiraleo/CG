@@ -48,7 +48,7 @@ directionalLight.shadow.camera.far = 500; // default
 // enable shadows
 directionalLight.castShadow = true;
 // directional light position
-directionalLight.position.set(0, 0, 100); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
+directionalLight.position.set(0, 0, 150); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
 var directionalLightHelper = new THREE.CameraHelper( directionalLight.shadow.camera ); // creates a helper to better visualize the light
 // add to the scene
 scene.add( directionalLightHelper );
@@ -370,7 +370,7 @@ function createCheckPoints(){
         } else {
             vetCheckPoints[i].lookAt(vetPathPoints[i+1]);
         }
-        
+        // TODO Adjust checkpoint angles?
         //vetCheckPoints[i].lookAt(vetPathPoints[i-1]);
         groundPlane.add(vetCheckPoints[i]);
     }
@@ -392,11 +392,12 @@ function keyboardUpdate() {
     if (keyboard.down("enter")){ // Toggles the path visualization
         pathObject.visible = !pathObject.visible;
     }
-    if (keyboard.down("space")){ // Toggles the path visualization
+    if (keyboard.down("space")){ // Toggles the inspection mode
         showInfoOnScreen(""); // hide the secondary text in inspection mode
     }
     if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
+        //mesh3.visible = !mesh3.visible; // esconde a montanha media
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
     }
 }
