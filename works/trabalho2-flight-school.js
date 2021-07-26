@@ -34,8 +34,8 @@ scene.add( hemisphereLight );
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 // Directional light configs
 // shadow resolution
-directionalLight.shadow.mapSize.width = 8192;
-directionalLight.shadow.mapSize.height = 8192;
+directionalLight.shadow.mapSize.width = 512; //8192;
+directionalLight.shadow.mapSize.height = 512;//8192;
 //directionalLight.penunbra = 0.7; TODO config this
 // area where shadows appear // 500 x 500 = size of gound plane
 directionalLight.shadow.camera.left = -500;
@@ -352,12 +352,25 @@ groundPlane.add(pathObject);
 // Vars to save the objects for later usage
 var vetCheckPoints = [];
 var vetCheckPointsPositions = [];
+var vetCheckPointsColors = []
+var checkPointAtual = 0;
 var checkPointRadius = 10.0;
+
+var checkPointMaterialRed = new THREE.MeshPhongMaterial({color:"lightgrey", transparent:"true", opacity:"0.7"}); 
+var checkPointMaterialOrange = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
+
+
+//Checkpoint colors
+for(let i=0;i<vetPathPoints.length;i++){
+    vetCheckPointsColors[i] = checkPointMaterialRed;
+}
+vetCheckPointsColors[0] = checkPointMaterialOrange;
+
 // Configure and create one check point object
-function generateOneCheckPoint(){ // auxiliary function
+function generateOneCheckPoint(index){ // auxiliary function
     var checkPointGeometry = new THREE.TorusGeometry(checkPointRadius, 0.5, 32, 24);
-    var checkPointMaterial = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
-    var checkPoint = new THREE.Mesh(checkPointGeometry, checkPointMaterial);
+    
+    var checkPoint = new THREE.Mesh(checkPointGeometry, vetCheckPointsColors[index]);
     //checkPoint.rotateX(degreesToRadians(90));
 
     return checkPoint;
@@ -365,12 +378,13 @@ function generateOneCheckPoint(){ // auxiliary function
 // Instantiate the check points on screen
 function createCheckPoints(){
     for (let i = 0; i < vetPathPoints.length; i++) {
-        vetCheckPoints[i] = generateOneCheckPoint();
+        vetCheckPoints[i] = generateOneCheckPoint(i);
         //vetCheckPoints[i].rotateX(degreesToRadians(90)); // TODO rotate according to the path
         //vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
         vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
+        
         //scene.add(vetCheckPoints[i]);
         //let pos = vetPathPoints[i];
         if(i == 0 || i == 3 || i == (vetPathPoints.length - 1)){ // the three checkpoints that have fixed angles
@@ -431,6 +445,7 @@ function clearPath(){
     groundPlane.remove(pathObject); // Disposes the path helper
 }
 var cont = 0; // keeps track of what is the next checkpoint
+
 function pathUpdate(i){
     if (i < vetCheckPoints.length - 2) { // the last two check points will be removed without updating any other check point objects
         groundPlane.remove(vetCheckPoints[i]); // removes the reached check point from scene
@@ -456,6 +471,35 @@ function calcLapTime(start, finish){
 
 // Checks if a checkpoint was reached
 function checkHit(){
+
+    if (
+        isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[checkPointAtual].getComponent(0) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(0) + checkPointRadius) &&
+        isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[checkPointAtual].getComponent(1) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(1) + checkPointRadius) &&
+        isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[checkPointAtual].getComponent(2) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(2) + checkPointRadius)
+        ){
+            if(checkPointAtual==0){
+                //console.log("START!");
+                pathUpdate(cont);
+                timeStart = new Date(); // starts counting the time
+                showInfoOnScreen("Lap started! Good luck!");
+            } else if(checkPointAtual==(vetCheckPoints.length-1)){
+                //console.log("END!");
+                clearPath();
+                timeFinish = new Date(); // ends counting the time
+                showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
+
+            } else {
+                //console.log("hit!");
+                let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
+                showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
+                pathUpdate(cont);
+            }
+            checkPointAtual++;
+            vetCheckPoints[checkPointAtual].material =checkPointMaterialOrange;
+            //vetCheckPointsColors[checkPointAtual+1] = checkPointMaterialOrange;
+        }
+
+    /*
     for (let i = 0; i < vetCheckPointsPositions.length; i++) {
         if (
         isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[i].getComponent(0) - checkPointRadius, vetCheckPointsPositions[i].getComponent(0) + checkPointRadius) &&
@@ -483,6 +527,7 @@ function checkHit(){
             vetCheckPointsPositions.shift(); // Disable the reached position
         }
     }
+    */
 }
 
 // Show text information onscreen
