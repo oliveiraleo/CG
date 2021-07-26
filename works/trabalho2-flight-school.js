@@ -37,18 +37,18 @@ var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 directionalLight.shadow.mapSize.width = 8192;
 directionalLight.shadow.mapSize.height = 8192;
 //directionalLight.penunbra = 0.7; TODO config this
-// area where shadows appear // 500 x 500 = size of gound plane
+// area where shadows appear // 500 x 500 = size of ground plane
 directionalLight.shadow.camera.left = -500;
 directionalLight.shadow.camera.right = 500;
 directionalLight.shadow.camera.top = 500;
 directionalLight.shadow.camera.bottom = -500;
-// near and far // TODO configure that later
-directionalLight.shadow.camera.near = 0.5; // default
-directionalLight.shadow.camera.far = 500; // default
+// near and far
+directionalLight.shadow.camera.near = 20; // default 0.5
+directionalLight.shadow.camera.far = 151; // default 500 // 151 because 150 didn't reach the ground plane
 // enable shadows
 directionalLight.castShadow = true;
 // directional light position
-directionalLight.position.set(0, 0, 150); // TODO adjust scene lights // TODO create a fake sunlight in the same position to mimic the sun
+directionalLight.position.set(0, 0, 150); // 120 is the big mountain height, so higher than that
 var directionalLightHelper = new THREE.CameraHelper( directionalLight.shadow.camera ); // creates a helper to better visualize the light
 // add to the scene
 scene.add( directionalLightHelper );
@@ -87,9 +87,9 @@ axesHelper.translateX(-250);
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
 groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
-var groundPlaneMaterial = new THREE.MeshLambertMaterial({ // TODO change the material to mimic grass and for better visualization when moving the airplane
+var groundPlaneMaterial = new THREE.MeshLambertMaterial({
     //color: "rgba(150, 150, 150)", // light grey
-    color: "green", // TODO adjust the color
+    color: "green",
 });
 var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
 // add the ground plane to the scene
@@ -341,7 +341,7 @@ var path = new THREE.CatmullRomCurve3( [
 ]
 );
 
-var pathPoints = path.getPoints( 100 ); // TODO adjust later
+var pathPoints = path.getPoints( 500 ); // 500 is the number of curve points
 var pathGeometry = new THREE.BufferGeometry().setFromPoints( pathPoints );
 var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } ); // red
 // Create the final path object and add it to the scene
@@ -379,8 +379,6 @@ function generateOneCheckPoint(index){ // auxiliary function
 function createCheckPoints(){
     for (let i = 0; i < vetPathPoints.length; i++) {
         vetCheckPoints[i] = generateOneCheckPoint(i);
-        //vetCheckPoints[i].rotateX(degreesToRadians(90)); // TODO rotate according to the path
-        //vetCheckPoints[i].position.set(1.0*i, 30.0+i, 20.0);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
         vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
@@ -392,7 +390,6 @@ function createCheckPoints(){
         } else {
             vetCheckPoints[i].lookAt(vetPathPoints[i+1]);
         }
-        // TODO Adjust checkpoint angles?
         //vetCheckPoints[i].lookAt(vetPathPoints[i-1]);
         groundPlane.add(vetCheckPoints[i]);
     }
