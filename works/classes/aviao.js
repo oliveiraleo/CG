@@ -394,7 +394,12 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
 
 
     if (!isInInspectionMode){ // Only enables the airplane controls if not in inspection mode
-        if (keyboard.pressed("left") && getAirplaneHeightPosition() >= 0.0){
+        if (keyboard.pressed("left")){
+            if (getAirplaneHeightPosition() <= 4){
+                if(speed!=0){
+                    mockPlane.rotateOnAxis(camZ, (angle*speed));
+                } 
+            } else {
             isPressed[1] = true;
             // limita o movimento de rotacao lateral
             if(anglesVet[1] < degreesToRadians(45)){
@@ -403,9 +408,15 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                 anglesVet[1] = anglesVet[1] + angle;
             }
             mockPlane.rotateOnAxis(camZ, speedVet[1]); // realiza a rotacao no plano
+            }
         }
 
         if (keyboard.pressed("right") && getAirplaneHeightPosition() >= 0.0){
+            if (getAirplaneHeightPosition() <= 4){
+                if(speed!=0){
+                    mockPlane.rotateOnAxis(camZ, (-angle*speed));
+                } 
+            } else {
             isPressed[1] = true;
             // limita o movimento de rotacao lateral
             if(anglesVet[1]> degreesToRadians(-45)){
@@ -414,9 +425,10 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                 anglesVet[1] = anglesVet[1] - angle;
             }
             mockPlane.rotateOnAxis(camZ, speedVet[1]); // realiza a rotacao no plano
+            }
         }
         if (keyboard.pressed("up")){
-            if (getAirplaneHeightPosition() >= 0.0){ // prevents the airplane to get inside the water
+            if (getAirplaneHeightPosition() >= 4){ // prevents the airplane to get inside the water
                 isPressed[0] = true;
                 //Regula o visual da inclinação
                 if(anglesVet[0]> degreesToRadians(-45)){
@@ -508,6 +520,7 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                     anglesVet[0]=0;
                     speedVet[0] = 0;
                 }
+
             } else if(anglesVet[0]>0){ // down
                 baseCylinderX.rotateOnAxis(camX, -angle);
                 anglesVet[0] = anglesVet[0] - angle;
@@ -521,6 +534,10 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                 }
             }
         }
+        if(getAirplaneHeightPosition() <= 2){
+            mockPlane.position.set(getAirplanePositionX (),getAirplanePositionY (),0);
+        }
+
     } // end of only enables the airplane controls if not in inspection mode
 
     // inspection mode switch
