@@ -34,8 +34,8 @@ scene.add( hemisphereLight );
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 // Directional light configs
 // shadow resolution
-directionalLight.shadow.mapSize.width = 512; //8192;
-directionalLight.shadow.mapSize.height = 512;//8192;
+directionalLight.shadow.mapSize.width = 8192;
+directionalLight.shadow.mapSize.height = 8192;
 //directionalLight.penunbra = 0.7; TODO config this
 // area where shadows appear // 500 x 500 = size of gound plane
 directionalLight.shadow.camera.left = -500;
@@ -356,13 +356,13 @@ var vetCheckPointsColors = []
 var checkPointAtual = 0;
 var checkPointRadius = 10.0;
 
-var checkPointMaterialRed = new THREE.MeshPhongMaterial({color:"lightgrey", transparent:"true", opacity:"0.7"}); 
+var checkPointMaterialGrey = new THREE.MeshPhongMaterial({color:"lightgrey", transparent:"true", opacity:"0.7"}); 
 var checkPointMaterialOrange = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
 
 
 //Checkpoint colors
 for(let i=0;i<vetPathPoints.length;i++){
-    vetCheckPointsColors[i] = checkPointMaterialRed;
+    vetCheckPointsColors[i] = checkPointMaterialGrey;
 }
 vetCheckPointsColors[0] = checkPointMaterialOrange;
 
