@@ -1,11 +1,11 @@
 import * as THREE from  '../../build/three.module.js';
 import KeyboardState from       '../../libs/util/KeyboardState.js';
-import {initRenderer, 
+import {//initRenderer, 
     //createGroundPlaneWired,
-    onWindowResize, 
-    degreesToRadians,
+    //onWindowResize, 
     //initDefaultBasicLight,
-    InfoBox} from "../../libs/util/util.js";
+    //InfoBox,
+    degreesToRadians} from "../../libs/util/util.js";
 
 
 //Varáveis
@@ -109,15 +109,15 @@ renderCamera = camera; // Faz o papel de troca das cameras das cenas
 
 // define objects material
 var material = new THREE.MeshNormalMaterial();
-var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey"});
-var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"1.0"});
+var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", shininess:"100", reflectivity:"1.0"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // to mimic black rubber
-var hubMaterial = new THREE.MeshPhongMaterial({color:"red"});
-var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"green"});
-var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow"});
-var lifesaverMaterial = new THREE.MeshPhongMaterial({color:"red", emissiveIntensity:"0.95"}); // bright red
+var hubMaterial = new THREE.MeshPhongMaterial({color:"red", shininess:"100", reflectivity:"1.0"});
+var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
+var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
+var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // red
 
 // Reference URL to all ariplane parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
