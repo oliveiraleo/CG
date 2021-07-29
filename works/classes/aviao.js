@@ -117,7 +117,7 @@ var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); //
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red", shininess:"100", reflectivity:"1.0"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
-var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // red
+var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // to mimic red rubber
 
 // Reference URL to all ariplane parts names
 // https://www.flyaeroguard.com/learning-center/parts-of-an-airplane/
@@ -157,7 +157,7 @@ baseCylinderX = new THREE.Mesh(baseCylinderGeometry, fuselageMaterial);
 baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avião em relação a câmera
 
 // create the rear cylinder
-var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32);
+var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32, 32);
 var backCylinder = new THREE.Mesh(backCylinderGeometry, fuselageMaterial);
 backCylinder.position.set(0.0, -7.0, 0.0);
 
@@ -202,7 +202,7 @@ var radar = new THREE.Mesh(radarGeometry, fuselageMaterial);
 radar.position.set(0.0, 0.0, -1.5);
 
 // define airplane 3D crosses geometry
-var crossGeometry = new THREE.BoxGeometry(1.0, 0.4, 0.4);
+var crossGeometry = new THREE.BoxGeometry(0.98, 0.4, 0.4); // 0.98 to avoid conflict with stabilizers
 // left
 var leftCrossp1 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 1
 var leftCrossp2 = new THREE.Mesh(crossGeometry, lifesaverMaterial); // cross part 2
