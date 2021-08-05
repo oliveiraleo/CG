@@ -86,57 +86,6 @@ bottomLid.castShadow = true;
 cylinder.add(topLid);
 cylinder.add(bottomLid);
 
-// New cube
-// Define cube materials
-/*var cubeFaceGeometry = new THREE.PlaneGeometry(1.0, 1.0, 10.0, 10.0);
-var cubeMaterial = new THREE.MeshLambertMaterial({
-  side: THREE.DoubleSide
-});
-// Define cube faces
-var cubeFaces = [];
-var numFaces = 5;
-for (let i = 0; i < numFaces; i++) {
-  cubeFaces[i] = new THREE.Mesh(cubeFaceGeometry, cubeMaterial);
-  cubeFaces[i].castShadow = true;
-  cubeFaces[i].receiveShadow = true;
-}
-
-// Placement of the faces
-cubeFaces[0].position.set(0.0, 0.5, 0.0); // 0.51 to avoid conflict with ground plane
-cubeFaces[1].position.set(0.0, 0.0, -1.0);
-
-cubeFaces[2].position.set(0.0, 0.5, 0.5);
-cubeFaces[2].rotateX(degreesToRadians(-90));
-
-cubeFaces[3].position.set(0.0, 0.0, -1.0);
-
-cubeFaces[4].position.set(-0.5, 0.0, 0.5);
-cubeFaces[4].rotateY(degreesToRadians(90));
-
-// Add them to the scene
-scene.add(cubeFaces[0]); // add the face zero
-for (let i = 0; i < numFaces - 1; i++) { // numFaces - 1 because of the last one
-  cubeFaces[i].add(cubeFaces[i+1]);  
-}*/
-
-// Teapot
-/*var geometry = new TeapotGeometry(0.5);
-var material = new THREE.MeshPhongMaterial({color:"rgb(255,255,255)", shininess:"100"});
-  material.side = THREE.DoubleSide;
-var teapot = new THREE.Mesh(geometry, material);
-  teapot.castShadow = true;
-  teapot.position.set(0.0, 0.5, -0.6);
-scene.add(teapot);*/
-
-// Cube
-/*var cubeSize = 0.6;
-var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-var cubeMaterial = new THREE.MeshLambertMaterial();
-var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-  cube.castShadow = true;
-  cube.position.set(0.0, cubeSize/2, 1.0);
-scene.add(cube);*/
-
 //----------------------------------------------------------------------------
 //-- Use TextureLoader to load texture files
 var textureLoader = new THREE.TextureLoader();
@@ -144,16 +93,13 @@ var floor  = textureLoader.load('../assets/textures/floor-wood.jpg');
 var glass  = textureLoader.load('../assets/textures/glass.png');
 var stone = textureLoader.load('../assets/textures/stone.jpg');
 var sun = textureLoader.load('../assets/textures/sun.jpg');
-var newCube = textureLoader.load('../assets/textures/marble.png'); // loads the new cube's texture
 var cylinderBody = textureLoader.load('../assets/textures/wood.png'); // loads the cylinder's texture
 var cylinderLid = textureLoader.load('../assets/textures/woodtop.png'); // loads the cylinder lids' texture
 
 // Apply texture to the 'map' property of the respective materials' objects
-groundPlane.material.map = floor;
-//teapot.material.map = glass;
-//cube.material.map = stone;
+groundPlane.material.map = stone;
 lightSphere.material.map = sun;
-//cubeFaces[0].material.map = newCube; // apply the marble texture to the new cube
+// apply texture to the cylinder parts
 cylinder.material.map = cylinderBody;
 topLid.material.map = cylinderLid;
 bottomLid.material.map = cylinderLid;
@@ -183,6 +129,7 @@ function rotateLight()
   }
 }
 
+// Function to enable cylinder rotation movements
 function rotateCylinder(){
   if (cylinderAnimationOnX) {
     cylinder.rotateX(degreesToRadians(cylinderSpeed));
