@@ -35,6 +35,9 @@ var lightSphere = createLightSphere(scene, 0.1, 10, 10, lightPosition);
 var angle = 0;
 var speed = 0.01;
 var animationOn = false; // control if animation is on or of
+var cylinderAnimationOnX = false; // control if animation is on or of
+var cylinderAnimationOnY = false; // control if animation is on or of
+var cylinderAnimationOnZ = false; // control if animation is on or of
 
 // Enable mouse rotation, pan, zoom etc.
 var trackballControls = new TrackballControls( camera, renderer.domElement );
@@ -71,10 +74,12 @@ var lidMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
 var topLid = new THREE.Mesh( lidGeometry, lidMaterial );
 topLid.position.set(0.0, 0.5, 0.0);
 topLid.rotateX(degreesToRadians(-90));
+topLid.castShadow = true;
 // bottom
 var bottomLid = new THREE.Mesh( lidGeometry, lidMaterial );
 bottomLid.position.set(0.0, -0.5, 0.0);
 bottomLid.rotateX(degreesToRadians(90));
+bottomLid.castShadow = true;
 
 //scene.add( circle );
 cylinder.add(topLid);
@@ -177,6 +182,18 @@ function rotateLight()
   }
 }
 
+function rotateCylinder(){
+  if (cylinderAnimationOnX) {
+    cylinder.rotateX(speed);
+  }
+  if (cylinderAnimationOnY) {
+    cylinder.rotateY(speed);
+  }
+  if (cylinderAnimationOnZ) {
+    cylinder.rotateZ(speed);
+  }
+}
+
 function buildInterface()
 {
   //------------------------------------------------------------
@@ -196,6 +213,15 @@ function buildInterface()
     this.onUpdateSpeed = function(){
       speed = this.speed;
     };
+    this.onEnableCylinderAnimationX = function(){
+      cylinderAnimationOnX = !cylinderAnimationOnX;
+    };
+    this.onEnableCylinderAnimationY = function(){
+      cylinderAnimationOnY = !cylinderAnimationOnY;
+    };
+    this.onEnableCylinderAnimationZ = function(){
+      cylinderAnimationOnZ = !cylinderAnimationOnZ;
+    };
   };
 
   var gui = new GUI();
@@ -208,6 +234,15 @@ function buildInterface()
   gui.add(controls, 'viewAxes', false)
     .name("View Axes")
     .onChange(function(e) { controls.onViewAxes() });
+  gui.add(controls, 'animation', true)
+    .name("Pitch")
+    .onChange(function(e) { controls.onEnableCylinderAnimationX() });
+  gui.add(controls, 'animation', true)
+    .name("Roll")
+    .onChange(function(e) { controls.onEnableCylinderAnimationY() });
+  gui.add(controls, 'animation', true)
+    .name("Yaw")
+    .onChange(function(e) { controls.onEnableCylinderAnimationZ() });
 }
 
 function render()
@@ -215,6 +250,7 @@ function render()
   stats.update();
   trackballControls.update();
   rotateLight();
+  rotateCylinder(); // enables cylinder rotations
   requestAnimationFrame(render);
   renderer.render(scene, camera)
 }
