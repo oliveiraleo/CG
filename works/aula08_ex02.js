@@ -54,9 +54,18 @@ var groundPlane = createGroundPlane(5.0, 5.0, 100, 100); // width and height
   groundPlane.position.set(0.0, -0.01, 0.0); // to avoid conflict with the cube and the helper
 scene.add(groundPlane);
 
+// Cylinder
+var geometry = new THREE.CylinderGeometry( 0.5, 0.5, 1.0, 64, 64, true );
+var material = new THREE.MeshLambertMaterial( {color: 0xffffff, side: THREE.DoubleSide } );
+var cylinder = new THREE.Mesh( geometry, material );
+cylinder.position.set(0.0, 0.5, 0.0);
+cylinder.castShadow = true;
+//cylinder.receiveShadow = true;
+scene.add( cylinder );
+
 // New cube
 // Define cube materials
-var cubeFaceGeometry = new THREE.PlaneGeometry(1.0, 1.0, 10.0, 10.0);
+/*var cubeFaceGeometry = new THREE.PlaneGeometry(1.0, 1.0, 10.0, 10.0);
 var cubeMaterial = new THREE.MeshLambertMaterial({
   side: THREE.DoubleSide
 });
@@ -85,7 +94,7 @@ cubeFaces[4].rotateY(degreesToRadians(90));
 scene.add(cubeFaces[0]); // add the face zero
 for (let i = 0; i < numFaces - 1; i++) { // numFaces - 1 because of the last one
   cubeFaces[i].add(cubeFaces[i+1]);  
-}
+}*/
 
 // Teapot
 /*var geometry = new TeapotGeometry(0.5);
@@ -113,13 +122,15 @@ var glass  = textureLoader.load('../assets/textures/glass.png');
 var stone = textureLoader.load('../assets/textures/stone.jpg');
 var sun = textureLoader.load('../assets/textures/sun.jpg');
 var newCube = textureLoader.load('../assets/textures/marble.png'); // loads the new cube's texture
+var cylinderBody = textureLoader.load('../assets/textures/wood.png'); // loads the cylinder's texture
 
 // Apply texture to the 'map' property of the respective materials' objects
 groundPlane.material.map = floor;
 //teapot.material.map = glass;
 //cube.material.map = stone;
 lightSphere.material.map = sun;
-cubeFaces[0].material.map = newCube; // apply the marble texture to the new cube
+//cubeFaces[0].material.map = newCube; // apply the marble texture to the new cube
+cylinder.material.map = cylinderBody;
 
 buildInterface();
 render();
