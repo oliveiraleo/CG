@@ -152,6 +152,7 @@ function buildInterface()
     this.speed = speed;
     this.animation = animationOn;
     this.cylinderSpeed = cylinderSpeed;
+    this.viewGround = true;
 
     this.onViewAxes = function(){
       axesHelper.visible = this.viewAxes;
@@ -174,6 +175,9 @@ function buildInterface()
     this.onEnableCylinderAnimationZ = function(){
       cylinderAnimationOnZ = !cylinderAnimationOnZ;
     };
+    this.onEnableGroundPlane = function(){
+      groundPlane.visible = this.viewGround;
+    };
   };
 
   var gui = new GUI();
@@ -186,6 +190,9 @@ function buildInterface()
   gui.add(controls, 'viewAxes', false)
     .name("View Axes")
     .onChange(function(e) { controls.onViewAxes() });
+  gui.add(controls, 'viewGround', true)
+    .name("View Ground Plane")
+    .onChange(function(e) { controls.onEnableGroundPlane() });
   var cylFolder = gui.addFolder("Cylinder Animation")
   cylFolder.add(controls, 'cylinderSpeed', 0.5, 5.0)
     .name("Cylinder Speed")
