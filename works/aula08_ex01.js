@@ -27,6 +27,8 @@ var lightPosition = new THREE.Vector3(2.5, 1.8, 0.0);
   light.position.copy(lightPosition);
   light.castShadow = true;
   light.penumbra = 0.5;    
+  light.shadow.mapSize.width = 4096;
+  light.shadow.mapSize.height = 4096;
 scene.add(light);
 
 var lightSphere = createLightSphere(scene, 0.1, 10, 10, lightPosition);  
@@ -51,7 +53,7 @@ scene.add( axesHelper );
 // Ground
 var groundPlane = createGroundPlane(5.0, 5.0, 100, 100); // width and height
   groundPlane.rotateX(degreesToRadians(-90));
-  groundPlane.position.set(0.0, -0.02, 0.0); // to avoid conflict with the cube and the helper
+  groundPlane.position.set(0.0, -0.01, 0.0); // to avoid conflict with the cube and the helper
 scene.add(groundPlane);
 
 // New cube
@@ -70,7 +72,7 @@ for (let i = 0; i < numFaces; i++) {
 }
 
 // Placement of the faces
-cubeFaces[0].position.set(0.0, 0.5, 0.0); // 0.51 to avoid conflict with ground plane
+cubeFaces[0].position.set(0.0, 0.5, 0.5); // centers the cube
 cubeFaces[1].position.set(0.0, 0.0, -1.0);
 
 cubeFaces[2].position.set(0.0, 0.5, 0.5);
