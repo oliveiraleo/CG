@@ -66,6 +66,7 @@ var numFaces = 5;
 for (let i = 0; i < numFaces; i++) {
   cubeFaces[i] = new THREE.Mesh(cubeFaceGeometry, cubeMaterial);
   cubeFaces[i].castShadow = true;
+  cubeFaces[i].receiveShadow = true;
 }
 
 // Placement of the faces
@@ -111,12 +112,14 @@ var floor  = textureLoader.load('../assets/textures/floor-wood.jpg');
 var glass  = textureLoader.load('../assets/textures/glass.png');
 var stone = textureLoader.load('../assets/textures/stone.jpg');
 var sun = textureLoader.load('../assets/textures/sun.jpg');
+var newCube = textureLoader.load('../assets/textures/marble.png'); // loads the new cube's texture
 
 // Apply texture to the 'map' property of the respective materials' objects
 groundPlane.material.map = floor;
 //teapot.material.map = glass;
 //cube.material.map = stone;
 lightSphere.material.map = sun;
+cubeFaces[0].material.map = newCube; // apply the marble texture to the new cube
 
 buildInterface();
 render();
