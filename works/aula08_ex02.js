@@ -35,6 +35,7 @@ var lightSphere = createLightSphere(scene, 0.1, 10, 10, lightPosition);
 var angle = 0;
 var speed = 0.01;
 var animationOn = false; // control if animation is on or of
+var cylinderSpeed = 0.5;
 var cylinderAnimationOnX = false; // control if animation is on or of
 var cylinderAnimationOnY = false; // control if animation is on or of
 var cylinderAnimationOnZ = false; // control if animation is on or of
@@ -184,13 +185,13 @@ function rotateLight()
 
 function rotateCylinder(){
   if (cylinderAnimationOnX) {
-    cylinder.rotateX(speed);
+    cylinder.rotateX(degreesToRadians(cylinderSpeed));
   }
   if (cylinderAnimationOnY) {
-    cylinder.rotateY(speed);
+    cylinder.rotateY(degreesToRadians(cylinderSpeed));
   }
   if (cylinderAnimationOnZ) {
-    cylinder.rotateZ(speed);
+    cylinder.rotateZ(degreesToRadians(cylinderSpeed));
   }
 }
 
@@ -203,6 +204,7 @@ function buildInterface()
     this.viewAxes = false;
     this.speed = speed;
     this.animation = animationOn;
+    this.cylinderSpeed = cylinderSpeed;
 
     this.onViewAxes = function(){
       axesHelper.visible = this.viewAxes;
@@ -212,6 +214,9 @@ function buildInterface()
     };
     this.onUpdateSpeed = function(){
       speed = this.speed;
+    };
+    this.onUpdateCylinderSpeed = function(){
+      cylinderSpeed = this.cylinderSpeed;
     };
     this.onEnableCylinderAnimationX = function(){
       cylinderAnimationOnX = !cylinderAnimationOnX;
@@ -226,7 +231,7 @@ function buildInterface()
 
   var gui = new GUI();
   gui.add(controls, 'animation', true)
-    .name("Animation")
+    .name("Move light")
     .onChange(function(e) { controls.onEnableAnimation() });
   gui.add(controls, 'speed', 0.01, 0.5)
     .name("Light Speed")
@@ -234,15 +239,20 @@ function buildInterface()
   gui.add(controls, 'viewAxes', false)
     .name("View Axes")
     .onChange(function(e) { controls.onViewAxes() });
-  gui.add(controls, 'animation', true)
+  var cylFolder = gui.addFolder("Cylinder Animation")
+  cylFolder.add(controls, 'cylinderSpeed', 0.5, 5.0)
+    .name("Cylinder Speed")
+    .onChange(function(e) { controls.onUpdateCylinderSpeed() });
+  cylFolder.add(controls, 'animation', true)
     .name("Pitch")
     .onChange(function(e) { controls.onEnableCylinderAnimationX() });
-  gui.add(controls, 'animation', true)
+  cylFolder.add(controls, 'animation', true)
     .name("Roll")
     .onChange(function(e) { controls.onEnableCylinderAnimationY() });
-  gui.add(controls, 'animation', true)
+  cylFolder.add(controls, 'animation', true)
     .name("Yaw")
     .onChange(function(e) { controls.onEnableCylinderAnimationZ() });
+  cylFolder.open(); // Opens the folder by default
 }
 
 function render()
