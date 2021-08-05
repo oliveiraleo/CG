@@ -4,7 +4,7 @@ import {GUI} from       '../build/jsm/libs/dat.gui.module.js';
 import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
 import {initRenderer, 
         initCamera, 
-        initDefaultLighting,
+        initDefaultBasicLight,
         onWindowResize, 
         degreesToRadians, 
         lightFollowingCamera} from "../libs/util/util.js";
@@ -14,7 +14,7 @@ var scene = new THREE.Scene();    // Create main scene
 var stats = new Stats();          // To show FPS information
 var renderer = initRenderer();    // View function in util/utils
 var camera = initCamera(new THREE.Vector3(7, 7, 7)); // Init camera in this position
-var light  = initDefaultLighting(scene, new THREE.Vector3(7, 7, 7));
+initDefaultBasicLight(scene);
 var trackballControls = new TrackballControls( camera, renderer.domElement );
 
 // Set angles of rotation
@@ -146,7 +146,6 @@ function render()
   stats.update(); // Update FPS
   trackballControls.update();
   rotateCylinder();
-  lightFollowingCamera(light, camera);
   requestAnimationFrame(render); // Show events
   renderer.render(scene, camera) // Render scene
 }
