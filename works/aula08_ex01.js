@@ -2,7 +2,7 @@ import * as THREE from  '../build/three.module.js';
 import Stats from       '../build/jsm/libs/stats.module.js';
 import {GUI} from       '../build/jsm/libs/dat.gui.module.js';
 import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
-import {TeapotGeometry} from '../build/jsm/geometries/TeapotGeometry.js';
+//import {TeapotGeometry} from '../build/jsm/geometries/TeapotGeometry.js';
 import {initRenderer, 
         createGroundPlane,
         createLightSphere,        
@@ -51,25 +51,58 @@ scene.add( axesHelper );
 // Ground
 var groundPlane = createGroundPlane(5.0, 5.0, 100, 100); // width and height
   groundPlane.rotateX(degreesToRadians(-90));
+  groundPlane.position.set(0.0, -0.02, 0.0); // to avoid conflict with the cube and the helper
 scene.add(groundPlane);
 
+// New cube
+// Define cube materials
+var cubeFaceGeometry = new THREE.PlaneGeometry(1.0, 1.0, 10.0, 10.0);
+var cubeMaterial = new THREE.MeshLambertMaterial({
+  side: THREE.DoubleSide
+});
+// Define cube faces
+var cubeFaces = [];
+var numFaces = 5;
+for (let i = 0; i < numFaces; i++) {
+  cubeFaces[i] = new THREE.Mesh(cubeFaceGeometry, cubeMaterial);
+  cubeFaces[i].castShadow = true;
+}
+
+// Placement of the faces
+cubeFaces[0].position.set(0.0, 0.5, 0.0); // 0.51 to avoid conflict with ground plane
+cubeFaces[1].position.set(0.0, 0.0, -1.0);
+
+cubeFaces[2].position.set(0.0, 0.5, 0.5);
+cubeFaces[2].rotateX(degreesToRadians(-90));
+
+cubeFaces[3].position.set(0.0, 0.0, -1.0);
+
+cubeFaces[4].position.set(-0.5, 0.0, 0.5);
+cubeFaces[4].rotateY(degreesToRadians(90));
+
+// Add them to the scene
+scene.add(cubeFaces[0]); // add the face zero
+for (let i = 0; i < numFaces - 1; i++) { // numFaces - 1 because of the last one
+  cubeFaces[i].add(cubeFaces[i+1]);  
+}
+
 // Teapot
-var geometry = new TeapotGeometry(0.5);
+/*var geometry = new TeapotGeometry(0.5);
 var material = new THREE.MeshPhongMaterial({color:"rgb(255,255,255)", shininess:"100"});
   material.side = THREE.DoubleSide;
 var teapot = new THREE.Mesh(geometry, material);
   teapot.castShadow = true;
   teapot.position.set(0.0, 0.5, -0.6);
-scene.add(teapot);
+scene.add(teapot);*/
 
 // Cube
-var cubeSize = 0.6;
+/*var cubeSize = 0.6;
 var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 var cubeMaterial = new THREE.MeshLambertMaterial();
 var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.castShadow = true;
   cube.position.set(0.0, cubeSize/2, 1.0);
-scene.add(cube);
+scene.add(cube);*/
 
 //----------------------------------------------------------------------------
 //-- Use TextureLoader to load texture files
@@ -81,8 +114,8 @@ var sun = textureLoader.load('../assets/textures/sun.jpg');
 
 // Apply texture to the 'map' property of the respective materials' objects
 groundPlane.material.map = floor;
-teapot.material.map = glass;
-cube.material.map = stone;
+//teapot.material.map = glass;
+//cube.material.map = stone;
 lightSphere.material.map = sun;
 
 buildInterface();
