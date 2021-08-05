@@ -64,7 +64,7 @@ cylinder.castShadow = true;
 scene.add( cylinder );
 
 // Cylinder Lid
-var lidGeometry = new THREE.CircleGeometry( 0.5, 32 );
+var lidGeometry = new THREE.CircleGeometry( 0.5, 64 );
 //var lidMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
 var lidMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
 // top
@@ -140,6 +140,7 @@ var stone = textureLoader.load('../assets/textures/stone.jpg');
 var sun = textureLoader.load('../assets/textures/sun.jpg');
 var newCube = textureLoader.load('../assets/textures/marble.png'); // loads the new cube's texture
 var cylinderBody = textureLoader.load('../assets/textures/wood.png'); // loads the cylinder's texture
+var cylinderLid = textureLoader.load('../assets/textures/woodtop.png'); // loads the cylinder lids' texture
 
 // Apply texture to the 'map' property of the respective materials' objects
 groundPlane.material.map = floor;
@@ -148,6 +149,8 @@ groundPlane.material.map = floor;
 lightSphere.material.map = sun;
 //cubeFaces[0].material.map = newCube; // apply the marble texture to the new cube
 cylinder.material.map = cylinderBody;
+topLid.material.map = cylinderLid;
+bottomLid.material.map = cylinderLid;
 
 buildInterface();
 render();
