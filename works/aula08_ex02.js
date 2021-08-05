@@ -55,13 +55,30 @@ var groundPlane = createGroundPlane(5.0, 5.0, 100, 100); // width and height
 scene.add(groundPlane);
 
 // Cylinder
-var geometry = new THREE.CylinderGeometry( 0.5, 0.5, 1.0, 64, 64, true );
-var material = new THREE.MeshLambertMaterial( {color: 0xffffff, side: THREE.DoubleSide } );
-var cylinder = new THREE.Mesh( geometry, material );
+var cylinderGeometry = new THREE.CylinderGeometry( 0.5, 0.5, 1.0, 64, 64, true );
+var cylinderMaterial = new THREE.MeshLambertMaterial( {color: 0xffffff, side: THREE.DoubleSide } );
+var cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
 cylinder.position.set(0.0, 0.5, 0.0);
 cylinder.castShadow = true;
 //cylinder.receiveShadow = true;
 scene.add( cylinder );
+
+// Cylinder Lid
+var lidGeometry = new THREE.CircleGeometry( 0.5, 32 );
+//var lidMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
+var lidMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
+// top
+var topLid = new THREE.Mesh( lidGeometry, lidMaterial );
+topLid.position.set(0.0, 0.5, 0.0);
+topLid.rotateX(degreesToRadians(-90));
+// bottom
+var bottomLid = new THREE.Mesh( lidGeometry, lidMaterial );
+bottomLid.position.set(0.0, -0.5, 0.0);
+bottomLid.rotateX(degreesToRadians(90));
+
+//scene.add( circle );
+cylinder.add(topLid);
+cylinder.add(bottomLid);
 
 // New cube
 // Define cube materials
