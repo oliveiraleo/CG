@@ -14,7 +14,7 @@ var scene = new THREE.Scene();
 // objects in the negative side
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 //var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
-camera.position.z = 6;
+camera.position.z = 3.5;
 camera.position.y = 1.5; // height is 3, so 3 / 2 = 1.5
 
 // light
@@ -113,20 +113,17 @@ var backMirrorGeometry = new THREE.BoxGeometry( 4.50, 0.05, 3.00 );
 var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
 var cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.0, 80);
 
-// Cylinders
+// Base Cylinders
 var cylinders = [];
+// create the cylinders
 for (let i = 0; i < 3; i++) {
   cylinders[i] = new THREE.Mesh( cylinderGeometry, cylindersMaterial );
   scene.add(cylinders[i]);
 }
-
-cylinders[0].position.set( 0.0, 0, -3.0 );
-cylinders[1].position.set( 1.5, 0, -2.5 );
-cylinders[2].position.set( -1.5, 0, -2.5 );
-
-/*scene.add(cylinders[0]);
-scene.add(cylinders[1]);
-scene.add(cylinders[2]);*/
+// cylinder positioning
+cylinders[0].position.set( 0.0, 0.5, -3.0 ); // back-center
+cylinders[1].position.set( 2.0, 0.5, -1.5 ); // left
+cylinders[2].position.set( -2.0, 0.5, -1.5 ); // right
 
 // Sphere
 var sphere = new THREE.Mesh( sphereGeometry, phongMaterial );
