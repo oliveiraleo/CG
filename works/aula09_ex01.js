@@ -12,9 +12,10 @@ var scene = new THREE.Scene();
 // The canvas is in the XY plane.
 // Hint: put the camera in the positive side of the Z axis and the
 // objects in the negative side
-var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+//var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
 camera.position.z = 6;
-camera.position.y = 2.5;
+camera.position.y = 1.5; // height is 3, so 3 / 2 = 1.5
 
 // light
 var intensity = 0.5;
@@ -99,33 +100,33 @@ var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
 var sphere = new THREE.Mesh( sphereGeometry, phongMaterial );
 sphere.scale.multiplyScalar( 0.5 );
 sphere.position.set( -0.5, 0, -0.75 );
-scene.add( sphere );
+//scene.add( sphere );
 
 // Mirror Sphere
 var sphere2 = new THREE.Mesh( sphereGeometry, mirrorMaterialSmooth );
 sphere2.scale.multiplyScalar( 0.8 );
 sphere2.position.set( 1.75, .30, -1.50 );
-scene.add( sphere2 );
+//scene.add( sphere2 );
 
 // Glass Sphere (black-right-front)
 var glass = new THREE.Mesh( sphereGeometry, glassMaterialSmooth );
 glass.scale.multiplyScalar( 0.5 );
 glass.position.set( 1.20, 0, -.50 );
 glass.rotation.y = 0.6;
-scene.add( glass );
+//scene.add( glass );
 
 // Box
 var box = new THREE.Mesh( boxGeometry, mirrorMaterial );
 box.position.set( -1.75, 0, -1.90 );
 box.rotation.y = degreesToRadians(37);
-scene.add( box );
+//scene.add( box );
 
 // Back Mirror
 var backmirror = new THREE.Mesh( backMirrorGeometry, mirrorMaterialDark );
 backmirror.rotation.x = 1.57;
 backmirror.position.set( 0, 1.50, -2.90 );
 backmirror.scale.multiplyScalar( 0.95 );
-scene.add( backmirror );
+//scene.add( backmirror );
 
 // bottom
 var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxBottom );
