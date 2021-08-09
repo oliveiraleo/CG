@@ -12,9 +12,10 @@ var scene = new THREE.Scene();
 // The canvas is in the XY plane.
 // Hint: put the camera in the positive side of the Z axis and the
 // objects in the negative side
-//var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
-camera.position.z = 6;
+var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+//var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
+//var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
+camera.position.z = 0.7;
 camera.position.y = 1.5; // height is 3, so 3 / 2 = 1.5
 
 // light
@@ -32,23 +33,32 @@ light.position.set( 1.00, 1.50, 2.00 );
 scene.add( light );
 
 renderer = new RaytracingRenderer(window.innerWidth, window.innerHeight, 32, camera);
+//renderer = new RaytracingRenderer(800, 400, 32, camera);
 container.appendChild( renderer.domElement );
 
 // materials
 var phongMaterialBox = new THREE.MeshLambertMaterial( {
-	color: "rgb(255,255,255)",
+	//color: "rgb(255,255,255)",
+  color: "rgb(180,180,180)", // grey
+} );
+
+var phongMaterialBoxBack = new THREE.MeshLambertMaterial( {
+	color: "rgb(255,255,255)", // white
+  //color: "rgb(180,180,180)", // grey
 } );
 
 var phongMaterialBoxBottom = new THREE.MeshLambertMaterial( {
-	color: "rgb(180,180,180)",
+	color: "rgb(180,180,180)", // grey
 } );
 
 var phongMaterialBoxLeft = new THREE.MeshLambertMaterial( {
-	color: "rgb(200,0,0)",
+	//color: "rgb(200,0,0)",
+  color: "rgb(0, 130, 230)", // blue
 } );
 
 var phongMaterialBoxRight = new THREE.MeshLambertMaterial( {
-	color: "rgb(0,200,0)",
+	//color: "rgb(0,200,0)",
+  color: "rgb(0, 130, 230)", // blue
 } );
 
 var phongMaterial = new THREE.MeshPhongMaterial( {
@@ -92,7 +102,7 @@ glassMaterialSmooth.refractionRatio = 1.5;
 
 // geometries
 var sphereGeometry = new THREE.SphereGeometry( 1, 24, 24 );
-var planeGeometry = new THREE.BoxGeometry( 6.00, 0.05, 6.00 );
+var planeGeometry = new THREE.BoxGeometry( 6.00, 0.05, 3.00 );
 var backMirrorGeometry = new THREE.BoxGeometry( 4.50, 0.05, 3.00 );
 var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
 
@@ -130,18 +140,20 @@ backmirror.scale.multiplyScalar( 0.95 );
 
 // bottom
 var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxBottom );
-plane.position.set( 0, -.5, -3.00 );
+//plane.position.set( 0, -.5, -3.00 );
+plane.position.set( 0, -.0, -3.00 );
 scene.add( plane );
 
 // top
 var plane = new THREE.Mesh( planeGeometry, phongMaterialBox );
-plane.position.set( 0, 5.5, -3.00 );
+//plane.position.set( 0, 5.5, -3.00 );
+plane.position.set( 0, 2.75, -3.00 );
 scene.add( plane );
 
 // back
-var plane = new THREE.Mesh( planeGeometry, phongMaterialBox );
+var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxBack );
 plane.rotation.x = 1.57;
-plane.position.set( 0, 2.50, -3.00 );
+plane.position.set( 0, 1.50, -4.00 );
 scene.add( plane );
 
 // left
