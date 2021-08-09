@@ -14,8 +14,7 @@ var scene = new THREE.Scene();
 // objects in the negative side
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 //var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
-//var camera = new THREE.PerspectiveCamera( 60, 2 / 1, 1, 1000 );
-camera.position.z = 0.7;
+camera.position.z = 6;
 camera.position.y = 1.5; // height is 3, so 3 / 2 = 1.5
 
 // light
@@ -100,11 +99,34 @@ glassMaterialSmooth.glass = true;
 glassMaterialSmooth.reflectivity = 0.25;
 glassMaterialSmooth.refractionRatio = 1.5;
 
+var cylindersMaterial = new THREE.MeshPhongMaterial( {
+	color: "rgb(150,190,220)",
+	//specular: "rgb(255,255,255)",
+	//shininess: 1000,
+	} );
+
 // geometries
 var sphereGeometry = new THREE.SphereGeometry( 1, 24, 24 );
-var planeGeometry = new THREE.BoxGeometry( 6.00, 0.05, 3.00 );
+var planeGeometry = new THREE.BoxGeometry( 6.00, 0.05, 6.00 );
+var planeGeometry2 = new THREE.BoxGeometry( 6.00, 0.05, 3.00 );
 var backMirrorGeometry = new THREE.BoxGeometry( 4.50, 0.05, 3.00 );
 var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
+var cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.0, 80);
+
+// Cylinders
+var cylinders = [];
+for (let i = 0; i < 3; i++) {
+  cylinders[i] = new THREE.Mesh( cylinderGeometry, cylindersMaterial );
+  scene.add(cylinders[i]);
+}
+
+cylinders[0].position.set( 0.0, 0, -3.0 );
+cylinders[1].position.set( 1.5, 0, -2.5 );
+cylinders[2].position.set( -1.5, 0, -2.5 );
+
+/*scene.add(cylinders[0]);
+scene.add(cylinders[1]);
+scene.add(cylinders[2]);*/
 
 // Sphere
 var sphere = new THREE.Mesh( sphereGeometry, phongMaterial );
@@ -147,25 +169,32 @@ scene.add( plane );
 // top
 var plane = new THREE.Mesh( planeGeometry, phongMaterialBox );
 //plane.position.set( 0, 5.5, -3.00 );
-plane.position.set( 0, 2.75, -3.00 );
+//plane.position.set( 0, 2.75, -3.00 );
+plane.position.set( 0, 3.0, -3.00 );
 scene.add( plane );
 
 // back
-var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxBack );
+var plane = new THREE.Mesh( planeGeometry2, phongMaterialBoxBack );
 plane.rotation.x = 1.57;
-plane.position.set( 0, 1.50, -4.00 );
+//plane.position.set( 0, 2.50, -3.00 );
+//plane.position.set( 0, 1.50, -4.00 );
+plane.position.set( 0, 1.50, -6.00 );
 scene.add( plane );
 
 // left
-var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxLeft );
+var plane = new THREE.Mesh( planeGeometry2, phongMaterialBoxLeft );
 plane.rotation.z = 1.57;
-plane.position.set( -3.00, 2.50, -3.00 )
+plane.rotation.x = 1.57;
+//plane.position.set( -3.00, 2.50, -3.00 )
+plane.position.set( -3.00, 1.50, -3.00 )
 scene.add( plane );
 
 // right
-var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxRight );
+var plane = new THREE.Mesh( planeGeometry2, phongMaterialBoxRight );
 plane.rotation.z = 1.57;
-plane.position.set( 3.00, 2.50, -3.00 )
+plane.rotation.x = 1.57;
+//plane.position.set( 3.00, 2.50, -3.00 )
+plane.position.set( 3.00, 1.50, -3.00 )
 scene.add( plane );
 
 render();
