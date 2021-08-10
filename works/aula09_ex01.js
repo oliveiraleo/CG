@@ -112,6 +112,10 @@ var planeGeometry2 = new THREE.BoxGeometry( 6.00, 0.05, 3.00 );
 var backMirrorGeometry = new THREE.BoxGeometry( 4.50, 0.05, 3.00 );
 var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
 var cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.0, 80);
+var torusKnotHolderGeometry = new THREE.CylinderGeometry(0.025, 0.025, 0.75, 80);
+var torusKnotGeometry = new THREE.TorusKnotGeometry( 0.25, 0.05, 120, 10, 2, 3 );
+var baseVaseGeometry = new THREE.CylinderGeometry(0.25, 0.25, 0.25, 80);
+var vaseGeometry = new THREE.CylinderGeometry(0.4, 0.25, 0.75, 80);
 
 // Base Cylinders
 var cylinders = [];
@@ -122,14 +126,33 @@ for (let i = 0; i < 3; i++) {
 }
 // cylinder positioning
 cylinders[0].position.set( 0.0, 0.5, -3.0 ); // back-center
-cylinders[1].position.set( 2.0, 0.5, -1.5 ); // left
-cylinders[2].position.set( -2.0, 0.5, -1.5 ); // right
+cylinders[1].position.set( 2.0, 0.5, -1.5 ); // right
+cylinders[2].position.set( -2.0, 0.5, -1.5 ); // left
 
 // Sphere
-var sphere = new THREE.Mesh( sphereGeometry, phongMaterial );
+var sphere = new THREE.Mesh( sphereGeometry, phongMaterial ); // TODO change material later
 sphere.scale.multiplyScalar( 0.5 );
-sphere.position.set( -0.5, 0, -0.75 );
+sphere.position.set( 0.0, 1.0, 0.0 );
 //scene.add( sphere );
+cylinders[0].add(sphere);
+
+// Vase
+var baseVase = new THREE.Mesh( baseVaseGeometry, phongMaterial ); // TODO change material later
+var vase = new THREE.Mesh( vaseGeometry, phongMaterial ); // TODO change material later
+baseVase.position.set( 0.0, 0.6, 0.0 );
+baseVase.add(vase);
+vase.position.set( 0.0, 0.5, 0.0 );
+cylinders[1].add(baseVase);
+
+// Torus Knot
+var torusKnotHolder = new THREE.Mesh( torusKnotHolderGeometry, phongMaterial ); // TODO change material later
+var torusKnot = new THREE.Mesh( torusKnotGeometry, phongMaterial ); // TODO change material later
+//torusKnot.position.set( 0.0, 1.0, 0.0 );
+torusKnotHolder.position.set( 0.0, 0.75, 0.0 );
+torusKnot.position.set( 0.0, 0.25, 0.0 );
+torusKnotHolder.add(torusKnot);
+//cylinders[2].add(torusKnot);
+cylinders[2].add(torusKnotHolder);
 
 // Mirror Sphere
 var sphere2 = new THREE.Mesh( sphereGeometry, mirrorMaterialSmooth );
