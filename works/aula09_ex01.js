@@ -74,43 +74,31 @@ var mirrorMaterial = new THREE.MeshPhongMaterial( {
 mirrorMaterial.mirror = true;
 mirrorMaterial.reflectivity = 1;
 
-var mirrorMaterialDark = new THREE.MeshPhongMaterial( {
-	color: "rgb(0,0,0)",
-	specular: "rgb(170,170,170)",
-	shininess: 10000,
-} );
-mirrorMaterialDark.mirror = true;
-mirrorMaterialDark.reflectivity = 1;
-
-var mirrorMaterialSmooth = new THREE.MeshPhongMaterial( {
-	color: "rgb(255,170,0)",
-	specular: "rgb(34,34,34)",
-	shininess: 10000,
-} );
-mirrorMaterialSmooth.mirror = true;
-mirrorMaterialSmooth.reflectivity = 0.1;
-
-var glassMaterialSmooth = new THREE.MeshPhongMaterial( {
-	color: "rgb(0,0,0)",
-	specular: "rgb(255,255,255)",
-	shininess: 10000,
-} );
-glassMaterialSmooth.glass = true;
-glassMaterialSmooth.reflectivity = 0.25;
-glassMaterialSmooth.refractionRatio = 1.5;
-
 var cylindersMaterial = new THREE.MeshPhongMaterial( {
 	color: "rgb(150,190,220)",
 	//specular: "rgb(255,255,255)",
 	//shininess: 1000,
-	} );
+} );
+
+var knotMaterial = new THREE.MeshPhongMaterial( {
+  color: "rgb(140, 90, 0)", // brown
+  shininess: 1000,
+} );
+
+var vaseMaterial = new THREE.MeshPhongMaterial( {
+  color: "rgb(230,0,0)",
+  specular: "rgb(255,255,255)",
+  shininess: 10000,
+  opacity:"0.25",
+} );
+vaseMaterial.glass = true;
+vaseMaterial.reflectivity = 0.05;
+vaseMaterial.refractionRatio = 2.5;
 
 // geometries
 var sphereGeometry = new THREE.SphereGeometry( 1, 24, 24 );
 var planeGeometry = new THREE.BoxGeometry( 6.00, 0.05, 6.00 );
 var planeGeometry2 = new THREE.BoxGeometry( 6.00, 0.05, 3.00 );
-var backMirrorGeometry = new THREE.BoxGeometry( 4.50, 0.05, 3.00 );
-var boxGeometry = new THREE.BoxGeometry( 1.00, 1.00, 1.00 );
 var cylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.0, 80);
 var torusKnotHolderGeometry = new THREE.CylinderGeometry(0.025, 0.025, 0.75, 80);
 var torusKnotGeometry = new THREE.TorusKnotGeometry( 0.25, 0.05, 120, 10, 2, 3 );
@@ -130,55 +118,26 @@ cylinders[1].position.set( 2.0, 0.5, -1.5 ); // right
 cylinders[2].position.set( -2.0, 0.5, -1.5 ); // left
 
 // Sphere
-var sphere = new THREE.Mesh( sphereGeometry, phongMaterial ); // TODO change material later
+var sphere = new THREE.Mesh( sphereGeometry, mirrorMaterial );
 sphere.scale.multiplyScalar( 0.5 );
 sphere.position.set( 0.0, 1.0, 0.0 );
-//scene.add( sphere );
 cylinders[0].add(sphere);
 
 // Vase
-var baseVase = new THREE.Mesh( baseVaseGeometry, phongMaterial ); // TODO change material later
-var vase = new THREE.Mesh( vaseGeometry, phongMaterial ); // TODO change material later
+var baseVase = new THREE.Mesh( baseVaseGeometry, vaseMaterial );
+var vase = new THREE.Mesh( vaseGeometry, vaseMaterial );
 baseVase.position.set( 0.0, 0.6, 0.0 );
 baseVase.add(vase);
 vase.position.set( 0.0, 0.5, 0.0 );
 cylinders[1].add(baseVase);
 
 // Torus Knot
-var torusKnotHolder = new THREE.Mesh( torusKnotHolderGeometry, phongMaterial ); // TODO change material later
-var torusKnot = new THREE.Mesh( torusKnotGeometry, phongMaterial ); // TODO change material later
-//torusKnot.position.set( 0.0, 1.0, 0.0 );
+var torusKnotHolder = new THREE.Mesh( torusKnotHolderGeometry, phongMaterial ); 
+var torusKnot = new THREE.Mesh( torusKnotGeometry, knotMaterial ); 
 torusKnotHolder.position.set( 0.0, 0.75, 0.0 );
 torusKnot.position.set( 0.0, 0.25, 0.0 );
 torusKnotHolder.add(torusKnot);
-//cylinders[2].add(torusKnot);
 cylinders[2].add(torusKnotHolder);
-
-// Mirror Sphere
-var sphere2 = new THREE.Mesh( sphereGeometry, mirrorMaterialSmooth );
-sphere2.scale.multiplyScalar( 0.8 );
-sphere2.position.set( 1.75, .30, -1.50 );
-//scene.add( sphere2 );
-
-// Glass Sphere (black-right-front)
-var glass = new THREE.Mesh( sphereGeometry, glassMaterialSmooth );
-glass.scale.multiplyScalar( 0.5 );
-glass.position.set( 1.20, 0, -.50 );
-glass.rotation.y = 0.6;
-//scene.add( glass );
-
-// Box
-var box = new THREE.Mesh( boxGeometry, mirrorMaterial );
-box.position.set( -1.75, 0, -1.90 );
-box.rotation.y = degreesToRadians(37);
-//scene.add( box );
-
-// Back Mirror
-var backmirror = new THREE.Mesh( backMirrorGeometry, mirrorMaterialDark );
-backmirror.rotation.x = 1.57;
-backmirror.position.set( 0, 1.50, -2.90 );
-backmirror.scale.multiplyScalar( 0.95 );
-//scene.add( backmirror );
 
 // bottom
 var plane = new THREE.Mesh( planeGeometry, phongMaterialBoxBottom );
