@@ -4,10 +4,8 @@ import Stats from               '../build/jsm/libs/stats.module.js';
 import KeyboardState from       '../libs/util/KeyboardState.js';
 import {ConvexGeometry} from '../build/jsm/geometries/ConvexGeometry.js';
 import {initRenderer, 
-        //createGroundPlaneWired,
         onWindowResize, 
         degreesToRadians,
-        //initDefaultBasicLight,
         //initCamera,
         //BufferGeometry,
         //ConvexGeometry,
@@ -487,63 +485,28 @@ function calcLapTime(start, finish){
 
 // Checks if a checkpoint was reached
 function checkHit(){
-
     if (
         isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[checkPointAtual].getComponent(0) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(0) + checkPointRadius) &&
         isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[checkPointAtual].getComponent(1) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(1) + checkPointRadius) &&
         isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[checkPointAtual].getComponent(2) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(2) + checkPointRadius)
         ){
             if(checkPointAtual==0){
-                //console.log("START!");
                 pathUpdate(cont);
                 timeStart = new Date(); // starts counting the time
                 showInfoOnScreen("Lap started! Good luck!");
             } else if(checkPointAtual==(vetCheckPoints.length-1)){
-                //console.log("END!");
                 clearPath();
                 timeFinish = new Date(); // ends counting the time
                 showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
 
             } else {
-                //console.log("hit!");
                 let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
                 showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
                 pathUpdate(cont);
             }
             checkPointAtual++;
-            vetCheckPoints[checkPointAtual].material =checkPointMaterialOrange;
-            //vetCheckPointsColors[checkPointAtual+1] = checkPointMaterialOrange;
+            vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
         }
-
-    /*
-    for (let i = 0; i < vetCheckPointsPositions.length; i++) {
-        if (
-        isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[i].getComponent(0) - checkPointRadius, vetCheckPointsPositions[i].getComponent(0) + checkPointRadius) &&
-        isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[i].getComponent(1) - checkPointRadius, vetCheckPointsPositions[i].getComponent(1) + checkPointRadius) &&
-        isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[i].getComponent(2) - checkPointRadius, vetCheckPointsPositions[i].getComponent(2) + checkPointRadius)
-        ) {
-            if (cont == 0) { // checks if it's the first check point
-                //console.log("START!");
-                pathUpdate(cont);
-                timeStart = new Date(); // starts counting the time
-                showInfoOnScreen("Lap started! Good luck!");
-            } else if (cont > 0 && cont < (vetCheckPoints.length - 1)) { // the other check points
-                //console.log("hit!");
-                let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
-                showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
-                pathUpdate(cont);
-            } else if (cont == (vetCheckPoints.length - 1)) { // checks if it's the last check point
-                //console.log("END!");
-                clearPath();
-                timeFinish = new Date(); // ends counting the time
-                showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
-            }
-            //scene.remove(vetCheckPoints[i]); // removes the reached check point from scene
-            //vetCheckPoints.shift();
-            vetCheckPointsPositions.shift(); // Disable the reached position
-        }
-    }
-    */
 }
 
 //-----------------------------------//
@@ -564,7 +527,6 @@ asphault.magFilter = THREE.LinearFilter;
 grass.wrapS = THREE.RepeatWrapping;
 grass.wrapT = THREE.RepeatWrapping;
 grass.repeat.set( 50, 50 );
-//grass.repeat.set( 1, 1 );
 //grass.magFilter = THREE.LinearFilter;
 
 // Apply texture to the 'map' property of the respective materials' objects

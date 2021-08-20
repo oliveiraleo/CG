@@ -1,15 +1,9 @@
 import * as THREE from  '../../build/three.module.js';
 import KeyboardState from       '../../libs/util/KeyboardState.js';
 import {//initRenderer, 
-    //createGroundPlaneWired,
-    //onWindowResize, 
-    //initDefaultBasicLight,
-    //InfoBox,
     degreesToRadians} from "../../libs/util/util.js";
 
-
 //Varáveis
-
 let planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
 let planePositionY = -470.0; // previous value was -370.0
 let planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
@@ -541,38 +535,28 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
     } // end of only enables the airplane controls if not in inspection mode
 
     // inspection mode switch
-    if (keyboard.down("space")){
-        //if(groundPlaneWired.visible == false){
-            if(groundPlane.visible == false){
-                voltarEstadoAnteriorAviao(groundPlane);
+    if (keyboard.down("space")) {
+        if (groundPlane.visible == false) {
+            voltarEstadoAnteriorAviao(groundPlane);
 
-            } else { 
-                // saves the current airplane coordinates for later
-                cockpit.visible = true;
-                savedPlanePositionX = getAirplanePositionX();
-                savedPlanePositionY = getAirplanePositionY();
-                savedPlanePositionZ = getAirplaneHeightPosition();
-                //groundPlaneWired.visible = false;
-                groundPlane.visible = false;
-                savedSpeed = speed; // saves the current speed
-                speed = 0.0; // para o aviao
-                mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
-                isInInspectionMode = true; // inspection mode on
+        } else {
+            // saves the current airplane coordinates for later
+            cockpit.visible = true;
+            savedPlanePositionX = getAirplanePositionX();
+            savedPlanePositionY = getAirplanePositionY();
+            savedPlanePositionZ = getAirplaneHeightPosition();
+            //groundPlaneWired.visible = false;
+            groundPlane.visible = false;
+            savedSpeed = speed; // saves the current speed
+            speed = 0.0; // para o aviao
+            mockPlane.position.set(0.0, 0.0, 0.0); // moves the airplane to the origin ground plane position for the trackBallControls to work correctly
+            isInInspectionMode = true; // inspection mode on
 
-                //mockPlane.visible = false;
-                //var aviaoInspecao = new Aviao(sceneSalva);
-                //renderCamera = aviaoInspecao.getCameraInspecao();
-                
-                renderCamera = cameraInspection;
-
-
-            }
+            renderCamera = cameraInspection;
+        }
     }
 
         if (keyboard.down("C")){ // cockpit mode toggle
-            //baseCylinder.cockpit.visible = !baseCylinder.cockpit.visible;
-            
-
             if(!cockpit.visible){
                 cockpit.visible = true;
                 renderCamera = camera;
@@ -582,7 +566,6 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
                 }
                 cockpit.visible = false;
                 renderCamera = cameraCockpit;
-
             }
         }
 }
@@ -592,7 +575,6 @@ function voltarEstadoAnteriorAviao(groundPlane){
     //groundPlaneWired.visible = true; // ground plane appears again
     groundPlane.visible = true; // ground plane appears again
     speed = savedSpeed; // restore the preious speed
-    //mockPlane.position.set(planePositionX, planePositionY, planePositionZ); // makes airplane return at its original position
     mockPlane.position.set(savedPlanePositionX, savedPlanePositionY, savedPlanePositionZ); // makes airplane return at its original position
     //renderCamera = camera;
     isPressed[0] = false;
@@ -605,19 +587,16 @@ var airplaneWorldPosition = new THREE.Vector3(); // creates a vector to get plan
 
 
 function getAirplanePositionX (){ // retorna a posicao X do avião em relação a origem do plano
-    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
     baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneX = airplaneWorldPosition.getComponent(0); // airplane coordinate X
     return airplaneX;
 }
 function getAirplanePositionY (){ // retorna a posicao Y do avião em relação a origem do plano
-    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
     baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneY = airplaneWorldPosition.getComponent(1); // airplane coordinate Y
     return airplaneY;
 }
 function getAirplaneHeightPosition (){ // retorna a altura do avião em relação ao plano
-    //mockPlane.getWorldPosition(airplaneWorldPosition); // updates the position from the airplane
     baseCylinder.getWorldPosition(airplaneWorldPosition);
     var airplaneZ = airplaneWorldPosition.getComponent(2); // airplane height
     return airplaneZ;
