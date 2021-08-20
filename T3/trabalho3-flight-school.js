@@ -540,6 +540,35 @@ function checkHit(){
     */
 }
 
+//-----------------------------------//
+// TEXTURES CONFIGURATION BEGIN      //
+//-----------------------------------//
+// Use TextureLoader to load texture files
+var textureLoader = new THREE.TextureLoader(); // Creates the loader
+var asphault = textureLoader.load('./textures/asphault-512_256.jpg');
+var grass = textureLoader.load('./textures/grass-512_scale.jpg');
+
+// Asphault texture configuration
+asphault.wrapS = THREE.RepeatWrapping;
+asphault.wrapT = THREE.RepeatWrapping;
+asphault.repeat.set( 1, 8 );
+asphault.magFilter = THREE.LinearFilter;
+
+// Asphault texture configuration
+grass.wrapS = THREE.RepeatWrapping;
+grass.wrapT = THREE.RepeatWrapping;
+grass.repeat.set( 50, 50 );
+//grass.repeat.set( 1, 1 );
+//grass.magFilter = THREE.LinearFilter;
+
+// Apply texture to the 'map' property of the respective materials' objects
+landingTrack.material.map = asphault; // apply asphault on landing track
+groundPlane.material.map = grass; // apply asphault on landing track
+
+//-----------------------------------//
+// TEXTURES CONFIGURATION END        //
+//-----------------------------------//
+
 // Show text information onscreen
 showInformation(); // displays information about the controls
 showInfoOnScreen("TIP: Follow the red path"); // displays the initial secondary message
