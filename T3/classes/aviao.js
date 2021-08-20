@@ -104,6 +104,11 @@ renderCamera = camera; // Faz o papel de troca das cameras das cenas
 // define objects material
 var material = new THREE.MeshNormalMaterial();
 var fuselageMaterial = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialWings = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialSideEngines = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialMainEngine = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialLandingGear = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialShockStrut = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", shininess:"100", reflectivity:"1.0"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
@@ -122,18 +127,18 @@ var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // to mimi
 // define airplane wings geometry
 var wingsGeometry = new THREE.BoxGeometry(10.0, 3.0, 0.2);
 // create the right wing
-var rightWing = new THREE.Mesh(wingsGeometry, fuselageMaterial);
+var rightWing = new THREE.Mesh(wingsGeometry, fuselageMaterialWings);
 rightWing.position.set(6.5, -1.0, 0.0);
 // create the left wing
-var leftWing = new THREE.Mesh(wingsGeometry, fuselageMaterial);
+var leftWing = new THREE.Mesh(wingsGeometry, fuselageMaterialWings);
 leftWing.position.set(-6.5, -1.0, 0.0);
 // wing engines
 var enginesCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 // left engine
-var leftEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, fuselageMaterial);
+var leftEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, fuselageMaterialSideEngines);
 leftEngineCylinder.position.set(0.0, 0.0, -0.5);
 // right engine
-var rightEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, fuselageMaterial);
+var rightEngineCylinder = new THREE.Mesh(enginesCylinderGeometry, fuselageMaterialSideEngines);
 rightEngineCylinder.position.set(0.0, 0.0, -0.5);
 
 // define airplane flaps geometry
@@ -157,7 +162,7 @@ backCylinder.position.set(0.0, -7.0, 0.0);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-var tailCylinder = new THREE.Mesh(tailCylinderGeometry, fuselageMaterial);
+var tailCylinder = new THREE.Mesh(tailCylinderGeometry, fuselageMaterialSideEngines);
 tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
@@ -209,7 +214,7 @@ rightCrossp1.rotateZ(degreesToRadians(90));
 
 // create the front cylinder
 var frontCylinderGeometry = new THREE.CylinderGeometry(0.5, 1.5, 0.5, 32);
-var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterial);
+var frontCylinder = new THREE.Mesh(frontCylinderGeometry, fuselageMaterialMainEngine);
 frontCylinder.position.set(0.0, 4.75, 0.0);
 
 //-----------------------------------//
@@ -275,29 +280,29 @@ backRightTire.rotateY(degreesToRadians(90));
 var shockStrutGeometry = new THREE.BoxGeometry(0.05, 0.2, 0.85);
 var backShockStrutsGeometry = new THREE.BoxGeometry(0.05, 0.2, 1.1);
 // create front shock strut
-var shockStrut = new THREE.Mesh(shockStrutGeometry, fuselageMaterial);
+var shockStrut = new THREE.Mesh(shockStrutGeometry, fuselageMaterialLandingGear);
 shockStrut.position.set(0.2, 3.0, -1.9);
 // create 2nd front shock strut
-var shockStrut2 = new THREE.Mesh(shockStrutGeometry, fuselageMaterial);
+var shockStrut2 = new THREE.Mesh(shockStrutGeometry, fuselageMaterialLandingGear);
 shockStrut2.position.set(-0.2, 3.0, -1.9);
 // create front tire cylinder axis
 var frontTireCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 32);
-var frontTireCylinder = new THREE.Mesh(frontTireCylinderGeometry, fuselageMaterial);
+var frontTireCylinder = new THREE.Mesh(frontTireCylinderGeometry, fuselageMaterialShockStrut);
 frontTireCylinder.rotateZ(degreesToRadians(90));
 frontTireCylinder.position.set(0.0, 3.0, -2.2);
 // create back left shock strut
-var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, fuselageMaterial);
+var backLeftShockStrut = new THREE.Mesh(backShockStrutsGeometry, fuselageMaterialLandingGear);
 backLeftShockStrut.position.set(-0.9, -3.0, -1.75);
 // rotate to 90° angle
 backLeftShockStrut.rotateY(degreesToRadians(45));
 // create back right shock strut
-var backRightShockStrut = new THREE.Mesh(backShockStrutsGeometry, fuselageMaterial);
+var backRightShockStrut = new THREE.Mesh(backShockStrutsGeometry, fuselageMaterialLandingGear);
 backRightShockStrut.position.set(0.9, -3.0, -1.75);
 // rotate to 90° angle
 backRightShockStrut.rotateY(degreesToRadians(-45));
 // create back tire cylinder axis
 var backTiresCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 3.0, 32);
-var backTiresCylinder = new THREE.Mesh(backTiresCylinderGeometry, fuselageMaterial);
+var backTiresCylinder = new THREE.Mesh(backTiresCylinderGeometry, fuselageMaterialShockStrut);
 backTiresCylinder.rotateZ(degreesToRadians(90));
 backTiresCylinder.position.set(0.0, -3.0, -2.2);
 
@@ -375,8 +380,66 @@ scene.add(cameraInspection);
 cockpit.add(cameraHolderCockPit);
 scene.add(mockPlane);
 
-}
+//-----------------------------------//
+// TEXTURES CONFIGURATION BEGIN      //
+//-----------------------------------//
+// Use TextureLoader to load texture files
+var textureLoader = new THREE.TextureLoader(); // Creates the loader
+var airplaneMultiCamo = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoWing = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoMainEngine = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoSideEngines = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoTiresCylinder = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoShockStrut = textureLoader.load('./textures/multi_camo.png');
+// TODO refactorate the code block above? (Loading too many times the same texture)
 
+// Airplane multi camouflage texture configuration
+airplaneMultiCamo.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamo.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamo.repeat.set( 8, 8 );
+//airplaneMultiCamo.magFilter = THREE.LinearFilter;
+
+// Wing
+airplaneMultiCamoWing.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoWing.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoWing.repeat.set( 16, 2 );
+//airplaneMultiCamoWing.magFilter = THREE.LinearFilter;
+
+// Main engine // TODO fix the camo texture here (round surface)
+//airplaneMultiCamoMainEngine.wrapS = THREE.RepeatWrapping;
+//airplaneMultiCamoMainEngine.wrapT = THREE.RepeatWrapping;
+//airplaneMultiCamoMainEngine.repeat.set( 1, 1 );
+//airplaneMultiCamoMainEngine.magFilter = THREE.LinearFilter;
+
+// Side engines
+airplaneMultiCamoSideEngines.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoSideEngines.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoSideEngines.repeat.set( 8, 4 );
+//airplaneMultiCamoSideEngines.magFilter = THREE.LinearFilter;
+
+// Tires Cylinders
+airplaneMultiCamoTiresCylinder.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoTiresCylinder.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoTiresCylinder.repeat.set( 2, 6 );
+//airplaneMultiCamoTiresCylinder.magFilter = THREE.LinearFilter;
+
+// Shock struts
+airplaneMultiCamoShockStrut.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoShockStrut.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoShockStrut.repeat.set( 3, 1 );
+//airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
+
+baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
+rightWing.material.map = airplaneMultiCamoWing; // apply camo on airplane wings
+frontCylinder.material.map = airplaneMultiCamoMainEngine; // apply camo on airplane main engine
+leftEngineCylinder.material.map = airplaneMultiCamoSideEngines; // apply camo on airplane side engines
+frontTireCylinder.material.map = airplaneMultiCamoTiresCylinder; // apply camo on airplane landing gear
+shockStrut.material.map = airplaneMultiCamoShockStrut; // apply camo on airplane landing gear
+
+//-----------------------------------//
+// TEXTURES CONFIGURATION END        //
+//-----------------------------------//
+}
 
 Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
     keyboard.update(); // verifica qual tecla esta sendo pressionada
