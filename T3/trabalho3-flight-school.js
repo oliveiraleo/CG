@@ -400,6 +400,8 @@ createCheckPoints();
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
+var controlsHelperBox = true;
+
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
     if (keyboard.down("G")){ // Toggles the directional light helper
@@ -407,6 +409,13 @@ function keyboardUpdate() {
     }
     if (keyboard.down("F")){ // Toggles the axes helper
         axesHelper.visible = !axesHelper.visible;
+    }
+    if (keyboard.down("H")){ // Toggles the info box controls text helper
+        if (document.getElementById("InfoxBox").style.display == "") { // if infobox is visible, hide it
+            document.getElementById("InfoxBox").style.display = "none"; // hides the infobox
+        } else {
+            document.getElementById("InfoxBox").style.display = ""; // if not, show it again
+        }
     }
     if (keyboard.down("enter")){ // Toggles the path visualization
         pathObject.visible = !pathObject.visible;
@@ -418,6 +427,10 @@ function keyboardUpdate() {
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
         //mesh3.visible = !mesh3.visible; // esconde a montanha media
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
+        document.getElementById("InfoxBox").style.display = "none";
+    }
+    if (keyboard.down("O")){ // Another Debug key
+        document.getElementById("InfoxBox").style.display = "";
     }
 }
 // Check if a integer number is in a given range
@@ -549,7 +562,7 @@ function showInformation()
     controls.add("Press C to toggle cockpit camera");
     controls.add("Press F to toggle the axes helper");
     controls.add("Press G to toggle the sunlight helper");
-    //controls.add("Press H to toggle this help box");
+    controls.add("Press H to toggle this help box");
     controls.add("Press ENTER to toggle the path helper");
     controls.add("Press SPACE to toggle inspection mode");
     controls.show();
