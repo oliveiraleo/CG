@@ -400,7 +400,15 @@ createCheckPoints();
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
-var controlsHelperBox = true;
+//var controlsHelperBoxState = true;
+// Controls info boxes visibility
+function togglesInfoBoxVisibility(boxId){
+    if (document.getElementById(boxId).style.display == "") { // if infobox is visible, hide it
+        document.getElementById(boxId).style.display = "none"; // hides the infobox
+    } else {
+        document.getElementById(boxId).style.display = ""; // if not, show it again
+    }
+}
 
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
@@ -411,26 +419,24 @@ function keyboardUpdate() {
         axesHelper.visible = !axesHelper.visible;
     }
     if (keyboard.down("H")){ // Toggles the info box controls text helper
-        if (document.getElementById("InfoxBox").style.display == "") { // if infobox is visible, hide it
-            document.getElementById("InfoxBox").style.display = "none"; // hides the infobox
-        } else {
-            document.getElementById("InfoxBox").style.display = ""; // if not, show it again
-        }
+        togglesInfoBoxVisibility("InfoxBox");
     }
     if (keyboard.down("enter")){ // Toggles the path visualization
         pathObject.visible = !pathObject.visible;
     }
     if (keyboard.down("space")){ // Toggles the inspection mode
-        showInfoOnScreen(""); // hide the secondary text in inspection mode
+        //showInfoOnScreen(""); // hide the secondary text in inspection mode
+        togglesInfoBoxVisibility("box");
+        // TODO hide controls on inspection mode ?
     }
     if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
         //mesh3.visible = !mesh3.visible; // esconde a montanha media
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
-        document.getElementById("InfoxBox").style.display = "none";
+        //document.getElementById("InfoxBox").style.display = "none";
     }
     if (keyboard.down("O")){ // Another Debug key
-        document.getElementById("InfoxBox").style.display = "";
+        //document.getElementById("InfoxBox").style.display = "";
     }
 }
 // Check if a integer number is in a given range
