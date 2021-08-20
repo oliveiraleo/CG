@@ -236,7 +236,7 @@ var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
 mesh3.position.set(250, 50, 0);
 mesh4.position.set(0.0 * mountainScaleMedium, 0.0 * mountainScaleMedium, 8.5 * mountainScaleMedium);
 mesh4.rotateX(90);
-groundPlane.add( mesh3 );
+//groundPlane.add( mesh3 );
 mesh3.add( mesh4 );
 // Big mountain
 var mesh5 = new THREE.Mesh( geometry5, materialRock );
@@ -247,7 +247,7 @@ mesh6.position.set( 0 * mountainScaleHigh, -3 * mountainScaleHigh, 0 * mountainS
 mesh7.position.set( 3 * mountainScaleHigh, 3 * mountainScaleHigh, 0 * mountainScaleHigh);
 mesh6.rotateZ(25);
 mesh7.rotateZ(-90);
-groundPlane.add( mesh5 );
+//groundPlane.add( mesh5 );
 mesh5.add( mesh6 );
 mesh6.add( mesh7 );
 
@@ -405,7 +405,7 @@ function keyboardUpdate() {
     if (keyboard.down("G")){ // Toggles the directional light helper
         directionalLightHelper.visible = !directionalLightHelper.visible;
     }
-    if (keyboard.down("H")){ // Toggles the axes helper
+    if (keyboard.down("F")){ // Toggles the axes helper
         axesHelper.visible = !axesHelper.visible;
     }
     if (keyboard.down("enter")){ // Toggles the path visualization
@@ -547,8 +547,9 @@ function showInformation()
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
     controls.add("Press C to toggle cockpit camera");
-    controls.add("Press H to toggle the axes helper");
+    controls.add("Press F to toggle the axes helper");
     controls.add("Press G to toggle the sunlight helper");
+    //controls.add("Press H to toggle this help box");
     controls.add("Press ENTER to toggle the path helper");
     controls.add("Press SPACE to toggle inspection mode");
     controls.show();
