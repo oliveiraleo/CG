@@ -383,7 +383,7 @@ function createCheckPoints(){
         vetCheckPoints[i] = generateOneCheckPoint(i);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
-        vetCheckPoints[i].visible = false; // Check points start hidden, they will be shown later
+        vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
         
         //scene.add(vetCheckPoints[i]);
         //let pos = vetPathPoints[i];
@@ -456,14 +456,20 @@ function keyboardUpdate() {
         // TODO hide controls on inspection mode ?
         togglesSceneLights();
     }
+    if (keyboard.down("M")){ // TODO
+        // TODO
+        music.pause();
+    }
     if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
         //mesh3.visible = !mesh3.visible; // esconde a montanha media
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
         //document.getElementById("InfoxBox").style.display = "none";
+        music.play();
     }
     if (keyboard.down("O")){ // Another Debug key
         //document.getElementById("InfoxBox").style.display = "";
+        checkpointSound.play();
     }
 }
 // Check if a integer number is in a given range
@@ -487,7 +493,8 @@ function clearPath(){
     vetCheckPointsPositions.length = 0; // Cleaning the array completely
     groundPlane.remove(pathObject); // Disposes the path helper
 }
-var cont = 0; // keeps track of what is the next checkpoint
+var cont = 0; // keeps track of which one is the next checkpoint
+var isPathEnded = false; // verifies if the path is over
 
 function pathUpdate(i){
     if (i < vetCheckPoints.length - 2) { // the last two check points will be removed without updating any other check point objects
@@ -499,7 +506,7 @@ function pathUpdate(i){
         groundPlane.remove(vetCheckPoints[i]); // removes the last check point before the final one
         cont++;
     }
-    
+    vetCheckPoints[i+1].material = checkPointMaterialOrange; // udates the next check point color
 }
 var timeStart, timeFinish; // Save time data to use later
 // Function to return a total event time in seconds
@@ -515,26 +522,32 @@ function calcLapTime(start, finish){
 // Checks if a checkpoint was reached
 function checkHit(){
     if (
+        !isPathEnded &&
         isInRange(aviao.getPosicao()[0], vetCheckPointsPositions[checkPointAtual].getComponent(0) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(0) + checkPointRadius) &&
         isInRange(aviao.getPosicao()[1], vetCheckPointsPositions[checkPointAtual].getComponent(1) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(1) + checkPointRadius) &&
         isInRange(aviao.getPosicao()[2], vetCheckPointsPositions[checkPointAtual].getComponent(2) - checkPointRadius, vetCheckPointsPositions[checkPointAtual].getComponent(2) + checkPointRadius)
         ){
-            if(checkPointAtual==0){
+            if(checkPointAtual == 0){ // first
                 pathUpdate(cont);
                 timeStart = new Date(); // starts counting the time
                 showInfoOnScreen("Lap started! Good luck!");
-            } else if(checkPointAtual==(vetCheckPoints.length-1)){
+                //vetCheckPoints[checkPointAtual+1].material = checkPointMaterialOrange;
+                checkpointSound.play();
+            } else if(checkPointAtual == (vetCheckPoints.length-1)){ // last
+                isPathEnded = true; // now the path is finished
                 clearPath();
                 timeFinish = new Date(); // ends counting the time
                 showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
 
             } else {
+                vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
                 let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
                 showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
+                checkpointSound.play();
                 pathUpdate(cont);
             }
             checkPointAtual++;
-            vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
+            //vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
         }
 }
 
@@ -601,6 +614,54 @@ window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraNorm
 window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraInspecao(), renderer)}, false ); // no modo inspecao
 window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraCockpit(), renderer)}, false ); // no modo inspecao
 
+//-----------------------------------//
+// AUDIO CONFIGURATION BEGIN         //
+//-----------------------------------//
+// Create a listener and add it to que camera
+//var firstPlay = true;
+var listener = new THREE.AudioListener();
+  //camera.add( listener );
+  aviao.getCameraNormal().add( listener );
+
+// create a global audio source
+const music = new THREE.Audio( listener );  
+
+// Create ambient sound
+var audioLoader = new THREE.AudioLoader();
+audioLoader.load( './sounds/ameno-remix.flac', function( buffer ) {
+	music.setBuffer( buffer );
+	music.setLoop( true );
+	music.setVolume( 0.15 );
+	//music.play();
+});
+
+// Create check point check sound
+const checkpointSound = new THREE.PositionalAudio( listener );
+audioLoader.load( './sounds/checkpoint.ogg', function ( buffer ) {
+    checkpointSound.setBuffer( buffer );
+    //checkpointSound.setLoop( true );
+    checkpointSound.setVolume( 100.0 );
+    //checkpointSound.play(); // Will play when start button is pressed
+} ); // Will be added to the target object
+// TODO fix sound is played with different volumes
+// TODO fix airplane texture
+//vetCheckPoints[0].add( checkpointSound );
+
+for (let i = 0; i < vetCheckPoints.length - 1; i++) {
+    vetCheckPoints[i].add( checkpointSound ); // adds sounds to check points, except the last one
+}
+
+//-- Create windmill sound ---------------------------------------------------       
+/*const windmillSound = new THREE.PositionalAudio( listener );
+audioLoader.load( '../assets/sounds/sampleSound.ogg', function ( buffer ) {
+  windmillSound.setBuffer( buffer );
+  windmillSound.setLoop( true );
+  //sound1.play(); // Will play when start button is pressed
+} ); // Will be added to the target object
+*/
+//-----------------------------------//
+// AUDIO CONFIGURATION END           //
+//-----------------------------------//
 
 var trackballControls = new TrackballControls( aviao.getCameraInspecao(), renderer.domElement );
 function render() {
