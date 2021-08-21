@@ -11,6 +11,7 @@ import {initRenderer,
         //ConvexGeometry,
         SecondaryBox,
         InfoBox,
+        lightFollowingCamera,
         radiansToDegrees} from "../libs/util/util.js";
 
 import { gerarArvores } from './classes/arvore.js';
@@ -25,7 +26,11 @@ var information = new SecondaryBox(""); // to display the secondary information 
 // SCENE LIGHTS CONFIGURATION BEGIN  //
 //-----------------------------------//
 // Adds some lights to the scene
-//var hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+// Spot light
+var spotLight = new THREE.SpotLight( "white", 0.0); // 0.0 because it starts turned off
+scene.add(spotLight);
+spotLight.position.set(0, 0, 10); // sets the initial position of the spotlight
+// Hemisphere light
 var hemisphereLight = new THREE.HemisphereLight( "white", "white", 0.75 );
 scene.add( hemisphereLight );
 // White directional light shining from the top.
@@ -369,7 +374,6 @@ function generateOneCheckPoint(index){ // auxiliary function
     var checkPointGeometry = new THREE.TorusGeometry(checkPointRadius, 0.5, 32, 24);
     
     var checkPoint = new THREE.Mesh(checkPointGeometry, vetCheckPointsColors[index]);
-    //checkPoint.rotateX(degreesToRadians(90));
 
     return checkPoint;
 }
@@ -408,6 +412,30 @@ function togglesInfoBoxVisibility(boxId){
     }
 }
 
+// Function to control which light will be used on each scene
+function togglesSceneLights(){
+    // directional light used when on simulator mode
+    if (directionalLight.intensity != 0.0) { // if light is on
+        directionalLight.intensity = 0.0; // turns it off
+    } else {
+        directionalLight.intensity = 0.75; // or turns it back on
+    }
+    
+    // hemisphere light used when on simulator mode
+    if (hemisphereLight.intensity != 0.0) { // if light is on
+        hemisphereLight.intensity = 0.0; // turns it off
+    } else {
+        hemisphereLight.intensity = 0.75; // or turns it back on
+    }
+
+    // spot light used inside the inspection mode
+    if (spotLight.intensity != 0.0) { // if light is on
+        spotLight.intensity = 0.0; // turns it off
+    } else {
+        spotLight.intensity = 1.5; // or turns it back on
+    }
+}
+
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
     if (keyboard.down("G")){ // Toggles the directional light helper
@@ -426,6 +454,7 @@ function keyboardUpdate() {
         //showInfoOnScreen(""); // hide the secondary text in inspection mode
         togglesInfoBoxVisibility("box");
         // TODO hide controls on inspection mode ?
+        togglesSceneLights();
     }
     if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
@@ -585,5 +614,6 @@ function render() {
     aviao.slowSpeed(); // Checks if airplane is too slow
     keyboardUpdate(); // listens to keyboard inputs and controls some objects
     checkHit(); // Checks if the airplane hit some check point
+    lightFollowingCamera(spotLight, aviao.getCameraInspecao()); // enables the light inside inspection mode to follow the camera
 }
 render();
