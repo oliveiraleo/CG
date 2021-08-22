@@ -594,16 +594,24 @@ function showInformation()
   // Use this to show information onscreen
     var controls = new InfoBox();
     controls.add("Flight Simulator controls:");
-    controls.addParagraph();
+    //controls.addParagraph();
     controls.add("Press arrow keys to change airplane direction");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
+    controls.addParagraph();
+    controls.add("Camera modes:");
     controls.add("Press C to toggle cockpit camera");
+    controls.add("Press SPACE to toggle inspection mode");
+    controls.addParagraph();
+    controls.add("Ambient controls:");
+    controls.add("Press ENTER to toggle the path helper");
     controls.add("Press F to toggle the axes helper");
     controls.add("Press G to toggle the sunlight helper");
     controls.add("Press H to toggle this help box");
-    controls.add("Press ENTER to toggle the path helper");
-    controls.add("Press SPACE to toggle inspection mode");
+    controls.addParagraph();
+    controls.add("Music controls:");
+    controls.add("Press P to play the sound track");
+    controls.add("Press M to mute the sound track");
     controls.show();
 }
 
@@ -628,7 +636,7 @@ const music = new THREE.Audio( listener );
 
 // Create ambient sound
 var audioLoader = new THREE.AudioLoader();
-audioLoader.load( './sounds/ameno-remix.flac', function( buffer ) {
+audioLoader.load( './sounds/CS-GO-Lock&Load.ogg', function( buffer ) {
 	music.setBuffer( buffer );
 	music.setLoop( true );
 	music.setVolume( 0.15 );
