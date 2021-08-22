@@ -636,8 +636,10 @@ var listener = new THREE.AudioListener();
   //camera.add( listener );
   aviao.getCameraNormal().add( listener );
 
-// create a global audio source
+// create the global audio sources
 const music = new THREE.Audio( listener );  
+const checkpointSound = new THREE.Audio( listener );  
+const levelSound = new THREE.Audio( listener );  
 
 // Create ambient sound
 var audioLoader = new THREE.AudioLoader();
@@ -649,40 +651,22 @@ audioLoader.load( './sounds/CS-GO-Lock&Load.ogg', function( buffer ) {
 });
 
 // Create check point check sound
-const checkpointSound = new THREE.PositionalAudio( listener );
-audioLoader.load( './sounds/check-point.ogg', function ( buffer ) {
-    checkpointSound.setBuffer( buffer );
-    //checkpointSound.setLoop( true );
-    checkpointSound.setVolume( 100.0 );
-    //checkpointSound.play(); // Will play when start button is pressed
-} ); // Will be added to the target object
-// TODO fix sound is played with different volumes
-// TODO fix airplane texture
+var audioLoaderCheckPoint = new THREE.AudioLoader();
+audioLoaderCheckPoint.load( './sounds/check-point.ogg', function( buffer ) {
+	checkpointSound.setBuffer( buffer );
+	//music.setLoop( true );
+	checkpointSound.setVolume( 1.00 );
+	//music.play(); // Will play when a check point is reached
+});
 
 // Create last check point check sound
-const levelSound = new THREE.PositionalAudio( listener );
 audioLoader.load( './sounds/level-clear.ogg', function ( buffer ) {
     levelSound.setBuffer( buffer );
     //checkpointSound.setLoop( true );
-    levelSound.setVolume( 100.0 );
-    //checkpointSound.play(); // Will play when start button is pressed
-} ); // Will be added to the target object
+    levelSound.setVolume( 1.00 );
+    //checkpointSound.play(); // Will play when the last check point is reached
+} );
 
-/*for (let i = 0; i < vetCheckPoints.length - 1; i++) {
-    vetCheckPoints[i].add( checkpointSound ); // adds sounds to check points, except the last one
-}*/
-
-vetCheckPoints[0].add( checkpointSound ); // adds sound to the orange (current) check point
-vetCheckPoints[0].add( levelSound ); // adds sound to the orange (current) check point
-
-//-- Create windmill sound ---------------------------------------------------       
-/*const windmillSound = new THREE.PositionalAudio( listener );
-audioLoader.load( '../assets/sounds/sampleSound.ogg', function ( buffer ) {
-  windmillSound.setBuffer( buffer );
-  windmillSound.setLoop( true );
-  //sound1.play(); // Will play when start button is pressed
-} ); // Will be added to the target object
-*/
 //-----------------------------------//
 // AUDIO CONFIGURATION END           //
 //-----------------------------------//
