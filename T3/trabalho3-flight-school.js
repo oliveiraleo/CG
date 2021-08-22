@@ -475,6 +475,11 @@ function keyboardUpdate() {
     if (keyboard.down("O")){ // Another Debug key
         //document.getElementById("InfoxBox").style.display = "";
         //checkpointSound.play();
+        //levelSound.play();
+        //levelSound.onEnded(pilotFinalMesssage.play());
+
+        pilotFinalMesssage.play();
+        pilotFinalMesssage.onEnded(levelSound.play());
     }
 }
 // Check if a integer number is in a given range
@@ -538,13 +543,18 @@ function checkHit(){
                 showInfoOnScreen("Lap started! Good luck!");
                 //vetCheckPoints[checkPointAtual+1].material = checkPointMaterialOrange;
                 checkpointSound.play();
+                pilotStartMesssage.play();
             } else if(checkPointAtual == (vetCheckPoints.length-1)){ // last
                 isPathEnded = true; // now the path is finished
                 clearPath();
                 timeFinish = new Date(); // ends counting the time
                 showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
                 levelSound.play();
+                //levelSound.onEnded(pilotFinalMesssage.play());
             } else {
+                if (checkPointAtual == (vetCheckPoints.length-2)) { // plays the final radio message
+                    pilotFinalMesssage.play();
+                }
                 vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
                 let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
                 showInfoOnScreen("Task completion: " + (cont + 1) + " / " + vetCheckPoints.length + " checkpoints (" + completion + "%)");
@@ -640,6 +650,8 @@ var listener = new THREE.AudioListener();
 const music = new THREE.Audio( listener );  
 const checkpointSound = new THREE.Audio( listener );  
 const levelSound = new THREE.Audio( listener );  
+const pilotStartMesssage = new THREE.Audio( listener );  
+const pilotFinalMesssage = new THREE.Audio( listener );  
 
 // Create ambient sound
 var audioLoader = new THREE.AudioLoader();
@@ -663,7 +675,23 @@ audioLoaderCheckPoint.load( './sounds/check-point.ogg', function( buffer ) {
 audioLoader.load( './sounds/level-clear.ogg', function ( buffer ) {
     levelSound.setBuffer( buffer );
     //checkpointSound.setLoop( true );
-    levelSound.setVolume( 1.00 );
+    levelSound.setVolume( 0.75 );
+    //checkpointSound.play(); // Will play when the last check point is reached
+} );
+
+// Create start pilot radio message
+audioLoader.load( './sounds/pilot-fasten-seatbelts.ogg', function ( buffer ) {
+    pilotStartMesssage.setBuffer( buffer );
+    //checkpointSound.setLoop( true );
+    pilotStartMesssage.setVolume( 1.00 );
+    //checkpointSound.play(); // Will play when the first check point is reached
+} );
+
+// Create final pilot radio message
+audioLoader.load( './sounds/pilot-have-a-nice-day.ogg', function ( buffer ) {
+    pilotFinalMesssage.setBuffer( buffer );
+    //checkpointSound.setLoop( true );
+    pilotFinalMesssage.setVolume( 1.00 );
     //checkpointSound.play(); // Will play when the last check point is reached
 } );
 
