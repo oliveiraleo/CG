@@ -692,6 +692,7 @@ function render() {
     trackballControls.update(); // Enable mouse movements
     aviao.rotateBlades(); // Enable airplane blades rotation
     aviao.slowSpeed(); // Checks if airplane is too slow
+    aviao.setEngineSound();
     keyboardUpdate(); // listens to keyboard inputs and controls some objects
     checkHit(); // Checks if the airplane hit some check point
     lightFollowingCamera(spotLight, aviao.getCameraInspecao()); // enables the light inside inspection mode to follow the camera

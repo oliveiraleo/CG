@@ -450,6 +450,39 @@ leftStabilizer.material.map = airplaneBlueCamoBackStabilizers; // apply camo on 
 //-----------------------------------//
 }
 
+//-----------------------------------//
+// AUDIO CONFIGURATION BEGIN         //
+//-----------------------------------//
+var listenerAirplane = new THREE.AudioListener();
+  camera.add( listenerAirplane );
+  //aviao.getCameraNormal().add( listener );
+
+// create a global audio source
+const engineSound = new THREE.Audio( listenerAirplane );  
+
+// Create ambient sound
+var audioLoader = new THREE.AudioLoader();
+audioLoader.load( './sounds/airplane-engine.ogg', function( buffer ) {
+	engineSound.setBuffer( buffer );
+	engineSound.setLoop( true );
+	engineSound.setVolume( 0.0 ); // airplane starts landed, so no need to play engine sound
+	engineSound.play();
+});
+
+// Controls the engine volume
+Aviao.prototype.setEngineSound = function (){
+    /*if (speed > 0.0 && speed <= 1.0) {
+        engineSound.setVolume(0.75 * speed);
+    } else {
+        engineSound.setVolume(0.0);
+    }*/
+    // TODO check this function later
+    engineSound.setVolume(0.75 * speed);
+}
+//-----------------------------------//
+// AUDIO CONFIGURATION END           //
+//-----------------------------------//
+
 Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
     keyboard.update(); // verifica qual tecla esta sendo pressionada
     var angle = degreesToRadians(1); // determina o angulo dos movimentos de rotacao
