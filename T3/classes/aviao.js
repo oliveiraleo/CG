@@ -603,6 +603,20 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
         if(getAirplaneHeightPosition() <= 2){
             mockPlane.position.set(getAirplanePositionX (),getAirplanePositionY (),0);
         }
+        
+        // cockpit mode toggle
+        if (keyboard.down("C")){ 
+            if(!cockpit.visible){
+                cockpit.visible = true;
+                renderCamera = camera;
+            } else {
+                if(groundPlane.visible==false){
+                    voltarEstadoAnteriorAviao(groundPlane);
+                }
+                cockpit.visible = false;
+                renderCamera = cameraCockpit;
+            }
+        }
 
     } // end of only enables the airplane controls if not in inspection mode
 
@@ -627,19 +641,6 @@ Aviao.prototype.keyboardUpdateHolder = function (groundPlane) {
             renderCamera = cameraInspection;
         }
     }
-
-        if (keyboard.down("C")){ // cockpit mode toggle
-            if(!cockpit.visible){
-                cockpit.visible = true;
-                renderCamera = camera;
-            } else {
-                if(groundPlane.visible==false){
-                    voltarEstadoAnteriorAviao(groundPlane);
-                }
-                cockpit.visible = false;
-                renderCamera = cameraCockpit;
-            }
-        }
 }
 
 function voltarEstadoAnteriorAviao(groundPlane){
