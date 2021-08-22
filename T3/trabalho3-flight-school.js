@@ -458,18 +458,23 @@ function keyboardUpdate() {
     }
     if (keyboard.down("M")){ // TODO
         // TODO
-        music.pause();
+        //music.pause();
     }
     if (keyboard.down("P")){ // Debug key
         //mesh1.visible = !mesh1.visible; // esconde a montanha menor
         //mesh3.visible = !mesh3.visible; // esconde a montanha media
         //mesh5.visible = !mesh5.visible; // esconde a montanha maior
         //document.getElementById("InfoxBox").style.display = "none";
-        music.play();
+        //music.play();
+        if (music.getVolume() != 0.0) {
+            music.setVolume(0.0);
+        } else {
+            music.setVolume(0.15);
+        }
     }
     if (keyboard.down("O")){ // Another Debug key
         //document.getElementById("InfoxBox").style.display = "";
-        checkpointSound.play();
+        //checkpointSound.play();
     }
 }
 // Check if a integer number is in a given range
@@ -610,8 +615,8 @@ function showInformation()
     controls.add("Press H to toggle this help box");
     controls.addParagraph();
     controls.add("Music controls:");
-    controls.add("Press P to play the sound track");
-    controls.add("Press M to mute the sound track");
+    controls.add("Press P to play / pause the sound track");
+    //controls.add("Press M to mute the sound track");
     controls.show();
 }
 
@@ -640,7 +645,7 @@ audioLoader.load( './sounds/CS-GO-Lock&Load.ogg', function( buffer ) {
 	music.setBuffer( buffer );
 	music.setLoop( true );
 	music.setVolume( 0.15 );
-	//music.play();
+	music.play();
 });
 
 // Create check point check sound
