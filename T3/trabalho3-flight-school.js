@@ -538,7 +538,7 @@ function checkHit(){
                 clearPath();
                 timeFinish = new Date(); // ends counting the time
                 showInfoOnScreen('Congratulations! Your lap took ' + calcLapTime(timeStart, timeFinish) + ' seconds...');
-
+                levelSound.play();
             } else {
                 vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
                 let completion = Math.floor(((cont + 1) / vetCheckPoints.length) * 100);
@@ -637,7 +637,7 @@ audioLoader.load( './sounds/ameno-remix.flac', function( buffer ) {
 
 // Create check point check sound
 const checkpointSound = new THREE.PositionalAudio( listener );
-audioLoader.load( './sounds/checkpoint.ogg', function ( buffer ) {
+audioLoader.load( './sounds/check-point.ogg', function ( buffer ) {
     checkpointSound.setBuffer( buffer );
     //checkpointSound.setLoop( true );
     checkpointSound.setVolume( 100.0 );
@@ -645,11 +645,22 @@ audioLoader.load( './sounds/checkpoint.ogg', function ( buffer ) {
 } ); // Will be added to the target object
 // TODO fix sound is played with different volumes
 // TODO fix airplane texture
-//vetCheckPoints[0].add( checkpointSound );
 
-for (let i = 0; i < vetCheckPoints.length - 1; i++) {
+// Create last check point check sound
+const levelSound = new THREE.PositionalAudio( listener );
+audioLoader.load( './sounds/level-clear.ogg', function ( buffer ) {
+    levelSound.setBuffer( buffer );
+    //checkpointSound.setLoop( true );
+    levelSound.setVolume( 100.0 );
+    //checkpointSound.play(); // Will play when start button is pressed
+} ); // Will be added to the target object
+
+/*for (let i = 0; i < vetCheckPoints.length - 1; i++) {
     vetCheckPoints[i].add( checkpointSound ); // adds sounds to check points, except the last one
-}
+}*/
+
+vetCheckPoints[0].add( checkpointSound ); // adds sound to the orange (current) check point
+vetCheckPoints[0].add( levelSound ); // adds sound to the orange (current) check point
 
 //-- Create windmill sound ---------------------------------------------------       
 /*const windmillSound = new THREE.PositionalAudio( listener );
