@@ -573,7 +573,7 @@ function checkHit(){
 // EXTERNAL OBJECT CONFIG BEGIN      //
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
-
+var scale = 1.0;
 // Humvee
 
 // instantiate a object loader
@@ -590,16 +590,19 @@ humveeLoader.load(
 	'models/cars/army/Humvee.obj',
 	// called when resource is loaded
 	function ( car ) {
-        //car.position.set(0, 0, 0);
+        car.position.set(0, 20, 0);
         car.rotateX(degreesToRadians(90));
-        car.scale.set(0.5, 0.5, 0.5);
-		scene.add( car );
+        // object scale
+        car.scale.set(  0.04 * scale,
+                        0.04 * scale,
+                        0.04 * scale);
+		landingTrack.add( car );
 
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		console.log( 'Humvee ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	},
 	// called when loading has errors
@@ -630,14 +633,17 @@ policeCarLoader.load(
         //car.position.set(0, 0, 0);
         car.rotateX(degreesToRadians(90));
         //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
-        car.scale.set(3.0, 3.0, 3.0);
+        // object scale
+        car.scale.set(  3.0 * scale,
+                        3.0 * scale,
+                        3.0 * scale);
 		landingTrack.add( car );
 
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		console.log( 'Police car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	},
 	// called when loading has errors
