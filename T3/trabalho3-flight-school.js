@@ -3,6 +3,9 @@ import {TrackballControls} from '../build/jsm/controls/TrackballControls.js';
 import Stats from               '../build/jsm/libs/stats.module.js';
 import KeyboardState from       '../libs/util/KeyboardState.js';
 import {ConvexGeometry} from '../build/jsm/geometries/ConvexGeometry.js';
+import {OBJLoader} from '../build/jsm/loaders/OBJLoader.js';
+import {MTLLoader} from '../build/jsm/loaders/MTLLoader.js';
+import {GLTFLoader} from '../build/jsm/loaders/GLTFLoader.js'
 import {initRenderer, 
         onWindowResize, 
         degreesToRadians,
@@ -565,6 +568,89 @@ function checkHit(){
             //vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
         }
 }
+
+//-----------------------------------//
+// EXTERNAL OBJECT CONFIG BEGIN      //
+//-----------------------------------//
+// External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
+
+// Humvee
+
+// instantiate a object loader
+const humveeLoader = new OBJLoader();
+// instantiate a texture loader
+const humveeMtlLoader = new MTLLoader();
+humveeMtlLoader.load('models/cars/army/Humvee.mtl', (mtl) => {
+    mtl.preload();
+  humveeLoader.setMaterials(mtl);
+
+// load a resource
+humveeLoader.load(
+	// resource URL
+	'models/cars/army/Humvee.obj',
+	// called when resource is loaded
+	function ( car ) {
+        //car.position.set(0, 0, 0);
+        car.rotateX(degreesToRadians(90));
+        car.scale.set(0.5, 0.5, 0.5);
+		scene.add( car );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+)
+});
+
+// Police car
+
+// instantiate a object loader
+const policeCarLoader = new OBJLoader();
+// instantiate a texture loader
+const policeCarMtlLoader = new MTLLoader();
+policeCarMtlLoader.load('models/cars/city/police-car.mtl', (mtl2) => {
+  mtl2.preload();
+  policeCarLoader.setMaterials(mtl2);
+
+// load a resource
+policeCarLoader.load(
+	// resource URL
+	'models/cars/city/police-car.obj',
+	// called when resource is loaded
+	function ( car ) {
+        //car.position.set(0, 0, 0);
+        car.rotateX(degreesToRadians(90));
+        //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
+        car.scale.set(3.0, 3.0, 3.0);
+		landingTrack.add( car );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+)
+});
+//-----------------------------------//
+// EXTERNAL OBJECT CONFIG END        //
+//-----------------------------------//
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION BEGIN      //
