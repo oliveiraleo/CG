@@ -570,10 +570,10 @@ function checkHit(){
 }
 
 //-----------------------------------//
-// EXTERNAL OBJECT CONFIG BEGIN      //
+// EXTERNAL OBJECTS CONFIG BEGIN     //
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
-var scale = 1.0;
+var scale = 1.0; // adjust external objects scale
 // Humvee
 
 // instantiate a object loader
@@ -695,8 +695,48 @@ racingCarLoader.load(
 	}
 )
 });
+
+// Owl statue
+
+// instantiate a object loader
+const statueLoader = new OBJLoader();
+// instantiate a texture loader
+const statueMtlLoader = new MTLLoader();
+statueMtlLoader.load('models/architecture/owl-cap.mtl', (mtl4) => {
+  mtl4.preload();
+  statueLoader.setMaterials(mtl4);
+
+// load a resource
+statueLoader.load(
+	// resource URL
+	'models/architecture/owl-cap.obj',
+	// called when resource is loaded
+	function ( building ) {
+        building.position.set(20, 0, 0);
+        building.rotateX(degreesToRadians(90));
+        // object scale
+        building.scale.set(  0.25 * scale,
+                        0.25 * scale,
+                        0.25 * scale);
+		landingTrack.add( building );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+)
+});
 //-----------------------------------//
-// EXTERNAL OBJECT CONFIG END        //
+// EXTERNAL OBJECTS CONFIG END       //
 //-----------------------------------//
 
 //-----------------------------------//
