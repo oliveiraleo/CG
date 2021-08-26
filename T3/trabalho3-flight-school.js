@@ -654,6 +654,47 @@ policeCarLoader.load(
 	}
 )
 });
+
+// Racing car
+
+// instantiate a object loader
+const racingCarLoader = new OBJLoader();
+// instantiate a texture loader
+const racingCarMtlLoader = new MTLLoader();
+racingCarMtlLoader.load('models/cars/city/racing-car.mtl', (mtl3) => {
+  mtl3.preload();
+  racingCarLoader.setMaterials(mtl3);
+
+// load a resource
+racingCarLoader.load(
+	// resource URL
+	'models/cars/city/racing-car.obj',
+	// called when resource is loaded
+	function ( car ) {
+        car.position.set(0, -20, 0);
+        car.rotateX(degreesToRadians(90));
+        //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
+        // object scale
+        car.scale.set(  3.0 * scale,
+                        3.0 * scale,
+                        3.0 * scale);
+		landingTrack.add( car );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Racing car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+)
+});
 //-----------------------------------//
 // EXTERNAL OBJECT CONFIG END        //
 //-----------------------------------//
