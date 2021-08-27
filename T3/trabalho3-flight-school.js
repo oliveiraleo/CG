@@ -308,7 +308,52 @@ cityPlane.receiveShadow = true; // enables shadows
 cityPlane.position.set(0.0, 0.0, 0.02);
 scene.add(cityPlane);
 //cityPlane.add(mesh1);
+//-----------------------------------//
+// STREETS CONFIGURATION BEGIN       //
+//-----------------------------------//
+// Landing track (pista de pouso)
+var streetLenghtX = 20.0; // largura
+var streetLenghtY = 120.0; // comprimento
+var mainStreet = [];
 
+var streetGeometry = new THREE.BoxGeometry(streetLenghtX, streetLenghtY, 0.01);
+var streetMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
+// create streets
+/*var street = new THREE.Mesh(streetGeometry, streetMaterial);
+street.position.set(0.0, -50.0, 0.0);
+street.receiveShadow = true;
+groundPlane.add(street);*/
+
+// create the main street
+for (let i = 0; i < 4; i++) {
+    mainStreet[i] = new THREE.Mesh(streetGeometry, streetMaterial);
+    if (i%2 == 0) {
+        mainStreet[i].rotateZ(degreesToRadians(90));
+    }
+    //mainStreet[i].rotateZ(degreesToRadians(90)*i);
+    mainStreet[i].receiveShadow = true;
+    cityPlane.add(mainStreet[i]);
+}
+mainStreet[0].position.set(0.0, 50.0, 0.02);
+mainStreet[1].position.set(50.0, 0.0, 0.02);
+mainStreet[2].position.set(0.0, -50.0, 0.02);
+mainStreet[3].position.set(-50.0, 0.0, 0.02);
+
+// create the main square ground plane
+var mainSquarePlaneGeometry = new THREE.PlaneGeometry(81, 81);
+var mainSquarePlaneMaterial = new THREE.MeshLambertMaterial({
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "rgb(80, 80, 80)" // TODO change the color
+});
+var mainSquarePlane = new THREE.Mesh(mainSquarePlaneGeometry, mainSquarePlaneMaterial);
+// add the ground plane to the scene
+mainSquarePlane.receiveShadow = true; // enables shadows
+mainSquarePlane.position.set(0.0, 0.0, 0.02);
+cityPlane.add(mainSquarePlane);
+
+//-----------------------------------//
+// STREETS CONFIGURATION END         //
+//-----------------------------------//
 
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
@@ -514,8 +559,10 @@ function keyboardUpdate() {
         //levelSound.play();
         //levelSound.onEnded(pilotFinalMesssage.play());
 
-        pilotFinalMesssage.play();
-        pilotFinalMesssage.onEnded(levelSound.play());
+        //pilotFinalMesssage.play();
+        //pilotFinalMesssage.onEnded(levelSound.play());
+
+        mainSquarePlane.visible = !mainSquarePlane.visible;
     }
 }
 // Check if a integer number is in a given range
@@ -744,14 +791,14 @@ statueLoader.load(
 	// resource URL
 	'models/architecture/owl-top-hat.obj',
 	// called when resource is loaded
-	function ( building ) {
-        building.position.set(20, 0, 0);
-        building.rotateX(degreesToRadians(90));
+	function ( statue ) {
+        //statue.position.set(20, 0, 0);
+        statue.rotateX(degreesToRadians(90));
         // object scale
-        building.scale.set(  0.25 * scale,
-                        0.25 * scale,
-                        0.25 * scale);
-		landingTrack.add( building );
+        statue.scale.set(  0.5 * scale,
+                        0.5 * scale,
+                        0.5 * scale);
+		mainSquarePlane.add( statue );
 
 	},
 	// called when loading is in progresses
