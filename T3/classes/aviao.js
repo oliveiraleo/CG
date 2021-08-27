@@ -109,6 +109,7 @@ var fuselageMaterialSideEngines = new THREE.MeshPhongMaterial({color:"grey", shi
 var fuselageMaterialMainEngine = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var fuselageMaterialLandingGear = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var fuselageMaterialShockStrut = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialShockStrutSmall = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", shininess:"100", reflectivity:"1.0"});
 var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
@@ -305,6 +306,41 @@ var backTiresCylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 3.0, 32);
 var backTiresCylinder = new THREE.Mesh(backTiresCylinderGeometry, fuselageMaterialShockStrut);
 backTiresCylinder.rotateZ(degreesToRadians(90));
 backTiresCylinder.position.set(0.0, -3.0, -2.2);
+// ADHESIVES
+// create adhesives for apply on small parts
+var shockStrutAdhesiveGeometry = new THREE.PlaneGeometry(0.05, 0.85);
+var backShockStrutAdhesiveGeometry = new THREE.PlaneGeometry(0.05, 1.1);
+//var shockStrutAdhesiveGeometry = new THREE.BoxGeometry(5.2, 10.05, 0.01);
+var shockStrutAdhesiveMaterial = new THREE.MeshBasicMaterial({ // temp material
+    color: "red", // TODO change the color
+    side: THREE.DoubleSide,
+});
+//var shockStrutAdhesive = new THREE.Mesh(shockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall); // TODO apply the correct material later
+var shockStrutAdhesive = new THREE.Mesh(shockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive2 = new THREE.Mesh(shockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive3 = new THREE.Mesh(shockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive4 = new THREE.Mesh(shockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive5 = new THREE.Mesh(backShockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive6 = new THREE.Mesh(backShockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive7 = new THREE.Mesh(backShockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+var shockStrutAdhesive8 = new THREE.Mesh(backShockStrutAdhesiveGeometry, fuselageMaterialShockStrutSmall);
+// adhesives positioning
+shockStrutAdhesive.position.set(0.0, -0.1, 0.0);
+shockStrutAdhesive.rotateX(degreesToRadians(90));
+shockStrutAdhesive2.position.set(0.0, -0.1, 0.0);
+shockStrutAdhesive2.rotateX(degreesToRadians(90));
+shockStrutAdhesive3.position.set(0.0, 0.1, 0.0);
+shockStrutAdhesive3.rotateX(degreesToRadians(-90));
+shockStrutAdhesive4.position.set(0.0, 0.1, 0.0);
+shockStrutAdhesive4.rotateX(degreesToRadians(-90));
+shockStrutAdhesive5.position.set(0.0, -0.101, 0.0);
+shockStrutAdhesive5.rotateX(degreesToRadians(90));
+shockStrutAdhesive6.position.set(0.0, 0.101, 0.0);
+shockStrutAdhesive6.rotateX(degreesToRadians(90));
+shockStrutAdhesive7.position.set(0.0, -0.101, 0.0);
+shockStrutAdhesive7.rotateX(degreesToRadians(90));
+shockStrutAdhesive8.position.set(0.0, 0.101, 0.0);
+shockStrutAdhesive8.rotateX(degreesToRadians(90));
 
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
@@ -346,12 +382,20 @@ verticalStabilizer.add(backRudder);
 // LANDING GEAR
 // front
 baseCylinder.add(shockStrut);
+shockStrut.add(shockStrutAdhesive); // adhesive
+shockStrut.add(shockStrutAdhesive3); // adhesive
 baseCylinder.add(shockStrut2);
+shockStrut2.add(shockStrutAdhesive2); // adhesive
+shockStrut2.add(shockStrutAdhesive4); // adhesive
 baseCylinder.add(frontTireCylinder);
 baseCylinder.add(frontTire);
 // back
 baseCylinder.add(backLeftShockStrut);
+backLeftShockStrut.add(shockStrutAdhesive5); // adhesive
+backLeftShockStrut.add(shockStrutAdhesive6); // adhesive
 baseCylinder.add(backRightShockStrut);
+backRightShockStrut.add(shockStrutAdhesive7); // adhesive
+backRightShockStrut.add(shockStrutAdhesive8); // adhesive
 baseCylinder.add(backTiresCylinder);
 baseCylinder.add(backLeftTire);
 baseCylinder.add(backRightTire);
@@ -391,6 +435,7 @@ var airplaneMultiCamoMainEngine = textureLoader.load('./textures/multi_camo.png'
 var airplaneMultiCamoSideEngines = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoTiresCylinder = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoShockStrut = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoShockStrutSmall = textureLoader.load('./textures/multi_camo.png');
 var airplaneBlueCamoBackStabilizers = textureLoader.load('./textures/blue_camo.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
@@ -430,6 +475,12 @@ airplaneMultiCamoShockStrut.wrapT = THREE.RepeatWrapping;
 airplaneMultiCamoShockStrut.repeat.set( 3, 1 );
 //airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
 
+// Shock strut adhesives
+airplaneMultiCamoShockStrutSmall.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoShockStrutSmall.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoShockStrutSmall.repeat.set( 0.5, 5 );
+//airplaneMultiCamoShockStrutSmall.magFilter = THREE.LinearFilter;
+
 // Back stabilizers
 airplaneBlueCamoBackStabilizers.wrapS = THREE.RepeatWrapping;
 airplaneBlueCamoBackStabilizers.wrapT = THREE.RepeatWrapping;
@@ -443,6 +494,7 @@ frontCylinder.material.map = airplaneMultiCamoMainEngine; // apply camo on airpl
 leftEngineCylinder.material.map = airplaneMultiCamoSideEngines; // apply camo on airplane side engines
 frontTireCylinder.material.map = airplaneMultiCamoTiresCylinder; // apply camo on airplane landing gear
 shockStrut.material.map = airplaneMultiCamoShockStrut; // apply camo on airplane landing gear
+shockStrutAdhesive.material.map = airplaneMultiCamoShockStrutSmall; // apply camo on airplane shock strut's landing gear
 leftStabilizer.material.map = airplaneBlueCamoBackStabilizers; // apply camo on airplane back stabilizers
 
 //-----------------------------------//

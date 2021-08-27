@@ -249,7 +249,7 @@ var mountainPlane = new THREE.Mesh(mountainPlaneGeometry, mountainPlaneMaterial)
 mountainPlane.receiveShadow = true; // enables shadows
 mountainPlane.position.set(-350,300,0);
 //mountainPlane.position.set(0,-300,0);
-scene.add(mountainPlane);
+groundPlane.add(mountainPlane);
 mountainPlane.add(mesh1);
 
 // Medium mountain
@@ -307,7 +307,7 @@ var cityPlane = new THREE.Mesh(cityPlaneGeometry, cityPlaneMaterial);
 // add the ground plane to the scene
 cityPlane.receiveShadow = true; // enables shadows
 cityPlane.position.set(0.0, 0.0, 0.02);
-scene.add(cityPlane);
+groundPlane.add(cityPlane);
 //cityPlane.add(mesh1);
 //-----------------------------------//
 // CITY CONFIGURATION END            //
