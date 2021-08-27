@@ -294,6 +294,23 @@ mesh7.castShadow = true;*/
 //-----------------------------------//
 
 //-----------------------------------//
+// CITY CONFIGURATION BEGIN          //
+//-----------------------------------//
+// create the city ground plane
+var cityPlaneGeometry = new THREE.PlaneGeometry(400, 400);
+var cityPlaneMaterial = new THREE.MeshLambertMaterial({
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "white" // TODO change the color
+});
+var cityPlane = new THREE.Mesh(cityPlaneGeometry, cityPlaneMaterial);
+// add the ground plane to the scene
+cityPlane.receiveShadow = true; // enables shadows
+cityPlane.position.set(0.0, 0.0, 0.02);
+scene.add(cityPlane);
+//cityPlane.add(mesh1);
+
+
+//-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
 //-----------------------------------//
 // Landing track (pista de pouso)
@@ -786,6 +803,7 @@ terrain.repeat.set( 8, 8 );
 landingTrack.material.map = asphault; // apply asphault on landing track
 groundPlane.material.map = grass; // apply asphault on landing track
 mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
+mesh1.material.map = terrain; // apply land texture on mountain TODO verify that later
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
