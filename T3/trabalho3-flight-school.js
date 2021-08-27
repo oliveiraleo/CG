@@ -40,8 +40,8 @@ scene.add( hemisphereLight );
 var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
 // Directional light configs
 // shadow resolution
-directionalLight.shadow.mapSize.width = 8192;
-directionalLight.shadow.mapSize.height = 8192;
+directionalLight.shadow.mapSize.width = 2048; // was 8192
+directionalLight.shadow.mapSize.height = 2048; // was 8192
 //directionalLight.penunbra = 0.7; TODO config this
 // area where shadows appear // 500 x 500 = size of ground plane
 directionalLight.shadow.camera.left = -500;
@@ -107,8 +107,8 @@ groundPlane.add(axesHelper);
 // MOUNTAINS CONFIGURATION BEGIN     //
 //-----------------------------------//
 var mountainScaleSmall = 3;
-var mountainScaleMedium = 5;
-var mountainScaleHigh = 10;
+// var mountainScaleMedium = 5;
+// var mountainScaleHigh = 10;
 // Small mountain
 var points1 = [// cume
               new THREE.Vector3( 0.0 * mountainScaleSmall, 1.0 * mountainScaleSmall, 6.0 * mountainScaleSmall ),
@@ -146,7 +146,7 @@ var points2 = [// cume
                 new THREE.Vector3( 7.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 * mountainScaleSmall )
             ];
 // Medium mountain
-var points3 = [// cume
+/*var points3 = [// cume
                 new THREE.Vector3( 0.0 * mountainScaleMedium, -1.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
                 new THREE.Vector3( 0.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 10.0 * mountainScaleMedium ),
                 new THREE.Vector3( 0.0 * mountainScaleMedium, -4.0 * mountainScaleMedium, 8.0 * mountainScaleMedium ),
@@ -215,21 +215,21 @@ var points6 = [// cume
                 new THREE.Vector3(-5.0 * mountainScaleHigh*2, 5.0 * mountainScaleHigh, 0.0),
                 new THREE.Vector3(-5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0),
                 new THREE.Vector3(5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0)
-];
+];*/
     
 var geometry1 = new ConvexGeometry( points1 );
 var geometry2 = new ConvexGeometry( points2 );
 
-var geometry3 = new ConvexGeometry( points3 );
-var geometry4 = new ConvexGeometry( points4 );
+// var geometry3 = new ConvexGeometry( points3 );
+// var geometry4 = new ConvexGeometry( points4 );
 
-var geometry5 = new ConvexGeometry( points5 );
-var geometry6 = new ConvexGeometry( points6 );
+// var geometry5 = new ConvexGeometry( points5 );
+// var geometry6 = new ConvexGeometry( points6 );
 // mountain materials
 var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
-var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
-var materialAsteroid = new THREE.MeshLambertMaterial( { color:"rgb(60, 80, 80)" } ); // deep grey
-var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" } ); // brick orange
+//var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
+//var materialAsteroid = new THREE.MeshLambertMaterial( { color:"rgb(60, 80, 80)" } ); // deep grey
+//var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" } ); // brick orange
 // Small mountain
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
@@ -237,7 +237,7 @@ mesh1.position.set(-350,300,0);
 groundPlane.add( mesh1 );
 mesh1.add( mesh2 );
 // Medium mountain
-var mesh3 = new THREE.Mesh( geometry3, materialBrick );
+/*var mesh3 = new THREE.Mesh( geometry3, materialBrick );
 var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
 mesh3.position.set(250, 50, 0);
 mesh4.position.set(0.0 * mountainScaleMedium, 0.0 * mountainScaleMedium, 8.5 * mountainScaleMedium);
@@ -255,24 +255,24 @@ mesh6.rotateZ(25);
 mesh7.rotateZ(-90);
 //groundPlane.add( mesh5 );
 mesh5.add( mesh6 );
-mesh6.add( mesh7 );
+mesh6.add( mesh7 );*/
 
 // mountains shadows
 mesh1.receiveShadow = true;
 mesh2.receiveShadow = true;
-mesh3.receiveShadow = true;
+/*mesh3.receiveShadow = true;
 mesh4.receiveShadow = true;
 mesh5.receiveShadow = true;
 mesh6.receiveShadow = true;
-mesh7.receiveShadow = true;
+mesh7.receiveShadow = true;*/
 
 mesh1.castShadow = true;
 mesh2.castShadow = true;
-mesh3.castShadow = true;
+/*mesh3.castShadow = true;
 mesh4.castShadow = true;
 mesh5.castShadow = true;
 mesh6.castShadow = true;
-mesh7.castShadow = true;
+mesh7.castShadow = true;*/
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//
@@ -608,7 +608,7 @@ humveeLoader.load(
 	// called when loading has errors
 	function ( error ) {
 
-		console.log( 'An error happened' );
+		console.log( 'Humvee loading error' );
 
 	}
 )
@@ -649,7 +649,7 @@ policeCarLoader.load(
 	// called when loading has errors
 	function ( error ) {
 
-		console.log( 'An error happened' );
+		console.log( 'Police car loading error' );
 
 	}
 )
@@ -690,7 +690,7 @@ racingCarLoader.load(
 	// called when loading has errors
 	function ( error ) {
 
-		console.log( 'An error happened' );
+		console.log( 'Racing car loading error' );
 
 	}
 )
@@ -702,14 +702,14 @@ racingCarLoader.load(
 const statueLoader = new OBJLoader();
 // instantiate a texture loader
 const statueMtlLoader = new MTLLoader();
-statueMtlLoader.load('models/architecture/owl-cap.mtl', (mtl4) => {
+statueMtlLoader.load('models/architecture/owl-top-hat.mtl', (mtl4) => {
   mtl4.preload();
   statueLoader.setMaterials(mtl4);
 
 // load a resource
 statueLoader.load(
 	// resource URL
-	'models/architecture/owl-cap.obj',
+	'models/architecture/owl-top-hat.obj',
 	// called when resource is loaded
 	function ( building ) {
         building.position.set(20, 0, 0);
@@ -730,7 +730,7 @@ statueLoader.load(
 	// called when loading has errors
 	function ( error ) {
 
-		console.log( 'An error happened' );
+		console.log( 'Statue loading error' );
 
 	}
 )
