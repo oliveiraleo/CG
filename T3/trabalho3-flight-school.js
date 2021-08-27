@@ -301,6 +301,7 @@ var cityPlaneGeometry = new THREE.PlaneGeometry(400, 400);
 var cityPlaneMaterial = new THREE.MeshLambertMaterial({
     //color: "rgba(150, 150, 150)", // light grey
     color: "white" // TODO change the color
+    //TODO apply texture?
 });
 var cityPlane = new THREE.Mesh(cityPlaneGeometry, cityPlaneMaterial);
 // add the ground plane to the scene
@@ -308,6 +309,10 @@ cityPlane.receiveShadow = true; // enables shadows
 cityPlane.position.set(0.0, 0.0, 0.02);
 scene.add(cityPlane);
 //cityPlane.add(mesh1);
+//-----------------------------------//
+// CITY CONFIGURATION END            //
+//-----------------------------------//
+
 //-----------------------------------//
 // STREETS CONFIGURATION BEGIN       //
 //-----------------------------------//
@@ -825,7 +830,7 @@ statueLoader.load(
 // Use TextureLoader to load texture files
 var textureLoader = new THREE.TextureLoader(); // Creates the loader
 var asphault = textureLoader.load('./textures/asphault-512_256.jpg');
-var grass = textureLoader.load('./textures/grass-512_scale.jpg');
+var grass = textureLoader.load('./textures/grass-1024.jpg');
 var terrain = textureLoader.load('./textures/terrain-1024.jpg');
 
 // Asphault texture configuration
@@ -838,17 +843,18 @@ asphault.magFilter = THREE.LinearFilter;
 grass.wrapS = THREE.RepeatWrapping;
 grass.wrapT = THREE.RepeatWrapping;
 grass.repeat.set( 50, 50 );
-//grass.magFilter = THREE.LinearFilter;
+grass.magFilter = THREE.LinearFilter;
 
 // Terrain land texture configuration
 terrain.wrapS = THREE.RepeatWrapping;
 terrain.wrapT = THREE.RepeatWrapping;
 terrain.repeat.set( 8, 8 );
-//terrain.magFilter = THREE.LinearFilter;
+terrain.magFilter = THREE.LinearFilter;
 
 // Apply texture to the 'map' property of the respective materials' objects
 landingTrack.material.map = asphault; // apply asphault on landing track
-groundPlane.material.map = grass; // apply asphault on landing track
+mainStreet[0].material.map = asphault; // apply asphault on main street
+groundPlane.material.map = grass; // apply grass on ground plane
 mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
 mesh1.material.map = terrain; // apply land texture on mountain TODO verify that later
 
