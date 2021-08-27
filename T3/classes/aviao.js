@@ -437,6 +437,7 @@ var airplaneMultiCamoTiresCylinder = textureLoader.load('./textures/multi_camo.p
 var airplaneMultiCamoShockStrut = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoShockStrutSmall = textureLoader.load('./textures/multi_camo.png');
 var airplaneBlueCamoBackStabilizers = textureLoader.load('./textures/blue_camo.png');
+var airplaneGlassCockpit = textureLoader.load('./textures/glass.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
 // Airplane multi camouflage texture configuration
@@ -487,6 +488,12 @@ airplaneBlueCamoBackStabilizers.wrapT = THREE.RepeatWrapping;
 airplaneBlueCamoBackStabilizers.repeat.set( 8, 1 );
 //airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
 
+// Cockpit
+airplaneGlassCockpit.wrapS = THREE.RepeatWrapping;
+airplaneGlassCockpit.wrapT = THREE.RepeatWrapping;
+airplaneGlassCockpit.repeat.set( 8, 8 );
+//airplaneGlassCockpit.magFilter = THREE.LinearFilter;
+
 // Set textures on each part
 baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
 rightWing.material.map = airplaneMultiCamoWing; // apply camo on airplane wings
@@ -496,6 +503,7 @@ frontTireCylinder.material.map = airplaneMultiCamoTiresCylinder; // apply camo o
 shockStrut.material.map = airplaneMultiCamoShockStrut; // apply camo on airplane landing gear
 shockStrutAdhesive.material.map = airplaneMultiCamoShockStrutSmall; // apply camo on airplane shock strut's landing gear
 leftStabilizer.material.map = airplaneBlueCamoBackStabilizers; // apply camo on airplane back stabilizers
+cockpit.material.map = airplaneGlassCockpit; // apply camo on airplane back stabilizers
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
