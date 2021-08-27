@@ -233,9 +233,25 @@ var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); 
 // Small mountain
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
-mesh1.position.set(-350,300,0);
-groundPlane.add( mesh1 );
+//mesh1.position.set(-350,300,0);
+//groundPlane.add( mesh1 );
 mesh1.add( mesh2 );
+
+// create the mountain ground plane
+var mountainPlaneGeometry = new THREE.PlaneGeometry(100, 100);
+//mountainPlaneGeometry.translate(0.0, 0.0, -0.01); // To avoid conflict with the axeshelper
+var mountainPlaneMaterial = new THREE.MeshLambertMaterial({
+    //color: "rgba(150, 150, 150)", // light grey
+    color: "rgb(80, 75, 0)", // brown
+});
+var mountainPlane = new THREE.Mesh(mountainPlaneGeometry, mountainPlaneMaterial);
+// add the ground plane to the scene
+mountainPlane.receiveShadow = true; // enables shadows
+mountainPlane.position.set(-350,300,0);
+//mountainPlane.position.set(0,-300,0);
+scene.add(mountainPlane);
+mountainPlane.add(mesh1);
+
 // Medium mountain
 /*var mesh3 = new THREE.Mesh( geometry3, materialBrick );
 var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
@@ -746,6 +762,7 @@ statueLoader.load(
 var textureLoader = new THREE.TextureLoader(); // Creates the loader
 var asphault = textureLoader.load('./textures/asphault-512_256.jpg');
 var grass = textureLoader.load('./textures/grass-512_scale.jpg');
+var terrain = textureLoader.load('./textures/terrain-1024.jpg');
 
 // Asphault texture configuration
 asphault.wrapS = THREE.RepeatWrapping;
@@ -753,15 +770,22 @@ asphault.wrapT = THREE.RepeatWrapping;
 asphault.repeat.set( 1, 8 );
 asphault.magFilter = THREE.LinearFilter;
 
-// Asphault texture configuration
+// Grass texture configuration
 grass.wrapS = THREE.RepeatWrapping;
 grass.wrapT = THREE.RepeatWrapping;
 grass.repeat.set( 50, 50 );
 //grass.magFilter = THREE.LinearFilter;
 
+// Terrain land texture configuration
+terrain.wrapS = THREE.RepeatWrapping;
+terrain.wrapT = THREE.RepeatWrapping;
+terrain.repeat.set( 8, 8 );
+//terrain.magFilter = THREE.LinearFilter;
+
 // Apply texture to the 'map' property of the respective materials' objects
 landingTrack.material.map = asphault; // apply asphault on landing track
 groundPlane.material.map = grass; // apply asphault on landing track
+mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
