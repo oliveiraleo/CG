@@ -228,7 +228,7 @@ frontCylinder.position.set(0.0, 4.75, 0.0);
 // PROPELLER                         //
 //-----------------------------------//
 // create blades hub
-var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 32);
+var hubGeometry = new THREE.ConeGeometry(0.5, 1.0, 64, 32);
 hub = new THREE.Mesh(hubGeometry, hubMaterial);
 // define blades geometry
 var bladeGeometry = new THREE.BoxGeometry(0.4, 0.05, 5.0);
@@ -516,6 +516,7 @@ var airplaneMultiCamoWingEngines = textureLoader.load('./textures/multi_camo.png
 var airplaneMultiCamoBackCylinder = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoTailCylinder = textureLoader.load('./textures/multi_camo.png');
 var airplaneOxidizedMetal = textureLoader.load('./textures/oxidized-metal.png');
+var airplaneHubMetal = textureLoader.load('./textures/metal-hub.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
 // Airplane multi camouflage texture configuration
@@ -610,6 +611,11 @@ airplaneOxidizedMetal.wrapS = THREE.RepeatWrapping;
 airplaneOxidizedMetal.wrapT = THREE.RepeatWrapping;
 airplaneOxidizedMetal.repeat.set( 1, 12 );
 
+// Hubs
+airplaneHubMetal.wrapS = THREE.RepeatWrapping;
+airplaneHubMetal.wrapT = THREE.RepeatWrapping;
+airplaneHubMetal.repeat.set( 6, 12 );
+
 // Set textures on each part
 baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
 rightWing.material.map = airplaneMultiCamoWing; // apply camo on airplane wings
@@ -628,6 +634,7 @@ frontLeftEngineAdhesive.material.map = airplaneMultiCamoWingEngines; // apply ca
 backCylinder.material.map = airplaneMultiCamoBackCylinder; // apply camo on airplane back cylinder
 tailCylinder.material.map = airplaneMultiCamoTailCylinder; // apply camo on airplane tail cylinder
 blade.material.map = airplaneOxidizedMetal; // apply oxidized metal on airplane blades
+hub.material.map = airplaneHubMetal; // apply metal on airplane hubs
 
 
 //-----------------------------------//
