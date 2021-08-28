@@ -896,7 +896,6 @@ penguimStatueLoader2.load(
 	'models/penguin/penguin.obj',
 	// called when resource is loaded
 	function ( penguimStatue2 ) {
-        //statue.position.set(20, 0, 0);
         penguimStatue2.rotateZ(degreesToRadians(-90));
         penguimStatue2.position.set(0.0, 3.5, 0.0);
         // object scale
@@ -916,6 +915,47 @@ penguimStatueLoader2.load(
 	function ( error ) {
 
 		console.log( 'Penguin statue 2 loading error' );
+
+	}
+)
+});
+
+// Cross
+
+// instantiate a object loader
+const crossLoader = new OBJLoader();
+// instantiate a texture loader
+const crossMtlLoader = new MTLLoader();
+crossMtlLoader.load('models/cross/cross.mtl', (mtl7) => {
+  mtl7.preload();
+  crossLoader.setMaterials(mtl7);
+
+// load a resource
+crossLoader.load(
+	// resource URL
+	'models/cross/cross.obj',
+	// called when resource is loaded
+	function ( cross ) {
+        cross.rotateX(degreesToRadians(90));
+        cross.rotateY(degreesToRadians(90));
+        cross.position.set(-38.0, 0.0, 0.0);
+        // object scale
+        cross.scale.set(  3.0 * scale,
+                          3.0 * scale,
+                          3.0 * scale);
+		mountainPlane.add( cross );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Cross ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Cross loading error' );
 
 	}
 )
