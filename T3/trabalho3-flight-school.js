@@ -839,6 +839,87 @@ statueLoader.load(
 	}
 )
 });
+
+// Penguim statue
+
+// instantiate a object loader
+const penguimStatueLoader = new OBJLoader();
+// instantiate a texture loader
+const penguimStatueMtlLoader = new MTLLoader();
+penguimStatueMtlLoader.load('models/penguin/penguin.mtl', (mtl5) => {
+  mtl5.preload();
+  penguimStatueLoader.setMaterials(mtl5);
+
+// load a resource
+penguimStatueLoader.load(
+	// resource URL
+	'models/penguin/penguin.obj',
+	// called when resource is loaded
+	function ( penguimStatue ) {
+        //statue.position.set(20, 0, 0);
+        penguimStatue.rotateZ(degreesToRadians(-90));
+        // object scale
+        penguimStatue.scale.set(  0.035 * scale,
+                                  0.035 * scale,
+                                  0.035 * scale);
+		iceCircle.add( penguimStatue );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Penguin statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Penguin statue loading error' );
+
+	}
+)
+});
+
+// Penguim statue 2
+
+// instantiate a object loader
+const penguimStatueLoader2 = new OBJLoader();
+// instantiate a texture loader
+const penguimStatueMtlLoader2 = new MTLLoader();
+penguimStatueMtlLoader2.load('models/penguin/penguin.mtl', (mtl6) => {
+  mtl6.preload();
+  penguimStatueLoader2.setMaterials(mtl6);
+
+// load a resource
+penguimStatueLoader2.load(
+	// resource URL
+	'models/penguin/penguin.obj',
+	// called when resource is loaded
+	function ( penguimStatue2 ) {
+        //statue.position.set(20, 0, 0);
+        penguimStatue2.rotateZ(degreesToRadians(-90));
+        penguimStatue2.position.set(0.0, 3.5, 0.0);
+        // object scale
+        penguimStatue2.scale.set(  0.025 * scale,
+                                   0.025 * scale,
+                                   0.025 * scale);
+		iceCircle.add( penguimStatue2 );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Penguin statue 2 ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Penguin statue 2 loading error' );
+
+	}
+)
+});
 //-----------------------------------//
 // EXTERNAL OBJECTS CONFIG END       //
 //-----------------------------------//
