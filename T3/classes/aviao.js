@@ -515,6 +515,7 @@ var airplaneMultiCamoFrontWings = textureLoader.load('./textures/multi_camo.png'
 var airplaneMultiCamoWingEngines = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoBackCylinder = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoTailCylinder = textureLoader.load('./textures/multi_camo.png');
+var airplaneOxidizedMetal = textureLoader.load('./textures/oxidized-metal.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
 // Airplane multi camouflage texture configuration
@@ -604,6 +605,11 @@ airplaneMultiCamoTailCylinder.wrapS = THREE.RepeatWrapping;
 airplaneMultiCamoTailCylinder.wrapT = THREE.RepeatWrapping;
 airplaneMultiCamoTailCylinder.repeat.set( 3, 1 );
 
+// Blades
+airplaneOxidizedMetal.wrapS = THREE.RepeatWrapping;
+airplaneOxidizedMetal.wrapT = THREE.RepeatWrapping;
+airplaneOxidizedMetal.repeat.set( 1, 12 );
+
 // Set textures on each part
 baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
 rightWing.material.map = airplaneMultiCamoWing; // apply camo on airplane wings
@@ -621,6 +627,7 @@ wingFrontAdhesive.material.map = airplaneMultiCamoFrontWings; // apply camo on a
 frontLeftEngineAdhesive.material.map = airplaneMultiCamoWingEngines; // apply camo on airplane wing engines
 backCylinder.material.map = airplaneMultiCamoBackCylinder; // apply camo on airplane back cylinder
 tailCylinder.material.map = airplaneMultiCamoTailCylinder; // apply camo on airplane tail cylinder
+blade.material.map = airplaneOxidizedMetal; // apply oxidized metal on airplane blades
 
 
 //-----------------------------------//
