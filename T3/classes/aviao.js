@@ -121,6 +121,7 @@ var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(25
 var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // to mimic black rubber
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red", shininess:"100", reflectivity:"1.0"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
+var stabilizersMaterialSmall = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
 var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
 var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // to mimic red rubber
 
@@ -175,7 +176,7 @@ tailCylinder.position.set(0.0, -3.0, 0.0);
 var horizontalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
 var verticalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
 // create the right stabilizer
-var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
+var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial); ///////////////////
 rightStabilizer.position.set(2.0, 0.0, 0.0);
 // create the left stabilizer
 var leftStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
@@ -322,6 +323,9 @@ var wingSideAdhesiveGeometry = new THREE.PlaneGeometry(3.0, 0.2);
 
 var sideEnginesAdhesiveGeometry = new THREE.CircleGeometry(1.0, 32);
 
+var horizontalStabilizersFrontAdhesiveGeometry = new THREE.PlaneGeometry(3.0, 0.2);
+var horizontalStabilizersSideAdhesiveGeometry = new THREE.PlaneGeometry(1.0, 0.2);
+
 var tempAdhesiveMaterial = new THREE.MeshBasicMaterial({ // temp material
     color: "red", // TODO change the color
     //side: THREE.DoubleSide,
@@ -344,6 +348,11 @@ var backLeftEngineAdhesive = new THREE.Mesh(sideEnginesAdhesiveGeometry, fuselag
 var frontLeftEngineAdhesive = new THREE.Mesh(sideEnginesAdhesiveGeometry, fuselageMaterialSideEnginesSmall);
 var backRightEngineAdhesive = new THREE.Mesh(sideEnginesAdhesiveGeometry, fuselageMaterialSideEnginesSmall);
 var frontRightEngineAdhesive = new THREE.Mesh(sideEnginesAdhesiveGeometry, fuselageMaterialSideEnginesSmall);
+
+var leftStabilizerSideAdhesive = new THREE.Mesh(horizontalStabilizersSideAdhesiveGeometry, stabilizersMaterialSmall);
+var leftStabilizerFrontAdhesive = new THREE.Mesh(horizontalStabilizersFrontAdhesiveGeometry, stabilizersMaterialSmall);
+var rightStabilizerSideAdhesive = new THREE.Mesh(horizontalStabilizersSideAdhesiveGeometry, stabilizersMaterialSmall);
+var rightStabilizerFrontAdhesive = new THREE.Mesh(horizontalStabilizersFrontAdhesiveGeometry, stabilizersMaterialSmall);
 
 // adhesives positioning
 shockStrutAdhesive.position.set(0.0, -0.1, 0.0);
@@ -380,6 +389,17 @@ backRightEngineAdhesive.position.set(0.0, -2.001, 0.0);
 backRightEngineAdhesive.rotateX(degreesToRadians(90));
 frontRightEngineAdhesive.position.set(0.0, 2.001, 0.0);
 frontRightEngineAdhesive.rotateX(degreesToRadians(-90));
+
+leftStabilizerSideAdhesive.position.set(-1.501, 0.0, 0.0);
+leftStabilizerSideAdhesive.rotateX(degreesToRadians(90));
+leftStabilizerSideAdhesive.rotateY(degreesToRadians(-90));
+leftStabilizerFrontAdhesive.position.set(0.0, 0.501, 0.0);
+leftStabilizerFrontAdhesive.rotateX(degreesToRadians(-90));
+rightStabilizerSideAdhesive.position.set(1.501, 0.0, 0.0);
+rightStabilizerSideAdhesive.rotateX(degreesToRadians(90));
+rightStabilizerSideAdhesive.rotateY(degreesToRadians(90));
+rightStabilizerFrontAdhesive.position.set(0.0, 0.501, 0.0);
+rightStabilizerFrontAdhesive.rotateX(degreesToRadians(-90));
 
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
@@ -422,9 +442,13 @@ tailCylinder.add(verticalStabilizer);
 leftStabilizer.add(backLeftFlap);
 leftStabilizer.add(leftCrossp1);
 leftStabilizer.add(leftCrossp2);
+leftStabilizer.add(leftStabilizerSideAdhesive); // adhesive
+leftStabilizer.add(leftStabilizerFrontAdhesive); // adhesive
 rightStabilizer.add(backRightFlap);
 rightStabilizer.add(rightCrossp1);
 rightStabilizer.add(rightCrossp2);
+rightStabilizer.add(rightStabilizerSideAdhesive); // adhesive
+rightStabilizer.add(rightStabilizerFrontAdhesive); // adhesive
 verticalStabilizer.add(backRudder);
 // LANDING GEAR
 // front
@@ -484,6 +508,7 @@ var airplaneMultiCamoTiresCylinder = textureLoader.load('./textures/multi_camo.p
 var airplaneMultiCamoShockStrut = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoShockStrutSmall = textureLoader.load('./textures/multi_camo.png');
 var airplaneBlueCamoBackStabilizers = textureLoader.load('./textures/blue_camo.png');
+var airplaneBlueCamoBackStabilizersSmall = textureLoader.load('./textures/blue_camo.png');
 var airplaneGlassCockpit = textureLoader.load('./textures/glass.png');
 var airplaneMultiCamoSideWings = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoFrontWings = textureLoader.load('./textures/multi_camo.png');
@@ -537,7 +562,13 @@ airplaneMultiCamoShockStrutSmall.repeat.set( 0.5, 5 );
 // Back stabilizers
 airplaneBlueCamoBackStabilizers.wrapS = THREE.RepeatWrapping;
 airplaneBlueCamoBackStabilizers.wrapT = THREE.RepeatWrapping;
-airplaneBlueCamoBackStabilizers.repeat.set( 3, 1 );
+airplaneBlueCamoBackStabilizers.repeat.set( 4, 1 );
+//airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
+
+// Back stabilizers adhesives
+airplaneBlueCamoBackStabilizersSmall.wrapS = THREE.RepeatWrapping;
+airplaneBlueCamoBackStabilizersSmall.wrapT = THREE.RepeatWrapping;
+airplaneBlueCamoBackStabilizersSmall.repeat.set( 3, .5 );
 //airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
 
 // Cockpit
@@ -581,7 +612,9 @@ leftEngineCylinder.material.map = airplaneMultiCamoSideEngines; // apply camo on
 frontTireCylinder.material.map = airplaneMultiCamoTiresCylinder; // apply camo on airplane landing gear
 shockStrut.material.map = airplaneMultiCamoShockStrut; // apply camo on airplane landing gear
 shockStrutAdhesive.material.map = airplaneMultiCamoShockStrutSmall; // apply camo on airplane shock strut's landing gear
+
 leftStabilizer.material.map = airplaneBlueCamoBackStabilizers; // apply camo on airplane back stabilizers
+leftStabilizerFrontAdhesive.material.map = airplaneBlueCamoBackStabilizersSmall;
 cockpit.material.map = airplaneGlassCockpit; // apply camo on airplane back stabilizers
 wingLeftSideAdhesive.material.map = airplaneMultiCamoSideWings; // apply camo on airplane back stabilizers
 wingFrontAdhesive.material.map = airplaneMultiCamoFrontWings; // apply camo on airplane back stabilizers
