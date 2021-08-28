@@ -113,8 +113,10 @@ var fuselageMaterialMainEngine = new THREE.MeshPhongMaterial({color:"grey", shin
 var fuselageMaterialLandingGear = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var fuselageMaterialShockStrut = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var fuselageMaterialShockStrutSmall = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialBackCylinder = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
+var fuselageMaterialTailCylinder = new THREE.MeshPhongMaterial({color:"grey", shininess:"100", reflectivity:"1.0"});
 var bladesMaterial = new THREE.MeshPhongMaterial({color:"white", shininess:"100", reflectivity:"1.0"});
-var cockpitMaterial = new THREE.MeshPhongMaterial({color:"white", reflectivity:"0.5", transparent:"true", opacity:"0.6"});
+var cockpitMaterial = new THREE.MeshPhongMaterial({color:"grey", reflectivity:"0.95", specular:"white", transparent:"true", opacity:"0.8", shininess:"100", side:"THREE.BackSide", blending:"THREE.AdditiveBlending", depthWrite:"false"});
 var tailMaterial = new THREE.MeshPhongMaterial({color:"orange", emissive:"rgb(255, 100, 0)", emissiveIntensity:"0.75"}); // bright orange
 var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); // to mimic black rubber
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red", shininess:"100", reflectivity:"1.0"});
@@ -161,12 +163,12 @@ baseCylinder.position.set(0.0, 0.0, 2.5); // ajuste de altura do avi√£o em rela√
 
 // create the rear cylinder
 var backCylinderGeometry = new THREE.CylinderGeometry(1.5, 0.5, 5, 32, 32);
-var backCylinder = new THREE.Mesh(backCylinderGeometry, fuselageMaterial);
+var backCylinder = new THREE.Mesh(backCylinderGeometry, fuselageMaterialBackCylinder);
 backCylinder.position.set(0.0, -7.0, 0.0);
 
 // create tail cylinder
 var tailCylinderGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-var tailCylinder = new THREE.Mesh(tailCylinderGeometry, fuselageMaterialSideEngines);
+var tailCylinder = new THREE.Mesh(tailCylinderGeometry, fuselageMaterialTailCylinder);
 tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
@@ -486,12 +488,14 @@ var airplaneGlassCockpit = textureLoader.load('./textures/glass.png');
 var airplaneMultiCamoSideWings = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoFrontWings = textureLoader.load('./textures/multi_camo.png');
 var airplaneMultiCamoWingEngines = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoBackCylinder = textureLoader.load('./textures/multi_camo.png');
+var airplaneMultiCamoTailCylinder = textureLoader.load('./textures/multi_camo.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
 // Airplane multi camouflage texture configuration
 airplaneMultiCamo.wrapS = THREE.RepeatWrapping;
 airplaneMultiCamo.wrapT = THREE.RepeatWrapping;
-airplaneMultiCamo.repeat.set( 8, 8 );
+airplaneMultiCamo.repeat.set( 8, 6 );
 //airplaneMultiCamo.magFilter = THREE.LinearFilter;
 
 // Wing
@@ -509,7 +513,7 @@ airplaneMultiCamoMainEngine.repeat.set( 8, 1 );
 // Side engines
 airplaneMultiCamoSideEngines.wrapS = THREE.RepeatWrapping;
 airplaneMultiCamoSideEngines.wrapT = THREE.RepeatWrapping;
-airplaneMultiCamoSideEngines.repeat.set( 8, 4 );
+airplaneMultiCamoSideEngines.repeat.set( 6, 3 );
 //airplaneMultiCamoSideEngines.magFilter = THREE.LinearFilter;
 
 // Tires Cylinders
@@ -533,13 +537,13 @@ airplaneMultiCamoShockStrutSmall.repeat.set( 0.5, 5 );
 // Back stabilizers
 airplaneBlueCamoBackStabilizers.wrapS = THREE.RepeatWrapping;
 airplaneBlueCamoBackStabilizers.wrapT = THREE.RepeatWrapping;
-airplaneBlueCamoBackStabilizers.repeat.set( 8, 1 );
+airplaneBlueCamoBackStabilizers.repeat.set( 3, 1 );
 //airplaneMultiCamoShockStrut.magFilter = THREE.LinearFilter;
 
 // Cockpit
 airplaneGlassCockpit.wrapS = THREE.RepeatWrapping;
 airplaneGlassCockpit.wrapT = THREE.RepeatWrapping;
-airplaneGlassCockpit.repeat.set( 8, 8 );
+airplaneGlassCockpit.repeat.set( 32, 32 );
 //airplaneGlassCockpit.magFilter = THREE.LinearFilter;
 
 // Wings side
@@ -557,7 +561,17 @@ airplaneMultiCamoFrontWings.repeat.set( 30, .25 );
 // Wing's engines
 airplaneMultiCamoWingEngines.wrapS = THREE.RepeatWrapping;
 airplaneMultiCamoWingEngines.wrapT = THREE.RepeatWrapping;
-airplaneMultiCamoWingEngines.repeat.set( 6, 2 );
+airplaneMultiCamoWingEngines.repeat.set( 3, 2 );
+
+// Fuselage back cylinder
+airplaneMultiCamoBackCylinder.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoBackCylinder.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoBackCylinder.repeat.set( 6, 4 );
+
+// Fuselage tail cylinder
+airplaneMultiCamoTailCylinder.wrapS = THREE.RepeatWrapping;
+airplaneMultiCamoTailCylinder.wrapT = THREE.RepeatWrapping;
+airplaneMultiCamoTailCylinder.repeat.set( 3, 1 );
 
 // Set textures on each part
 baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
@@ -572,6 +586,8 @@ cockpit.material.map = airplaneGlassCockpit; // apply camo on airplane back stab
 wingLeftSideAdhesive.material.map = airplaneMultiCamoSideWings; // apply camo on airplane back stabilizers
 wingFrontAdhesive.material.map = airplaneMultiCamoFrontWings; // apply camo on airplane back stabilizers
 frontLeftEngineAdhesive.material.map = airplaneMultiCamoWingEngines; // apply camo on airplane wing engines
+backCylinder.material.map = airplaneMultiCamoBackCylinder; // apply camo on airplane back cylinder
+tailCylinder.material.map = airplaneMultiCamoTailCylinder; // apply camo on airplane tail cylinder
 
 
 //-----------------------------------//
