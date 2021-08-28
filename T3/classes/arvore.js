@@ -36,8 +36,8 @@ export function gerarArvores(scene){
         } else if ((positionX > -400 && positionX < -280) &&
                     (positionY > 220 && positionY < 380)){ // do not spawn on land / terrain mountain area
             treeSpawn = false;
-        } else if ((positionX > 220 && positionX < 320) &&
-                    (positionY > 0 && positionY < 150)) { // do not spawn on medium mountain area
+        } else if ((positionX > 420 && positionX < 480) &&
+                    (positionY > 20 && positionY < 80)) { // do not spawn on ice circle area
             treeSpawn = false;
         } else if ((positionX > -200 && positionX < 200) &&
                     (positionY > -200 && positionY < 200)) { // do not spawn inside the city

@@ -265,10 +265,10 @@ var iceCircleMaterial = new THREE.MeshPhongMaterial({
 var iceCircle = new THREE.Mesh(iceCircleGeometry, iceCircleMaterial);
 // add the ground plane to the scene
 iceCircle.receiveShadow = true; // enables shadows
-//iceCircle.position.set(450,50,0.1);
+iceCircle.position.set(450,50,0.1);
 //iceCircle.position.set(50,-350,0.1);
 //mountainPlane.position.set(0,-300,0);
-scene.add(iceCircle);
+groundPlane.add(iceCircle);
 //mountainPlane.add(mesh1); // TODO add external object later
 
 // Medium mountain
