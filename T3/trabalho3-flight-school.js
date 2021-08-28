@@ -241,16 +241,35 @@ mesh1.add( mesh2 );
 var mountainPlaneGeometry = new THREE.PlaneGeometry(100, 100);
 //mountainPlaneGeometry.translate(0.0, 0.0, -0.01); // To avoid conflict with the axeshelper
 var mountainPlaneMaterial = new THREE.MeshLambertMaterial({
-    //color: "rgba(150, 150, 150)", // light grey
     color: "rgb(80, 75, 0)", // brown
 });
 var mountainPlane = new THREE.Mesh(mountainPlaneGeometry, mountainPlaneMaterial);
 // add the ground plane to the scene
 mountainPlane.receiveShadow = true; // enables shadows
-mountainPlane.position.set(-350,300,0);
+mountainPlane.position.set(-350,300,0.1);
 //mountainPlane.position.set(0,-300,0);
 groundPlane.add(mountainPlane);
 mountainPlane.add(mesh1);
+
+// create the ice ground plane
+var iceCircleGeometry = new THREE.CircleGeometry(40, 64);
+//icePlaneGeometry.translate(0.0, 0.0, -0.01); // To avoid conflict with the axeshelper
+var iceCircleMaterial = new THREE.MeshPhongMaterial({
+    color: "white", // brown
+    reflectivity:"0.25",
+    specular:"white",
+    transparent:"true",
+    opacity:"0.8",
+    //shininess:"100",
+});
+var iceCircle = new THREE.Mesh(iceCircleGeometry, iceCircleMaterial);
+// add the ground plane to the scene
+iceCircle.receiveShadow = true; // enables shadows
+//iceCircle.position.set(450,50,0.1);
+//iceCircle.position.set(50,-350,0.1);
+//mountainPlane.position.set(0,-300,0);
+scene.add(iceCircle);
+//mountainPlane.add(mesh1); // TODO add external object later
 
 // Medium mountain
 /*var mesh3 = new THREE.Mesh( geometry3, materialBrick );
@@ -832,6 +851,7 @@ var textureLoader = new THREE.TextureLoader(); // Creates the loader
 var asphault = textureLoader.load('./textures/asphault-512_256.jpg');
 var grass = textureLoader.load('./textures/grass-1024.jpg');
 var terrain = textureLoader.load('./textures/terrain-1024.jpg');
+var ice = textureLoader.load('./textures/ice-128.png');
 
 // Asphault texture configuration
 asphault.wrapS = THREE.RepeatWrapping;
@@ -851,12 +871,19 @@ terrain.wrapT = THREE.RepeatWrapping;
 terrain.repeat.set( 8, 8 );
 terrain.magFilter = THREE.LinearFilter;
 
+// Ice land texture configuration
+ice.wrapS = THREE.RepeatWrapping;
+ice.wrapT = THREE.RepeatWrapping;
+ice.repeat.set( 64, 32 );
+ice.magFilter = THREE.LinearFilter;
+
 // Apply texture to the 'map' property of the respective materials' objects
 landingTrack.material.map = asphault; // apply asphault on landing track
 mainStreet[0].material.map = asphault; // apply asphault on main street
 groundPlane.material.map = grass; // apply grass on ground plane
 mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
 mesh1.material.map = terrain; // apply land texture on mountain TODO verify that later
+iceCircle.material.map = ice; // apply ice texture on ice circle
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
