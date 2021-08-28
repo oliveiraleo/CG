@@ -33,8 +33,8 @@ export function gerarArvores(scene){
         if ((positionX > -50 && positionX < 50) &&
             positionY < -225) { // do not spawn on landing track
             treeSpawn = false;
-        } else if ((positionX > -390 && positionX < -300) &&
-                    (positionY > 250 && positionY < 350)){ // do not spawn on small mountain area
+        } else if ((positionX > -400 && positionX < -280) &&
+                    (positionY > 220 && positionY < 380)){ // do not spawn on land / terrain mountain area
             treeSpawn = false;
         } else if ((positionX > 220 && positionX < 320) &&
                     (positionY > 0 && positionY < 150)) { // do not spawn on medium mountain area
