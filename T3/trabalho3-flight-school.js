@@ -356,7 +356,7 @@ for (let i = 0; i < 4; i++) {
     }
     //mainStreet[i].rotateZ(degreesToRadians(90)*i);
     mainStreet[i].receiveShadow = true;
-    cityPlane.add(mainStreet[i]);
+    //cityPlane.add(mainStreet[i]);
 }
 mainStreet[0].position.set(0.0, 50.0, 0.02);
 mainStreet[1].position.set(50.0, 0.0, 0.02);
@@ -364,7 +364,7 @@ mainStreet[2].position.set(0.0, -50.0, 0.02);
 mainStreet[3].position.set(-50.0, 0.0, 0.02);
 
 // create the main square ground plane
-var mainSquarePlaneGeometry = new THREE.PlaneGeometry(81, 81);
+var mainSquarePlaneGeometry = new THREE.PlaneGeometry(100, 100);
 var mainSquarePlaneMaterial = new THREE.MeshLambertMaterial({
     //color: "rgba(150, 150, 150)", // light grey
     color: "rgb(80, 80, 80)" // TODO change the color
@@ -679,7 +679,7 @@ function checkHit(){
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
 var scale = 1.0; // adjust external objects scale
 // Humvee
-
+/*
 // instantiate a object loader
 const humveeLoader = new OBJLoader();
 // instantiate a texture loader
@@ -717,7 +717,7 @@ humveeLoader.load(
 	}
 )
 });
-
+*/
 // Police car
 
 // instantiate a object loader
@@ -956,6 +956,170 @@ crossLoader.load(
 	function ( error ) {
 
 		console.log( 'Cross loading error' );
+
+	}
+)
+});
+
+// Cone
+
+// instantiate a object loader
+const coneLoader = new OBJLoader();
+// instantiate a texture loader
+const coneMtlLoader = new MTLLoader();
+coneMtlLoader.load('models/cone/cone.mtl', (mtl8) => {
+  mtl8.preload();
+  coneLoader.setMaterials(mtl8);
+
+// load a resource
+coneLoader.load(
+	// resource URL
+	'models/cone/cone.obj',
+	// called when resource is loaded
+	function ( cone ) {
+        cone.rotateX(degreesToRadians(90));
+        //cone.rotateY(degreesToRadians(90));
+        cone.position.set(0.0, 10.0, 0.01);
+        // object scale
+        cone.scale.set(  1.0 * scale,
+                         1.0 * scale,
+                         1.0 * scale);
+		landingTrack.add( cone );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Cone ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Cone loading error' );
+
+	}
+)
+});
+
+// Concrete barrier
+
+// instantiate a object loader
+const concreteBarrierLoader = new OBJLoader();
+// instantiate a texture loader
+const concreteBarrierMtlLoader = new MTLLoader();
+concreteBarrierMtlLoader.load('models/concrete-barrier/concrete-barrier.mtl', (mtl9) => {
+  mtl9.preload();
+  concreteBarrierLoader.setMaterials(mtl9);
+
+// load a resource
+concreteBarrierLoader.load(
+	// resource URL
+	'models/concrete-barrier/concrete-barrier.obj',
+	// called when resource is loaded
+	function ( concreteBarrier ) {
+        concreteBarrier.rotateX(degreesToRadians(90));
+        //concreteBarrier.rotateY(degreesToRadians(90));
+        concreteBarrier.position.set(0.0, 15.0, 0.01);
+        // object scale
+        concreteBarrier.scale.set(  3.0 * scale,
+                                    3.0 * scale,
+                                    3.0 * scale);
+		landingTrack.add( concreteBarrier );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Concrete barrier ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Concrete barrier loading error' );
+
+	}
+)
+});
+
+// Cyclist Sign
+/*
+// instantiate a object loader
+const cyclingSignLoader = new OBJLoader();
+// instantiate a texture loader
+const cyclingSignMtlLoader = new MTLLoader();
+cyclingSignMtlLoader.load('models/sign-cycling/sign-cycling.mtl', (mtl10) => {
+  mtl10.preload();
+  cyclingSignLoader.setMaterials(mtl10);
+
+// load a resource
+cyclingSignLoader.load(
+	// resource URL
+	'models/sign-cycling/sign-cycling.obj',
+	// called when resource is loaded
+	function ( cyclingSign ) {
+        cyclingSign.rotateX(degreesToRadians(90));
+        //cyclingSign.rotateY(degreesToRadians(90));
+        cyclingSign.position.set(0.0, 35.0, 0.01);
+        // object scale
+        cyclingSign.scale.set(  1.05 * scale,
+                                1.05 * scale,
+                                1.05 * scale);
+		landingTrack.add( cyclingSign );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Cyclist sign ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Cyclist sign loading error' );
+
+	}
+)
+});
+*/
+// Give way Sign // Placa de de a preferencia
+
+// instantiate a object loader
+const giveWaySignLoader = new OBJLoader();
+// instantiate a texture loader
+const giveWaySignMtlLoader = new MTLLoader();
+giveWaySignMtlLoader.load('models/sign-give-way/sign-give-way.mtl', (mtl11) => {
+  mtl11.preload();
+  giveWaySignLoader.setMaterials(mtl11);
+
+// load a resource
+giveWaySignLoader.load(
+	// resource URL
+	'models/sign-give-way/sign-give-way.obj',
+	// called when resource is loaded
+	function ( giveWaySign ) {
+        giveWaySign.rotateX(degreesToRadians(90));
+        //giveWaySign.rotateY(degreesToRadians(90));
+        giveWaySign.position.set(10.0, 35.0, 0.01);
+        // object scale
+        giveWaySign.scale.set(  5.0 * scale,
+                                5.0 * scale,
+                                5.0 * scale);
+		landingTrack.add( giveWaySign );
+
+	},
+	// called when loading is in progresses
+	function ( xhr ) {
+
+		console.log( 'Give way sign ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'Give way sign loading error' );
 
 	}
 )
