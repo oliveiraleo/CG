@@ -122,7 +122,10 @@ var tiresMaterial = new THREE.MeshLambertMaterial({color:"rgb(40, 40, 40)"}); //
 var hubMaterial = new THREE.MeshPhongMaterial({color:"red", shininess:"100", reflectivity:"1.0"});
 var stabilizersMaterial = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
 var stabilizersMaterialSmall = new THREE.MeshPhongMaterial({color:"blue", shininess:"100", reflectivity:"1.0"});
-var flapsMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
+var flapsWingsMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
+var flapsBackMaterial = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
+var flapsBackMaterialSmall = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
+var flapsBackSideMaterialSmall = new THREE.MeshPhongMaterial({color:"yellow", shininess:"100", reflectivity:"1.0"});
 var lifesaverMaterial = new THREE.MeshLambertMaterial({color:"red"}); // to mimic red rubber
 
 // Reference URL to all ariplane parts names
@@ -150,8 +153,8 @@ rightEngineCylinder.position.set(0.0, 0.0, -0.5);
 
 // define airplane flaps geometry
 var flapsGeometry = new THREE.BoxGeometry(10.0, 0.4, 0.2);
-var leftFlap = new THREE.Mesh(flapsGeometry, flapsMaterial);
-var rightFlap = new THREE.Mesh(flapsGeometry, flapsMaterial);
+var leftFlap = new THREE.Mesh(flapsGeometry, flapsWingsMaterial);
+var rightFlap = new THREE.Mesh(flapsGeometry, flapsWingsMaterial);
 leftFlap.position.set(0.0, -1.72, 0.0);
 rightFlap.position.set(0.0, -1.72, 0.0);
 
@@ -174,25 +177,28 @@ tailCylinder.position.set(0.0, -3.0, 0.0);
 
 // define airplane stabilizers geometry
 var horizontalStabilizerGeometry = new THREE.BoxGeometry(3, 1, 0.2);
-var verticalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 2);
+var verticalStabilizerGeometry = new THREE.BoxGeometry(0.2, 0.5, 3.0);
 // create the right stabilizer
-var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial); ///////////////////
+var rightStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
 rightStabilizer.position.set(2.0, 0.0, 0.0);
 // create the left stabilizer
 var leftStabilizer = new THREE.Mesh(horizontalStabilizerGeometry, stabilizersMaterial);
 leftStabilizer.position.set(-2.0, 0.0, 0.0);
 // create vertical stabilizer
 var verticalStabilizer = new THREE.Mesh(verticalStabilizerGeometry, tailMaterial);
-verticalStabilizer.position.set(0.0, -0.25, 1.5);
+verticalStabilizer.position.set(0.0, -0.25, 2.0);
 // define airplane back flaps geometry
 var backFlapsGeometry = new THREE.BoxGeometry(3.0, 0.4, 0.2);
-var backRudderGeometry = new THREE.BoxGeometry(0.2, 0.4, 2.0);
-var backLeftFlap = new THREE.Mesh(backFlapsGeometry, flapsMaterial);
-var backRightFlap = new THREE.Mesh(backFlapsGeometry, flapsMaterial);
-var backRudder = new THREE.Mesh(backRudderGeometry, flapsMaterial);
+var backRudderGeometry = new THREE.BoxGeometry(0.2, 0.4, 3.0);
+var backLeftFlap = new THREE.Mesh(backFlapsGeometry, flapsBackMaterial);
+var backRightFlap = new THREE.Mesh(backFlapsGeometry, flapsBackMaterial);
+var backRudder = new THREE.Mesh(backRudderGeometry, flapsBackMaterial);
 backLeftFlap.position.set(0.0, -0.72, 0.0);
 backRightFlap.position.set(0.0, -0.72, 0.0);
 backRudder.position.set(0.0, -0.47, 0.0);
+
+// flaps adhesives
+
 
 // EASTER EGGs BEGIN //
 // life saver easter egg
@@ -326,6 +332,10 @@ var sideEnginesAdhesiveGeometry = new THREE.CircleGeometry(1.0, 32);
 var horizontalStabilizersFrontAdhesiveGeometry = new THREE.PlaneGeometry(3.0, 0.2);
 var horizontalStabilizersSideAdhesiveGeometry = new THREE.PlaneGeometry(1.0, 0.2);
 
+var backFlapsAdhesiveGeometry = new THREE.PlaneGeometry(3.0, 0.2);
+
+var backFlapsSideAdhesiveGeometry = new THREE.PlaneGeometry(0.4, 0.2);
+
 var tempAdhesiveMaterial = new THREE.MeshBasicMaterial({ // temp material
     color: "red", // TODO change the color
     //side: THREE.DoubleSide,
@@ -353,6 +363,17 @@ var leftStabilizerSideAdhesive = new THREE.Mesh(horizontalStabilizersSideAdhesiv
 var leftStabilizerFrontAdhesive = new THREE.Mesh(horizontalStabilizersFrontAdhesiveGeometry, stabilizersMaterialSmall);
 var rightStabilizerSideAdhesive = new THREE.Mesh(horizontalStabilizersSideAdhesiveGeometry, stabilizersMaterialSmall);
 var rightStabilizerFrontAdhesive = new THREE.Mesh(horizontalStabilizersFrontAdhesiveGeometry, stabilizersMaterialSmall);
+
+var backLeftFlapsAdhesive = new THREE.Mesh(backFlapsAdhesiveGeometry, flapsBackMaterialSmall);
+var backRightFlapsAdhesive = new THREE.Mesh(backFlapsAdhesiveGeometry, flapsBackMaterialSmall);
+
+var backRudderFlapAdhesive = new THREE.Mesh(backFlapsAdhesiveGeometry, flapsBackMaterialSmall);
+var backRudderFlapTopAdhesive = new THREE.Mesh(backFlapsSideAdhesiveGeometry, flapsBackSideMaterialSmall);
+
+var backLeftSideAFlapsAdhesive = new THREE.Mesh(backFlapsSideAdhesiveGeometry, flapsBackSideMaterialSmall);
+var backLeftSideBFlapsAdhesive = new THREE.Mesh(backFlapsSideAdhesiveGeometry, flapsBackSideMaterialSmall);
+var backRightSideAFlapsAdhesive = new THREE.Mesh(backFlapsSideAdhesiveGeometry, flapsBackSideMaterialSmall);
+var backRightSideBFlapsAdhesive = new THREE.Mesh(backFlapsSideAdhesiveGeometry, flapsBackSideMaterialSmall);
 
 // adhesives positioning
 shockStrutAdhesive.position.set(0.0, -0.1, 0.0);
@@ -401,6 +422,31 @@ rightStabilizerSideAdhesive.rotateY(degreesToRadians(90));
 rightStabilizerFrontAdhesive.position.set(0.0, 0.501, 0.0);
 rightStabilizerFrontAdhesive.rotateX(degreesToRadians(-90));
 
+backLeftFlapsAdhesive.position.set(0.0, -0.201, 0.0);
+backLeftFlapsAdhesive.rotateX(degreesToRadians(90));
+backRightFlapsAdhesive.position.set(0.0, -0.201, 0.0);
+backRightFlapsAdhesive.rotateX(degreesToRadians(90));
+
+backRudderFlapAdhesive.position.set(0.0, -0.201, 0.0);
+backRudderFlapAdhesive.rotateX(degreesToRadians(90));
+backRudderFlapAdhesive.rotateZ(degreesToRadians(90));
+backRudderFlapTopAdhesive.position.set(0.0, 0.0, 1.501);
+backRudderFlapTopAdhesive.rotateZ(degreesToRadians(90));
+
+backLeftSideAFlapsAdhesive.position.set(-1.501, 0.0, 0.0);
+backLeftSideAFlapsAdhesive.rotateX(degreesToRadians(90));
+backLeftSideAFlapsAdhesive.rotateY(degreesToRadians(-90));
+backLeftSideBFlapsAdhesive.position.set(1.501, 0.0, 0.0);
+backLeftSideBFlapsAdhesive.rotateX(degreesToRadians(90));
+backLeftSideBFlapsAdhesive.rotateY(degreesToRadians(90));
+
+backRightSideAFlapsAdhesive.position.set(-1.501, 0.0, 0.0);
+backRightSideAFlapsAdhesive.rotateX(degreesToRadians(90));
+backRightSideAFlapsAdhesive.rotateY(degreesToRadians(-90));
+backRightSideBFlapsAdhesive.position.set(1.501, 0.0, 0.0);
+backRightSideBFlapsAdhesive.rotateX(degreesToRadians(90));
+backRightSideBFlapsAdhesive.rotateY(degreesToRadians(90));
+
 // create the pilot's cockpit
 var cockpitGeometry = new THREE.SphereGeometry(1, 32, 32);
 cockpit = new THREE.Mesh(cockpitGeometry, cockpitMaterial);
@@ -444,12 +490,20 @@ leftStabilizer.add(leftCrossp1);
 leftStabilizer.add(leftCrossp2);
 leftStabilizer.add(leftStabilizerSideAdhesive); // adhesive
 leftStabilizer.add(leftStabilizerFrontAdhesive); // adhesive
+backLeftFlap.add(backLeftFlapsAdhesive); // adhesive
+backLeftFlap.add(backLeftSideAFlapsAdhesive); // adhesive
+backLeftFlap.add(backLeftSideBFlapsAdhesive); // adhesive
 rightStabilizer.add(backRightFlap);
 rightStabilizer.add(rightCrossp1);
 rightStabilizer.add(rightCrossp2);
 rightStabilizer.add(rightStabilizerSideAdhesive); // adhesive
 rightStabilizer.add(rightStabilizerFrontAdhesive); // adhesive
+backRightFlap.add(backRightFlapsAdhesive); // adhesive
+backRightFlap.add(backRightSideAFlapsAdhesive); // adhesive
+backRightFlap.add(backRightSideBFlapsAdhesive); // adhesive
 verticalStabilizer.add(backRudder);
+backRudder.add(backRudderFlapAdhesive); // adhesive
+backRudder.add(backRudderFlapTopAdhesive); // adhesive
 // LANDING GEAR
 // front
 baseCylinder.add(shockStrut);
@@ -517,6 +571,10 @@ var airplaneMultiCamoBackCylinder = textureLoader.load('./textures/multi_camo.pn
 var airplaneMultiCamoTailCylinder = textureLoader.load('./textures/multi_camo.png');
 var airplaneOxidizedMetal = textureLoader.load('./textures/oxidized-metal.png');
 var airplaneHubMetal = textureLoader.load('./textures/metal-hub.png');
+var airplaneWingFlapsMetal = textureLoader.load('./textures/metal-flaps.png');
+var airplaneBackFlapsMetal = textureLoader.load('./textures/metal-flaps.png');
+var airplaneBackFlapsMetalSmall = textureLoader.load('./textures/metal-flaps.png');
+var airplaneBackFlapsMetalSideSmall = textureLoader.load('./textures/metal-flaps.png');
 // TODO refactorate the code block above? (Loading too many times the same texture)
 
 // Airplane multi camouflage texture configuration
@@ -616,6 +674,26 @@ airplaneHubMetal.wrapS = THREE.RepeatWrapping;
 airplaneHubMetal.wrapT = THREE.RepeatWrapping;
 airplaneHubMetal.repeat.set( 6, 12 );
 
+// Wing flaps
+airplaneWingFlapsMetal.wrapS = THREE.RepeatWrapping;
+airplaneWingFlapsMetal.wrapT = THREE.RepeatWrapping;
+airplaneWingFlapsMetal.repeat.set( 128, 4 );
+
+// Back flaps
+airplaneBackFlapsMetal.wrapS = THREE.RepeatWrapping;
+airplaneBackFlapsMetal.wrapT = THREE.RepeatWrapping;
+airplaneBackFlapsMetal.repeat.set( 32, 4 );
+
+// Back flaps small
+airplaneBackFlapsMetalSmall.wrapS = THREE.RepeatWrapping;
+airplaneBackFlapsMetalSmall.wrapT = THREE.RepeatWrapping;
+airplaneBackFlapsMetalSmall.repeat.set( 32, 2 );
+
+// Back flaps side small
+airplaneBackFlapsMetalSideSmall.wrapS = THREE.RepeatWrapping;
+airplaneBackFlapsMetalSideSmall.wrapT = THREE.RepeatWrapping;
+airplaneBackFlapsMetalSideSmall.repeat.set( 4, 2 );
+
 // Set textures on each part
 baseCylinder.material.map = airplaneMultiCamo; // apply camo on airplane fuselage
 rightWing.material.map = airplaneMultiCamoWing; // apply camo on airplane wings
@@ -635,7 +713,10 @@ backCylinder.material.map = airplaneMultiCamoBackCylinder; // apply camo on airp
 tailCylinder.material.map = airplaneMultiCamoTailCylinder; // apply camo on airplane tail cylinder
 blade.material.map = airplaneOxidizedMetal; // apply oxidized metal on airplane blades
 hub.material.map = airplaneHubMetal; // apply metal on airplane hubs
-
+leftFlap.material.map = airplaneWingFlapsMetal; // apply metal on airplane wing's flaps
+backLeftFlap.material.map = airplaneBackFlapsMetal; // apply metal on airplane back flaps
+backRudderFlapAdhesive.material.map = airplaneBackFlapsMetalSmall; // apply metal on airplane wing's flaps
+backRudderFlapTopAdhesive.material.map = airplaneBackFlapsMetalSideSmall; // apply metal on airplane wing's flaps
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
