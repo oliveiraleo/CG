@@ -969,7 +969,7 @@ crossLoader.load(
 //-----------------------------------//
 // Use TextureLoader to load texture files
 var textureLoader = new THREE.TextureLoader(); // Creates the loader
-var asphault = textureLoader.load('./textures/asphault-512_256.jpg');
+var asphault = textureLoader.load('./textures/asphalt.png'); // TODO check resolution later
 var grass = textureLoader.load('./textures/grass-1024.jpg');
 var terrain = textureLoader.load('./textures/terrain-1024.jpg');
 var ice = textureLoader.load('./textures/ice-128.png');
