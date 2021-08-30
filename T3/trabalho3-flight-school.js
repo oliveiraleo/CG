@@ -100,6 +100,25 @@ scene.add(groundPlane);
 groundPlane.add(axesHelper);
 
 //-----------------------------------//
+// SKYBOX CONFIGURATION BEGIN        //
+//-----------------------------------//
+
+const skyboxLoader = new THREE.CubeTextureLoader();
+const skybox = skyboxLoader.load([
+  'textures/skybox/left.bmp',
+  'textures/skybox/right.bmp',
+  'textures/skybox/front.bmp',
+  'textures/skybox/back.bmp',
+  'textures/skybox/top.bmp',
+  'textures/skybox/bottom.bmp',
+]);
+scene.background = skybox;
+
+//-----------------------------------//
+// SKYBOX CONFIGURATION END          //
+//-----------------------------------//
+
+//-----------------------------------//
 // MOUNTAINS CONFIGURATION BEGIN     //
 //-----------------------------------//
 var mountainScaleSmall = 3;
@@ -420,6 +439,14 @@ function togglesSceneLights(){
     }
 }
 
+function updateSkybox(){
+    if (scene.background == null) {
+        scene.background = skybox;
+    } else {
+        scene.background = null;
+    }
+}
+
 function keyboardUpdate() {
     //keyboard.update(); // desabilitado porque a funcao keyboardUpdateHolder ja realiza o update // verifica qual tecla esta sendo pressionada
     if (keyboard.down("G")){ // Toggles the directional light helper
@@ -438,6 +465,7 @@ function keyboardUpdate() {
         togglesInfoBoxVisibility("box"); // hide the secondary text in inspection mode
         // TODO hide controls on inspection mode ?
         togglesSceneLights();
+        updateSkybox(); // removes the sunny day from the scene background while inside the inspection mode
     }
     if (keyboard.down("M")){ // TODO
         // TODO
@@ -547,14 +575,14 @@ var scale = 1.0; // adjust external objects scale
 const policeCarLoader = new OBJLoader();
 // instantiate a texture loader
 const policeCarMtlLoader = new MTLLoader();
-policeCarMtlLoader.load('models/cars/city/police-car.mtl', (mtl2) => {
+policeCarMtlLoader.load('models/cars/police-car.mtl', (mtl2) => {
   mtl2.preload();
   policeCarLoader.setMaterials(mtl2);
 
 // load a resource
 policeCarLoader.load(
 	// resource URL
-	'models/cars/city/police-car.obj',
+	'models/cars/police-car.obj',
 	// called when resource is loaded
 	function ( car ) {
         //car.position.set(0, 0, 0);
@@ -588,14 +616,14 @@ policeCarLoader.load(
 const racingCarLoader = new OBJLoader();
 // instantiate a texture loader
 const racingCarMtlLoader = new MTLLoader();
-racingCarMtlLoader.load('models/cars/city/racing-car.mtl', (mtl3) => {
+racingCarMtlLoader.load('models/cars/racing-car.mtl', (mtl3) => {
   mtl3.preload();
   racingCarLoader.setMaterials(mtl3);
 
 // load a resource
 racingCarLoader.load(
 	// resource URL
-	'models/cars/city/racing-car.obj',
+	'models/cars/racing-car.obj',
 	// called when resource is loaded
 	function ( car ) {
         car.position.set(0, -20, 0);
