@@ -5,7 +5,7 @@ import KeyboardState from       '../libs/util/KeyboardState.js';
 import {ConvexGeometry} from '../build/jsm/geometries/ConvexGeometry.js';
 import {OBJLoader} from '../build/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from '../build/jsm/loaders/MTLLoader.js';
-import {GLTFLoader} from '../build/jsm/loaders/GLTFLoader.js'
+//import {ColladaLoader} from '../build/jsm/loaders/ColladaLoader.js';
 import {initRenderer, 
         onWindowResize, 
         degreesToRadians,
@@ -14,8 +14,7 @@ import {initRenderer,
         //ConvexGeometry,
         SecondaryBox,
         InfoBox,
-        lightFollowingCamera,
-        radiansToDegrees} from "../libs/util/util.js";
+        lightFollowingCamera} from "../libs/util/util.js";
 
 import { gerarArvores } from './classes/arvore.js';
 import {Aviao} from './classes/aviao.js';
@@ -63,9 +62,6 @@ directionalLightHelper.visible = false; // comment to display the helper
 //-----------------------------------//
 // SCENE LIGHTS CONFIGURATION END    //
 //-----------------------------------//
-
-//remover camera
-//var camera = initCamera(new THREE.Vector3(0, -500, 15)); // Init camera in this position
 
 // FPS panel config
 function createStats() {
@@ -145,91 +141,12 @@ var points2 = [// cume
                 new THREE.Vector3( 5.0 * mountainScaleSmall, -12.0 * mountainScaleSmall, 0.0 * mountainScaleSmall ),
                 new THREE.Vector3( 7.0 * mountainScaleSmall, 5.0 * mountainScaleSmall, 0.0 * mountainScaleSmall )
             ];
-// Medium mountain
-/*var points3 = [// cume
-                new THREE.Vector3( 0.0 * mountainScaleMedium, -1.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
-                new THREE.Vector3( 0.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 10.0 * mountainScaleMedium ),
-                new THREE.Vector3( 0.0 * mountainScaleMedium, -4.0 * mountainScaleMedium, 8.0 * mountainScaleMedium ),
-                new THREE.Vector3( 0.0 * mountainScaleMedium, -6.0 * mountainScaleMedium, 8.0 * mountainScaleMedium ),
-                new THREE.Vector3( 0.0 * mountainScaleMedium, -8.0 * mountainScaleMedium, 4.0 * mountainScaleMedium ),
-                new THREE.Vector3( 5.0 * mountainScaleMedium, -5.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
-                new THREE.Vector3( -4.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 3.0 * mountainScaleMedium ),
-                // base
-                new THREE.Vector3( 0.0, 0.0, 0.0 ),
-                new THREE.Vector3( 0.0 * mountainScaleMedium, 10.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                new THREE.Vector3( 10.0 * mountainScaleMedium, 8.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                new THREE.Vector3( -5.0 * mountainScaleMedium, -5.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                new THREE.Vector3( 6.0 * mountainScaleMedium, 2.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                new THREE.Vector3( 5.0 * mountainScaleMedium, -12.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                new THREE.Vector3( 7.0 * mountainScaleMedium, 5.0 * mountainScaleMedium, 0.0 * mountainScaleMedium )
-                ];
-
-var points4 = [// cume
-                    new THREE.Vector3( 0.0 * mountainScaleMedium, -1.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
-                    new THREE.Vector3( 0.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 10.0 * mountainScaleMedium ),
-                    //new THREE.Vector3( 0.0 * mountainScaleMedium, -4.0 * mountainScaleMedium, 8.0 * mountainScaleMedium ),
-                    //new THREE.Vector3( 0.0 * mountainScaleMedium, -6.0 * mountainScaleMedium, 8.0 * mountainScaleMedium ),
-                    new THREE.Vector3( 0.0 * mountainScaleMedium, -8.0 * mountainScaleMedium, 4.0 * mountainScaleMedium ),
-                    new THREE.Vector3( 5.0 * mountainScaleMedium, -5.0 * mountainScaleMedium, 6.0 * mountainScaleMedium ),
-                    new THREE.Vector3( -4.0 * mountainScaleMedium, -2.0 * mountainScaleMedium, 3.0 * mountainScaleMedium ),
-                    // base
-                    new THREE.Vector3( 0.0, 0.0, 0.0 ),
-                    new THREE.Vector3( 0.0 * mountainScaleMedium, 6.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                    new THREE.Vector3( 10.0 * mountainScaleMedium, 8.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                    new THREE.Vector3( -5.0 * mountainScaleMedium, -5.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                    //new THREE.Vector3( 6.0 * mountainScaleMedium, 2.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                    //new THREE.Vector3( 5.0 * mountainScaleMedium, -12.0 * mountainScaleMedium, 0.0 * mountainScaleMedium ),
-                    new THREE.Vector3( 7.0 * mountainScaleMedium, 5.0 * mountainScaleMedium, 0.0 * mountainScaleMedium )
-                ];
-// Big mountain
-var points5 = [// cume
-                new THREE.Vector3(0.0, 0.0, 12.0 * mountainScaleHigh), // pico mais alto
-                // meio
-                new THREE.Vector3(-3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
-                new THREE.Vector3(3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
-
-                new THREE.Vector3(0.0, -4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
-                new THREE.Vector3(0.0, 4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
-                // base
-                new THREE.Vector3(8.0 * mountainScaleHigh, -3.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-8.0 * mountainScaleHigh, 3.0 * mountainScaleHigh, 0.0),
-
-                new THREE.Vector3(5.0 * mountainScaleHigh, 5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-5.0 * mountainScaleHigh, 5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-5.0 * mountainScaleHigh, -5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(5.0 * mountainScaleHigh, -5.0 * mountainScaleHigh, 0.0)
-];
-var points6 = [// cume
-                new THREE.Vector3(0.0, 0.0, 10.0 * mountainScaleHigh), // pico mais alto
-                // meio
-                new THREE.Vector3(-3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
-                new THREE.Vector3(3.0 * mountainScaleHigh, 0.0, 8.0 * mountainScaleHigh),
-
-                new THREE.Vector3(0.0, -4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
-                new THREE.Vector3(0.0, 4.0 * mountainScaleHigh, 6.0 * mountainScaleHigh),
-                // base
-                new THREE.Vector3(8.0 * mountainScaleHigh, -3.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-8.0 * mountainScaleHigh, 3.0 * mountainScaleHigh, 0.0),
-
-                new THREE.Vector3(5.0 * mountainScaleHigh*2, 5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-5.0 * mountainScaleHigh*2, 5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(-5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0),
-                new THREE.Vector3(5.0 * mountainScaleHigh*2, -5.0 * mountainScaleHigh, 0.0)
-];*/
     
 var geometry1 = new ConvexGeometry( points1 );
 var geometry2 = new ConvexGeometry( points2 );
 
-// var geometry3 = new ConvexGeometry( points3 );
-// var geometry4 = new ConvexGeometry( points4 );
-
-// var geometry5 = new ConvexGeometry( points5 );
-// var geometry6 = new ConvexGeometry( points6 );
 // mountain materials
 var materialLand = new THREE.MeshLambertMaterial( { color:"rgb(80, 75, 0)" } ); // brown
-//var materialRock = new THREE.MeshLambertMaterial( { color:"rgb(120, 140, 130)" } ); // grey
-//var materialAsteroid = new THREE.MeshLambertMaterial( { color:"rgb(60, 80, 80)" } ); // deep grey
-//var materialBrick = new THREE.MeshLambertMaterial( { color:"rgb(210, 170, 60)" } ); // brick orange
 // Small mountain
 var mesh1 = new THREE.Mesh( geometry1, materialLand );
 var mesh2 = new THREE.Mesh( geometry2, materialLand );
@@ -271,43 +188,12 @@ iceCircle.position.set(450,50,0.1);
 groundPlane.add(iceCircle);
 //mountainPlane.add(mesh1); // TODO add external object later
 
-// Medium mountain
-/*var mesh3 = new THREE.Mesh( geometry3, materialBrick );
-var mesh4 = new THREE.Mesh( geometry4, materialAsteroid );
-mesh3.position.set(250, 50, 0);
-mesh4.position.set(0.0 * mountainScaleMedium, 0.0 * mountainScaleMedium, 8.5 * mountainScaleMedium);
-mesh4.rotateX(90);
-//groundPlane.add( mesh3 );
-mesh3.add( mesh4 );
-// Big mountain
-var mesh5 = new THREE.Mesh( geometry5, materialRock );
-var mesh6 = new THREE.Mesh( geometry6, materialRock );
-var mesh7 = new THREE.Mesh( geometry6, materialRock );
-//mesh4.position.set(0,-300,0); // centered at origin
-mesh6.position.set( 0 * mountainScaleHigh, -3 * mountainScaleHigh, 0 * mountainScaleHigh);
-mesh7.position.set( 3 * mountainScaleHigh, 3 * mountainScaleHigh, 0 * mountainScaleHigh);
-mesh6.rotateZ(25);
-mesh7.rotateZ(-90);
-//groundPlane.add( mesh5 );
-mesh5.add( mesh6 );
-mesh6.add( mesh7 );*/
-
 // mountains shadows
 mesh1.receiveShadow = true;
 mesh2.receiveShadow = true;
-/*mesh3.receiveShadow = true;
-mesh4.receiveShadow = true;
-mesh5.receiveShadow = true;
-mesh6.receiveShadow = true;
-mesh7.receiveShadow = true;*/
 
 mesh1.castShadow = true;
 mesh2.castShadow = true;
-/*mesh3.castShadow = true;
-mesh4.castShadow = true;
-mesh5.castShadow = true;
-mesh6.castShadow = true;
-mesh7.castShadow = true;*/
 //-----------------------------------//
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//
@@ -414,7 +300,7 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 //-----------------------------------//
 // FLIGHT PATH CONFIGURATION BEGIN   //
 //-----------------------------------//
-// Path points configuration
+// Path points configuration // TODO update the path to the new map
 var vetPathPoints = [];
 vetPathPoints[0] = new THREE.Vector3( 0, -325, 20 ); // saida da pista
 vetPathPoints[1] = new THREE.Vector3( 50, -200, 25 ); // perto da montanha alta
@@ -432,7 +318,6 @@ vetPathPoints[12] = new THREE.Vector3( -150, -250, 20 ); // continuacao da flore
 
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
-	//new THREE.Vector3( 0, -350, 20 ),
     vetPathPoints[0],
     vetPathPoints[1],
     vetPathPoints[2],
@@ -454,7 +339,6 @@ var pathGeometry = new THREE.BufferGeometry().setFromPoints( pathPoints );
 var pathMaterial = new THREE.LineBasicMaterial( { color : 0xff0000 } ); // red
 // Create the final path object and add it to the scene
 var pathObject = new THREE.Line( pathGeometry, pathMaterial );
-//scene.add(pathObject);
 groundPlane.add(pathObject);
 
 // Vars to save the objects for later usage
@@ -466,7 +350,6 @@ var checkPointRadius = 10.0;
 
 var checkPointMaterialGrey = new THREE.MeshPhongMaterial({color:"lightgrey", transparent:"true", opacity:"0.7"}); 
 var checkPointMaterialOrange = new THREE.MeshPhongMaterial({color:"orange", transparent:"true", opacity:"0.7"}); 
-
 
 //Checkpoint colors
 for(let i=0;i<vetPathPoints.length;i++){
@@ -490,14 +373,11 @@ function createCheckPoints(){
         vetCheckPointsPositions[i] = vetPathPoints[i];
         vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
         
-        //scene.add(vetCheckPoints[i]);
-        //let pos = vetPathPoints[i];
         if(i == 0 || i == 3 || i == (vetPathPoints.length - 1)){ // the three checkpoints that have fixed angles
             vetCheckPoints[i].rotateX(degreesToRadians(90));
         } else {
             vetCheckPoints[i].lookAt(vetPathPoints[i+1]);
         }
-        //vetCheckPoints[i].lookAt(vetPathPoints[i-1]);
         groundPlane.add(vetCheckPoints[i]);
     }
     vetCheckPoints[0].visible = true; // Displays the first check point
@@ -507,7 +387,6 @@ createCheckPoints();
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
-//var controlsHelperBoxState = true;
 // Controls info boxes visibility
 function togglesInfoBoxVisibility(boxId){
     if (document.getElementById(boxId).style.display == "") { // if infobox is visible, hide it
@@ -556,8 +435,7 @@ function keyboardUpdate() {
         pathObject.visible = !pathObject.visible;
     }
     if (keyboard.down("space")){ // Toggles the inspection mode
-        //showInfoOnScreen(""); // hide the secondary text in inspection mode
-        togglesInfoBoxVisibility("box");
+        togglesInfoBoxVisibility("box"); // hide the secondary text in inspection mode
         // TODO hide controls on inspection mode ?
         togglesSceneLights();
     }
@@ -565,27 +443,14 @@ function keyboardUpdate() {
         // TODO
         //music.pause();
     }
-    if (keyboard.down("P")){ // Debug key
-        //mesh1.visible = !mesh1.visible; // esconde a montanha menor
-        //mesh3.visible = !mesh3.visible; // esconde a montanha media
-        //mesh5.visible = !mesh5.visible; // esconde a montanha maior
-        //document.getElementById("InfoxBox").style.display = "none";
-        //music.play();
+    if (keyboard.down("P")){ // Controls ambient music
         if (music.getVolume() != 0.0) {
             music.setVolume(0.0);
         } else {
             music.setVolume(0.15);
         }
     }
-    if (keyboard.down("O")){ // Another Debug key
-        //document.getElementById("InfoxBox").style.display = "";
-        //checkpointSound.play();
-        //levelSound.play();
-        //levelSound.onEnded(pilotFinalMesssage.play());
-
-        //pilotFinalMesssage.play();
-        //pilotFinalMesssage.onEnded(levelSound.play());
-
+    if (keyboard.down("O")){ // Debug key
         mainSquarePlane.visible = !mainSquarePlane.visible;
     }
 }
@@ -648,7 +513,6 @@ function checkHit(){
                 pathUpdate(cont);
                 timeStart = new Date(); // starts counting the time
                 showInfoOnScreen("Lap started! Good luck!");
-                //vetCheckPoints[checkPointAtual+1].material = checkPointMaterialOrange;
                 checkpointSound.play();
                 pilotStartMesssage.play();
             } else if(checkPointAtual == (vetCheckPoints.length-1)){ // last
@@ -669,7 +533,6 @@ function checkHit(){
                 pathUpdate(cont);
             }
             checkPointAtual++;
-            //vetCheckPoints[checkPointAtual].material = checkPointMaterialOrange;
         }
 }
 
@@ -678,46 +541,6 @@ function checkHit(){
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
 var scale = 1.0; // adjust external objects scale
-// Humvee
-/*
-// instantiate a object loader
-const humveeLoader = new OBJLoader();
-// instantiate a texture loader
-const humveeMtlLoader = new MTLLoader();
-humveeMtlLoader.load('models/cars/army/Humvee.mtl', (mtl) => {
-    mtl.preload();
-  humveeLoader.setMaterials(mtl);
-
-// load a resource
-humveeLoader.load(
-	// resource URL
-	'models/cars/army/Humvee.obj',
-	// called when resource is loaded
-	function ( car ) {
-        car.position.set(0, 20, 0);
-        car.rotateX(degreesToRadians(90));
-        // object scale
-        car.scale.set(  0.04 * scale,
-                        0.04 * scale,
-                        0.04 * scale);
-		landingTrack.add( car );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Humvee ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Humvee loading error' );
-
-	}
-)
-});
-*/
 // Police car
 
 // instantiate a object loader
@@ -1189,7 +1012,6 @@ function showInformation()
   // Use this to show information onscreen
     var controls = new InfoBox();
     controls.add("Flight Simulator controls:");
-    //controls.addParagraph();
     controls.add("Press arrow keys to change airplane direction");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
@@ -1206,7 +1028,6 @@ function showInformation()
     controls.addParagraph();
     controls.add("Music controls:");
     controls.add("Press P to play / pause the sound track");
-    //controls.add("Press M to mute the sound track");
     controls.show();
 }
 
@@ -1221,10 +1042,8 @@ window.addEventListener( 'resize', function(){onWindowResize(aviao.getCameraCock
 // AUDIO CONFIGURATION BEGIN         //
 //-----------------------------------//
 // Create a listener and add it to que camera
-//var firstPlay = true;
 var listener = new THREE.AudioListener();
-  //camera.add( listener );
-  aviao.getCameraNormal().add( listener );
+aviao.getCameraNormal().add( listener );
 
 // create the global audio sources
 const music = new THREE.Audio( listener );  
