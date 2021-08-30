@@ -57,8 +57,14 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         var posicaoRua = [(-tamanho/2),(-tamanho/6),(tamanho/6),(tamanho/2)];
         var landingTrackGeometry = new THREE.BoxGeometry(tamanhoRua, tamanho+20, 0.0);
         
-        var asphaultTexture = loader.load('../../T3/textures/asphalt.png');
+        var asphaultTexture = loader.load('../../T3/textures/asphalt.png', function ( asphaultTexture ) {
 
+            asphaultTexture.wrapS = asphaultTexture.wrapT = THREE.RepeatWrapping;
+            //asphaultTexture.offset.set( 0, 0 );
+            asphaultTexture.repeat.set( 4, 64 );
+        
+        } );
+        
         var asphaultMaterial = new THREE.MeshPhongMaterial( { map: asphaultTexture, side: THREE.FrontSide } );
 
         var landingTrackMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey

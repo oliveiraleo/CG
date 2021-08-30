@@ -14,12 +14,24 @@ import {degreesToRadians,
 
 // Materials config
 var loader = new THREE.TextureLoader();
-const folhaTexture = loader.load('../../T3/textures/folhas.jpg');
+const folhaTexture = loader.load('../../T3/textures/folhas.jpg', function ( folhaTexture ) {
+
+    folhaTexture.wrapS = folhaTexture.wrapT = THREE.RepeatWrapping;
+    folhaTexture.offset.set( 2, 0 );
+    folhaTexture.repeat.set( 8, 8 );
+
+} );
 var folhaMaterial = new THREE.MeshLambertMaterial({
 map: folhaTexture
 });
 
-const pinheiroTexture = loader.load('../../T3/textures/pinheiro.jpg');
+const pinheiroTexture = loader.load('../../T3/textures/pinheiro.jpg', function ( pinheiroTexture ) {
+
+    pinheiroTexture.wrapS = pinheiroTexture.wrapT = THREE.RepeatWrapping;
+    pinheiroTexture.offset.set( 2, 0 );
+    pinheiroTexture.repeat.set( 4, 4 );
+
+} );
 var pinheiroMaterial = new THREE.MeshLambertMaterial({
 map: pinheiroTexture
 });
