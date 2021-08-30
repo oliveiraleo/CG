@@ -988,6 +988,7 @@ var asphault = textureLoader.load('./textures/asphalt.png'); // TODO check resol
 var grass = textureLoader.load('./textures/grass-1024.jpg');
 var terrain = textureLoader.load('./textures/terrain-1024.jpg');
 var ice = textureLoader.load('./textures/ice-128.png');
+var squareGround = textureLoader.load('./textures/square-ground.png');
 
 // Asphault texture configuration
 asphault.wrapS = THREE.RepeatWrapping;
@@ -1013,6 +1014,12 @@ ice.wrapT = THREE.RepeatWrapping;
 ice.repeat.set( 64, 32 );
 ice.magFilter = THREE.LinearFilter;
 
+// Main square ground texture configuration
+squareGround.wrapS = THREE.RepeatWrapping;
+squareGround.wrapT = THREE.RepeatWrapping;
+squareGround.repeat.set( 32, 32 );
+squareGround.magFilter = THREE.LinearFilter;
+
 // Apply texture to the 'map' property of the respective materials' objects
 landingTrack.material.map = asphault; // apply asphault on landing track
 mainStreet[0].material.map = asphault; // apply asphault on main street
@@ -1020,6 +1027,7 @@ groundPlane.material.map = grass; // apply grass on ground plane
 mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
 mesh1.material.map = terrain; // apply land texture on mountain TODO verify that later
 iceCircle.material.map = ice; // apply ice texture on ice circle
+mainSquarePlane.material.map = squareGround; // apply ground texture on main square
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
