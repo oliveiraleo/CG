@@ -83,8 +83,8 @@ var keyboard = new KeyboardState();
 // Show axes (parameter is size of each axis)
 var axesHelper = new THREE.AxesHelper( 100 );
 // Replace the helper to better visualize it
-//axesHelper.translateY(20);
-axesHelper.translateX(-250);
+axesHelper.translateY(-250);
+axesHelper.translateX(-450);
 
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
@@ -286,8 +286,8 @@ var mainSquarePlaneMaterial = new THREE.MeshLambertMaterial({
 var mainSquarePlane = new THREE.Mesh(mainSquarePlaneGeometry, mainSquarePlaneMaterial);
 // add the ground plane to the scene
 mainSquarePlane.receiveShadow = true; // enables shadows
-mainSquarePlane.position.set(0.0, 0.0, 0.02);
-cityPlane.add(mainSquarePlane);
+mainSquarePlane.position.set(0.0, 0.0, 0.03);
+groundPlane.add(mainSquarePlane);
 
 //-----------------------------------//
 // STREETS CONFIGURATION END         //
@@ -598,14 +598,24 @@ policeCarLoader.load(
 	'models/cars/police-car.obj',
 	// called when resource is loaded
 	function ( car ) {
-        //car.position.set(0, 0, 0);
+        car.position.set(20, 30, 0.03);
         car.rotateX(degreesToRadians(90));
+        car.rotateY(degreesToRadians(30));
         //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
         // object scale
         car.scale.set(  3.0 * scale,
                         3.0 * scale,
                         3.0 * scale);
-		landingTrack.add( car );
+        let car2 = car.clone();
+        car2.position.set(25, 10, 0.03);
+        //car2.rotateX(degreesToRadians(90));
+        car2.rotateY(degreesToRadians(-120));
+        // object scale
+        car2.scale.set(3.0 * scale,
+            3.0 * scale,
+            3.0 * scale);
+		mainSquarePlane.add( car );
+        mainSquarePlane.add( car2 );
 
 	},
 	// called when loading is in progresses
@@ -639,15 +649,15 @@ racingCarLoader.load(
 	'models/cars/racing-car.obj',
 	// called when resource is loaded
 	function ( car ) {
-        car.position.set(0, -20, 0);
+        car.position.set(9, 11, 0.03);
         car.rotateX(degreesToRadians(90));
+        car.rotateY(degreesToRadians(60));
         //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
         // object scale
         car.scale.set(  3.0 * scale,
                         3.0 * scale,
                         3.0 * scale);
-		landingTrack.add( car );
-
+        mainSquarePlane.add( car );
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
@@ -802,7 +812,7 @@ crossLoader.load(
 	function ( cross ) {
         cross.rotateX(degreesToRadians(90));
         cross.rotateY(degreesToRadians(90));
-        cross.position.set(-38.0, 0.0, 0.0);
+        cross.position.set(40.0, 0.0, 0.0);
         // object scale
         cross.scale.set(  3.0 * scale,
                           3.0 * scale,
@@ -843,12 +853,12 @@ coneLoader.load(
 	function ( cone ) {
         cone.rotateX(degreesToRadians(90));
         //cone.rotateY(degreesToRadians(90));
-        cone.position.set(0.0, 10.0, 0.01);
+        cone.position.set(0.0, 30.0, 0.1);
         // object scale
         cone.scale.set(  1.0 * scale,
                          1.0 * scale,
                          1.0 * scale);
-		landingTrack.add( cone );
+		mainSquarePlane.add( cone );
 
 	},
 	// called when loading is in progresses
@@ -884,12 +894,53 @@ concreteBarrierLoader.load(
 	function ( concreteBarrier ) {
         concreteBarrier.rotateX(degreesToRadians(90));
         //concreteBarrier.rotateY(degreesToRadians(90));
-        concreteBarrier.position.set(0.0, 15.0, 0.01);
+        concreteBarrier.position.set(10.0, 50.0, 0.1);
         // object scale
-        concreteBarrier.scale.set(  3.0 * scale,
-                                    3.0 * scale,
-                                    3.0 * scale);
-		landingTrack.add( concreteBarrier );
+        concreteBarrier.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        // as
+        let concreteBarrier2 = concreteBarrier.clone();
+        let concreteBarrier3 = concreteBarrier.clone();
+        let concreteBarrier4 = concreteBarrier.clone();
+        let concreteBarrier5 = concreteBarrier.clone();
+        let concreteBarrier6 = concreteBarrier.clone();
+        let concreteBarrier7 = concreteBarrier.clone();
+        let concreteBarrier8 = concreteBarrier.clone();
+        let concreteBarrier9 = concreteBarrier.clone();
+        let concreteBarrier10 = concreteBarrier.clone();
+        let concreteBarrier11 = concreteBarrier.clone();
+        concreteBarrier2.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier3.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier4.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier5.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier6.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier7.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier8.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier9.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier10.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+        concreteBarrier11.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
+
+        concreteBarrier2.position.set(21.0, 50.0, 0.1);
+        concreteBarrier3.position.set(32.0, 50.0, 0.1);
+        concreteBarrier4.position.set(43.0, 50.0, 0.1);
+        concreteBarrier5.position.set(-1.0, 50.0, 0.1);
+        concreteBarrier6.position.set(-12.0, 50.0, 0.1);
+        concreteBarrier7.position.set(-23.0, 50.0, 0.1);
+        concreteBarrier8.position.set(-34.0, 50.0, 0.1);
+        concreteBarrier9.position.set(-45.0, 50.0, 0.1);
+        concreteBarrier10.position.set(-56.0, 50.0, 0.1);
+        concreteBarrier11.position.set(-67.0, 50.0, 0.1);
+
+		mainSquarePlane.add( concreteBarrier );
+        mainSquarePlane.add( concreteBarrier2 );
+        mainSquarePlane.add( concreteBarrier3 );
+        mainSquarePlane.add( concreteBarrier4 );
+        mainSquarePlane.add( concreteBarrier5 );
+        mainSquarePlane.add( concreteBarrier6 );
+        mainSquarePlane.add( concreteBarrier7 );
+        mainSquarePlane.add( concreteBarrier8 );
+        mainSquarePlane.add( concreteBarrier9 );
+        //mainSquarePlane.add( concreteBarrier10 );
+        //mainSquarePlane.add( concreteBarrier11 );
 
 	},
 	// called when loading is in progresses
@@ -965,13 +1016,13 @@ giveWaySignLoader.load(
 	// called when resource is loaded
 	function ( giveWaySign ) {
         giveWaySign.rotateX(degreesToRadians(90));
-        //giveWaySign.rotateY(degreesToRadians(90));
-        giveWaySign.position.set(10.0, 35.0, 0.01);
+        giveWaySign.rotateY(degreesToRadians(90));
+        giveWaySign.position.set(49.5, 49.0, 0.01);
         // object scale
         giveWaySign.scale.set(  5.0 * scale,
                                 5.0 * scale,
                                 5.0 * scale);
-		landingTrack.add( giveWaySign );
+		mainSquarePlane.add( giveWaySign );
 
 	},
 	// called when loading is in progresses
