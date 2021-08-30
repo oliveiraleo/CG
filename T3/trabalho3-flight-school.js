@@ -720,14 +720,14 @@ statueLoader.load(
 const penguimStatueLoader = new OBJLoader();
 // instantiate a texture loader
 const penguimStatueMtlLoader = new MTLLoader();
-penguimStatueMtlLoader.load('models/penguin/penguin.mtl', (mtl5) => {
+penguimStatueMtlLoader.load('models/architecture/penguin.mtl', (mtl5) => {
   mtl5.preload();
   penguimStatueLoader.setMaterials(mtl5);
 
 // load a resource
 penguimStatueLoader.load(
 	// resource URL
-	'models/penguin/penguin.obj',
+	'models/architecture/penguin.obj',
 	// called when resource is loaded
 	function ( penguimStatue ) {
         //statue.position.set(20, 0, 0);
@@ -760,14 +760,14 @@ penguimStatueLoader.load(
 const penguimStatueLoader2 = new OBJLoader();
 // instantiate a texture loader
 const penguimStatueMtlLoader2 = new MTLLoader();
-penguimStatueMtlLoader2.load('models/penguin/penguin.mtl', (mtl6) => {
+penguimStatueMtlLoader2.load('models/architecture/penguin.mtl', (mtl6) => {
   mtl6.preload();
   penguimStatueLoader2.setMaterials(mtl6);
 
 // load a resource
 penguimStatueLoader2.load(
 	// resource URL
-	'models/penguin/penguin.obj',
+	'models/architecture/penguin.obj',
 	// called when resource is loaded
 	function ( penguimStatue2 ) {
         penguimStatue2.rotateZ(degreesToRadians(-90));
@@ -841,14 +841,14 @@ crossLoader.load(
 const coneLoader = new OBJLoader();
 // instantiate a texture loader
 const coneMtlLoader = new MTLLoader();
-coneMtlLoader.load('models/cone/cone.mtl', (mtl8) => {
+coneMtlLoader.load('models/city/cone/cone.mtl', (mtl8) => {
   mtl8.preload();
   coneLoader.setMaterials(mtl8);
 
 // load a resource
 coneLoader.load(
 	// resource URL
-	'models/cone/cone.obj',
+	'models/city/cone/cone.obj',
 	// called when resource is loaded
 	function ( cone ) {
         cone.rotateX(degreesToRadians(90));
@@ -882,14 +882,14 @@ coneLoader.load(
 const concreteBarrierLoader = new OBJLoader();
 // instantiate a texture loader
 const concreteBarrierMtlLoader = new MTLLoader();
-concreteBarrierMtlLoader.load('models/concrete-barrier/concrete-barrier.mtl', (mtl9) => {
+concreteBarrierMtlLoader.load('models/city/concrete-barrier/concrete-barrier.mtl', (mtl9) => {
   mtl9.preload();
   concreteBarrierLoader.setMaterials(mtl9);
 
 // load a resource
 concreteBarrierLoader.load(
 	// resource URL
-	'models/concrete-barrier/concrete-barrier.obj',
+	'models/city/concrete-barrier/concrete-barrier.obj',
 	// called when resource is loaded
 	function ( concreteBarrier ) {
         concreteBarrier.rotateX(degreesToRadians(90));
@@ -1005,14 +1005,14 @@ cyclingSignLoader.load(
 const giveWaySignLoader = new OBJLoader();
 // instantiate a texture loader
 const giveWaySignMtlLoader = new MTLLoader();
-giveWaySignMtlLoader.load('models/sign-give-way/sign-give-way.mtl', (mtl11) => {
+giveWaySignMtlLoader.load('models/city/sign-give-way/sign-give-way.mtl', (mtl11) => {
   mtl11.preload();
   giveWaySignLoader.setMaterials(mtl11);
 
 // load a resource
 giveWaySignLoader.load(
 	// resource URL
-	'models/sign-give-way/sign-give-way.obj',
+	'models/city/sign-give-way/sign-give-way.obj',
 	// called when resource is loaded
 	function ( giveWaySign ) {
         giveWaySign.rotateX(degreesToRadians(90));
