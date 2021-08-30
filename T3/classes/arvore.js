@@ -23,21 +23,20 @@ var treeTrunkCylinderGeometry = new THREE.CylinderGeometry(1.5, 1.5, 10.0, 32);
 export function gerarArvores(scene){
     //Gera entre 60 e 90 arvores
     var quantidadeArvore = Math.random() *30 + 60;
-    //var mapa = mapaPlano();
     for (let i = 0; i < quantidadeArvore; i++) {
         let treeSpawn = true;
         //let distance = 10.0; // distance between trees
         let positionX = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate X
         let positionY = Math.random() *1000 + -500;//getRandomNumber(-500, 500); // coordinate Y
         // Exclude some areas of interest
-        if ((positionX > -50 && positionX < 50) &&
+        if ((positionX > 150 && positionX < 250) &&
             positionY < -225) { // do not spawn on landing track
             treeSpawn = false;
         } else if ((positionX > -400 && positionX < -280) &&
                     (positionY > 220 && positionY < 380)){ // do not spawn on land / terrain mountain area
             treeSpawn = false;
-        } else if ((positionX > 420 && positionX < 480) &&
-                    (positionY > 20 && positionY < 80)) { // do not spawn on ice circle area
+        } else if ((positionX > 400 ) &&
+                    (positionY > 0 && positionY < 100)) { // do not spawn on ice circle area
             treeSpawn = false;
         } else if ((positionX > -200 && positionX < 200) &&
                     (positionY > -200 && positionY < 200)) { // do not spawn inside the city
