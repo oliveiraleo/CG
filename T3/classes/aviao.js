@@ -4,8 +4,8 @@ import {//initRenderer,
     degreesToRadians} from "../../libs/util/util.js";
 
 //Varáveis
-let planePositionX = 0.0; // TODO fix airplane position restore from inspection mode
-let planePositionY = -470.0; // previous value was -370.0
+let planePositionX = 200.0; // TODO fix airplane position restore from inspection mode
+let planePositionY = -490.0; // previous value was -470.0
 let planePositionZ = 2.5; // airplane starts landed // previous value was +45.0
 let mockPlane;
 let baseCylinder;

@@ -233,7 +233,7 @@ mesh2.castShadow = true;
 var cityPlaneGeometry = new THREE.PlaneGeometry(400, 400);
 var cityPlaneMaterial = new THREE.MeshLambertMaterial({
     //color: "rgba(150, 150, 150)", // light grey
-    color: "white" // TODO change the color
+    color: "black" // TODO change the color
     //TODO apply texture?
 });
 var cityPlane = new THREE.Mesh(cityPlaneGeometry, cityPlaneMaterial);
@@ -303,7 +303,7 @@ var landingTrackGeometry = new THREE.BoxGeometry(30.0, landingTrackLenghtY, 0.2)
 var landingTrackMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
 // create the landing track
 var landingTrack = new THREE.Mesh(landingTrackGeometry, landingTrackMaterial);
-landingTrack.position.set(0.0, -350.0, 0.0);
+landingTrack.position.set(200.0, -370.0, 0.0);
 landingTrack.receiveShadow = true;
 //groundPlaneWired.add(landingTrack);
 groundPlane.add(landingTrack);
@@ -330,19 +330,21 @@ for(let i = 0; i < 8; i++){ // sets the number of lines on track
 //-----------------------------------//
 // Path points configuration // TODO update the path to the new map
 var vetPathPoints = [];
-vetPathPoints[0] = new THREE.Vector3( 0, -325, 20 ); // saida da pista
-vetPathPoints[1] = new THREE.Vector3( 50, -200, 25 ); // perto da montanha alta
-vetPathPoints[2] = new THREE.Vector3( 200, -100, 30 ); // perto da montanha media
-vetPathPoints[3] = new THREE.Vector3( 300, 50, 20 ); // colado na montanha media
-vetPathPoints[4] = new THREE.Vector3( 50, 150, 30 ); // atras da montanha alta
-vetPathPoints[5] = new THREE.Vector3( -40, 80, 40 ); // inicio da subida da montanha alta
-vetPathPoints[6] = new THREE.Vector3( -60, 20, 60 ); // continuacao da subida da montanha
-vetPathPoints[7] = new THREE.Vector3( -50, -50, 70 ); // alto-frente da montanha alta
-vetPathPoints[8] = new THREE.Vector3( 50, -150, 65 ); // inicio da descida
-vetPathPoints[9] = new THREE.Vector3( 200, -350, 30 ); // inicio da floresta
-vetPathPoints[10] = new THREE.Vector3( 150, -450, 30 ); // continuacao da floresta
-vetPathPoints[11] = new THREE.Vector3( -150, -450, 40 ); // continuacao da floresta
-vetPathPoints[12] = new THREE.Vector3( -150, -250, 20 ); // continuacao da floresta
+vetPathPoints[0] = new THREE.Vector3( 200, -280, 20 ); // saida da pista
+vetPathPoints[1] = new THREE.Vector3( 250, -180, 25 ); // perto da cidade sudeste
+vetPathPoints[2] = new THREE.Vector3( 350, -130, 30 ); // ida para area de gelo
+vetPathPoints[3] = new THREE.Vector3( 440, 50, 12 ); // area de gelo
+vetPathPoints[4] = new THREE.Vector3( 370, 120, 30 ); // saida da area de gelo
+vetPathPoints[5] = new THREE.Vector3( 200, 130, 25 ); // entrada na cidade leste
+vetPathPoints[6] = new THREE.Vector3( 100, 100, 30 ); // ida pra praca da cidade centro
+vetPathPoints[7] = new THREE.Vector3( 0, 40, 20 ); // perto da coruja
+vetPathPoints[8] = new THREE.Vector3( -80, 100, 45 ); // saida da praca da cidade centro
+vetPathPoints[9] = new THREE.Vector3( -100, 200, 40 ); // saida da cidade norte
+vetPathPoints[10] = new THREE.Vector3( -200, 300, 30 ); // floresta
+vetPathPoints[11] = new THREE.Vector3( -350, 300, 40 ); // topo da montanha
+vetPathPoints[12] = new THREE.Vector3( -370, 200, 30 ); // saida da montanha
+vetPathPoints[13] = new THREE.Vector3( -350, 100, 20 ); // planicie
+vetPathPoints[14] = new THREE.Vector3( -350, 0, 15 ); // planicie
 
 //Create the path
 var path = new THREE.CatmullRomCurve3( [
@@ -358,7 +360,9 @@ var path = new THREE.CatmullRomCurve3( [
     vetPathPoints[9],
     vetPathPoints[10],
     vetPathPoints[11],
-    vetPathPoints[12]
+    vetPathPoints[12],
+    vetPathPoints[13],
+    vetPathPoints[14]
 ]
 );
 
@@ -399,7 +403,7 @@ function createCheckPoints(){
         vetCheckPoints[i] = generateOneCheckPoint(i);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
-        vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
+        //vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
         
         if(i == 0 || i == 3 || i == (vetPathPoints.length - 1)){ // the three checkpoints that have fixed angles
             vetCheckPoints[i].rotateX(degreesToRadians(90));
