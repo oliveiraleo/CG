@@ -25,7 +25,7 @@ var rightBlade;
 // Camera configs
 // Camera do modo simulacao
 let renderCamera;
-let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 8000 );
 let cameraPosition = [0,10,20]; // relative position between airplane and camera
 camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]); // Initial camera position
 // Camera do modo inspecao
@@ -33,7 +33,7 @@ let cameraInspection = new THREE.PerspectiveCamera( 45, window.innerWidth / wind
 cameraInspection.position.set (0,-30,15); // configura a posicao inicial da camera do modo inspecao
 cameraInspection.lookAt(0, 0, 0);
 //Camera do modo cockpit
-let cameraCockpit = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+let cameraCockpit = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 9000 );
 cameraCockpit.position.set(0,1.5,5);
 //cameraCockpit.lookAt(0, 10, 0);
 

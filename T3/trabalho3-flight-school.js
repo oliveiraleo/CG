@@ -88,16 +88,25 @@ axesHelper.translateX(-250);
 
 // create the ground plane
 var groundPlaneGeometry = new THREE.PlaneGeometry(1000, 1000);
-groundPlaneGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 var groundPlaneMaterial = new THREE.MeshLambertMaterial({
     //color: "rgba(150, 150, 150)", // light grey
     color: "green",
 });
 var groundPlane = new THREE.Mesh(groundPlaneGeometry, groundPlaneMaterial);
+groundPlane.position.set(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
 // add the ground plane to the scene
 groundPlane.receiveShadow = true; // enables shadows
 scene.add(groundPlane);
 groundPlane.add(axesHelper);
+
+// create the auxiliary ground plane
+var auxiliaryGroundPlaneGeometry = new THREE.PlaneGeometry(9000, 9000);
+var auxiliaryPlaneMaterial = new THREE.MeshLambertMaterial({
+    color: "rgb(160, 140, 90)", // to mimic sand
+});
+var auxiliaryPlane = new THREE.Mesh(auxiliaryGroundPlaneGeometry, auxiliaryPlaneMaterial);
+auxiliaryPlane.position.set(0.0, 0.0, -1.0); // To avoid conflict with ground plane
+groundPlane.add(auxiliaryPlane);
 
 //-----------------------------------//
 // SKYBOX CONFIGURATION BEGIN        //
@@ -1047,7 +1056,7 @@ function showInformation()
 {
   // Use this to show information onscreen
     var controls = new InfoBox();
-    controls.add("Flight Simulator controls:");
+    controls.add("Island Flight Simulator controls:");
     controls.add("Press arrow keys to change airplane direction");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
