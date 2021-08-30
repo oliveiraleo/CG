@@ -640,7 +640,7 @@ crossLoader.load(
 	}
 )
 });
-
+/*
 // Cone
 
 // instantiate a object loader
@@ -765,7 +765,7 @@ concreteBarrierLoader.load(
 });
 
 // Cyclist Sign
-/*
+
 // instantiate a object loader
 const cyclingSignLoader = new OBJLoader();
 // instantiate a texture loader
@@ -804,7 +804,7 @@ cyclingSignLoader.load(
 	}
 )
 });
-*/
+
 // Give way Sign // Placa de de a preferencia
 
 // instantiate a object loader
@@ -844,7 +844,7 @@ giveWaySignLoader.load(
 
 	}
 )
-});
+});*/
 //-----------------------------------//
 // EXTERNAL OBJECTS CONFIG END       //
 //-----------------------------------//
