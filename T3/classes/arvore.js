@@ -13,6 +13,26 @@ import {degreesToRadians,
 // https://www.nps.gov/choh/learn/kidsyouth/images/Parts-of-a-tree-Color-image_KellySavannah3.jpg?maxwidth=1200&maxheight=1200&autorotate=false
 
 // Materials config
+var loader = new THREE.TextureLoader();
+const folhaTexture = loader.load('../../T3/textures/folhas.jpg');
+var folhaMaterial = new THREE.MeshLambertMaterial({
+map: folhaTexture
+});
+
+const pinheiroTexture = loader.load('../../T3/textures/pinheiro.jpg');
+var pinheiroMaterial = new THREE.MeshLambertMaterial({
+map: pinheiroTexture
+});
+
+const pinheiroTroncoTexture = loader.load('../../T3/textures/tronco.jpg');
+var pinheiroTroncoMaterial = new THREE.MeshLambertMaterial({
+map: pinheiroTroncoTexture
+});
+
+var troncoTexture = loader.load('../../T3/textures/tronco2.jpg');
+var troncoMaterial = new THREE.MeshLambertMaterial({
+map: troncoTexture
+});
 
 var treeBranchCylinderGeometry = new THREE.CylinderGeometry(1.0, 1.0, 4.0, 32);
 var treeCylindersMaterial = new THREE.MeshLambertMaterial({color:"rgb(170, 100, 50)"}); // to mimic wood
@@ -60,17 +80,17 @@ function gerarModeloArvore(){
         let treeCrownCylinderGeometry2 = new THREE.CylinderGeometry(1, 5.5, 10.0, 32);
         let treeCrownCylinderGeometry3 = new THREE.CylinderGeometry(2, 7.5, 10.0, 32);
 
-        let treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, treeLeavesSphereMaterial );
-        let treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-        let treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, treeLeavesSphereMaterial );
-        let treeCrownCylinder1 = new THREE.Mesh( treeCrownCylinderGeometry1, treeLeavesSphereMaterial );
-        let treeCrownCylinder2 = new THREE.Mesh( treeCrownCylinderGeometry2, treeLeavesSphereMaterial );
-        let treeCrownCylinder3 = new THREE.Mesh( treeCrownCylinderGeometry3, treeLeavesSphereMaterial );
+        let treeCrownSphere = new THREE.Mesh( treeCrownSphereGeometry, folhaMaterial );
+        let treeLeftLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, folhaMaterial );
+        let treeRightLeavesSphere = new THREE.Mesh( treeLeavesSphereGeometry, folhaMaterial );
+        let treeCrownCylinder1 = new THREE.Mesh( treeCrownCylinderGeometry1, pinheiroMaterial );
+        let treeCrownCylinder2 = new THREE.Mesh( treeCrownCylinderGeometry2, pinheiroMaterial );
+        let treeCrownCylinder3 = new THREE.Mesh( treeCrownCylinderGeometry3, pinheiroMaterial );
 
         // Trunk
-        let treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, treeCylindersMaterial);
-        let treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
-        let treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, treeCylindersMaterial);
+        let treeCylinder = new THREE.Mesh(treeTrunkCylinderGeometry, troncoMaterial);
+        let treeLeftBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, troncoMaterial);
+        let treeRightBranchCylinder = new THREE.Mesh(treeBranchCylinderGeometry, troncoMaterial);
         // adjust tree parts relative positions
         treeCylinder.rotateX(degreesToRadians(90));
         treeCylinder.rotateY(degreesToRadians(90));

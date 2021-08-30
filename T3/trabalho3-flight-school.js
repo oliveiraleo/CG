@@ -18,6 +18,7 @@ import {initRenderer,
 
 import { gerarArvores } from './classes/arvore.js';
 import {Aviao} from './classes/aviao.js';
+import { gerarCidade } from './classes/cidade.js';
 
 var stats = new Stats();        // To show FPS information
 var scene = new THREE.Scene();  // create scene
@@ -226,72 +227,8 @@ mesh2.castShadow = true;
 // MOUNTAINS CONFIGURATION END       //
 //-----------------------------------//
 
-//-----------------------------------//
-// CITY CONFIGURATION BEGIN          //
-//-----------------------------------//
-// create the city ground plane
-var cityPlaneGeometry = new THREE.PlaneGeometry(400, 400);
-var cityPlaneMaterial = new THREE.MeshLambertMaterial({
-    //color: "rgba(150, 150, 150)", // light grey
-    color: "black" // TODO change the color
-    //TODO apply texture?
-});
-var cityPlane = new THREE.Mesh(cityPlaneGeometry, cityPlaneMaterial);
-// add the ground plane to the scene
-cityPlane.receiveShadow = true; // enables shadows
-cityPlane.position.set(0.0, 0.0, 0.02);
-groundPlane.add(cityPlane);
-//cityPlane.add(mesh1);
-//-----------------------------------//
-// CITY CONFIGURATION END            //
-//-----------------------------------//
+gerarCidade(groundPlane);
 
-//-----------------------------------//
-// STREETS CONFIGURATION BEGIN       //
-//-----------------------------------//
-// Landing track (pista de pouso)
-var streetLenghtX = 20.0; // largura
-var streetLenghtY = 120.0; // comprimento
-var mainStreet = [];
-
-var streetGeometry = new THREE.BoxGeometry(streetLenghtX, streetLenghtY, 0.01);
-var streetMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
-// create streets
-/*var street = new THREE.Mesh(streetGeometry, streetMaterial);
-street.position.set(0.0, -50.0, 0.0);
-street.receiveShadow = true;
-groundPlane.add(street);*/
-
-// create the main street
-for (let i = 0; i < 4; i++) {
-    mainStreet[i] = new THREE.Mesh(streetGeometry, streetMaterial);
-    if (i%2 == 0) {
-        mainStreet[i].rotateZ(degreesToRadians(90));
-    }
-    //mainStreet[i].rotateZ(degreesToRadians(90)*i);
-    mainStreet[i].receiveShadow = true;
-    //cityPlane.add(mainStreet[i]);
-}
-mainStreet[0].position.set(0.0, 50.0, 0.02);
-mainStreet[1].position.set(50.0, 0.0, 0.02);
-mainStreet[2].position.set(0.0, -50.0, 0.02);
-mainStreet[3].position.set(-50.0, 0.0, 0.02);
-
-// create the main square ground plane
-var mainSquarePlaneGeometry = new THREE.PlaneGeometry(100, 100);
-var mainSquarePlaneMaterial = new THREE.MeshLambertMaterial({
-    //color: "rgba(150, 150, 150)", // light grey
-    color: "rgb(80, 80, 80)" // TODO change the color
-});
-var mainSquarePlane = new THREE.Mesh(mainSquarePlaneGeometry, mainSquarePlaneMaterial);
-// add the ground plane to the scene
-mainSquarePlane.receiveShadow = true; // enables shadows
-mainSquarePlane.position.set(0.0, 0.0, 0.03);
-groundPlane.add(mainSquarePlane);
-
-//-----------------------------------//
-// STREETS CONFIGURATION END         //
-//-----------------------------------//
 
 //-----------------------------------//
 // LANDING TRACK CONFIGURATION BEGIN //
@@ -582,137 +519,6 @@ function checkHit(){
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
 var scale = 1.0; // adjust external objects scale
-// Police car
-
-// instantiate a object loader
-const policeCarLoader = new OBJLoader();
-// instantiate a texture loader
-const policeCarMtlLoader = new MTLLoader();
-policeCarMtlLoader.load('models/cars/police-car.mtl', (mtl2) => {
-  mtl2.preload();
-  policeCarLoader.setMaterials(mtl2);
-
-// load a resource
-policeCarLoader.load(
-	// resource URL
-	'models/cars/police-car.obj',
-	// called when resource is loaded
-	function ( car ) {
-        car.position.set(20, 30, 0.03);
-        car.rotateX(degreesToRadians(90));
-        car.rotateY(degreesToRadians(30));
-        //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
-        // object scale
-        car.scale.set(  3.0 * scale,
-                        3.0 * scale,
-                        3.0 * scale);
-        let car2 = car.clone();
-        car2.position.set(25, 10, 0.03);
-        //car2.rotateX(degreesToRadians(90));
-        car2.rotateY(degreesToRadians(-120));
-        // object scale
-        car2.scale.set(3.0 * scale,
-            3.0 * scale,
-            3.0 * scale);
-		mainSquarePlane.add( car );
-        mainSquarePlane.add( car2 );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Police car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Police car loading error' );
-
-	}
-)
-});
-
-// Racing car
-
-// instantiate a object loader
-const racingCarLoader = new OBJLoader();
-// instantiate a texture loader
-const racingCarMtlLoader = new MTLLoader();
-racingCarMtlLoader.load('models/cars/racing-car.mtl', (mtl3) => {
-  mtl3.preload();
-  racingCarLoader.setMaterials(mtl3);
-
-// load a resource
-racingCarLoader.load(
-	// resource URL
-	'models/cars/racing-car.obj',
-	// called when resource is loaded
-	function ( car ) {
-        car.position.set(9, 11, 0.03);
-        car.rotateX(degreesToRadians(90));
-        car.rotateY(degreesToRadians(60));
-        //let sc = new THREE.Vector3(1.0, 1.0, 1.0);
-        // object scale
-        car.scale.set(  3.0 * scale,
-                        3.0 * scale,
-                        3.0 * scale);
-        mainSquarePlane.add( car );
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Racing car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Racing car loading error' );
-
-	}
-)
-});
-
-// Owl statue
-
-// instantiate a object loader
-const statueLoader = new OBJLoader();
-// instantiate a texture loader
-const statueMtlLoader = new MTLLoader();
-statueMtlLoader.load('models/architecture/owl-top-hat.mtl', (mtl4) => {
-  mtl4.preload();
-  statueLoader.setMaterials(mtl4);
-
-// load a resource
-statueLoader.load(
-	// resource URL
-	'models/architecture/owl-top-hat.obj',
-	// called when resource is loaded
-	function ( statue ) {
-        //statue.position.set(20, 0, 0);
-        statue.rotateX(degreesToRadians(90));
-        // object scale
-        statue.scale.set(  0.5 * scale,
-                        0.5 * scale,
-                        0.5 * scale);
-		mainSquarePlane.add( statue );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Statue loading error' );
-
-	}
-)
-});
 
 // Penguim statue
 
@@ -1086,12 +892,12 @@ squareGround.magFilter = THREE.LinearFilter;
 
 // Apply texture to the 'map' property of the respective materials' objects
 landingTrack.material.map = asphault; // apply asphault on landing track
-mainStreet[0].material.map = asphault; // apply asphault on main street
+//mainStreet[0].material.map = asphault; // apply asphault on main street
 groundPlane.material.map = grass; // apply grass on ground plane
 mountainPlane.material.map = terrain; // apply land texture on terrain near mountain
 mesh1.material.map = terrain; // apply land texture on mountain TODO verify that later
 iceCircle.material.map = ice; // apply ice texture on ice circle
-mainSquarePlane.material.map = squareGround; // apply ground texture on main square
+//mainSquarePlane.material.map = squareGround; // apply ground texture on main square
 
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
