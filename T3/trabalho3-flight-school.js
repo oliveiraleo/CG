@@ -25,6 +25,7 @@ var scene = new THREE.Scene();  // create scene
 var renderer = initRenderer();  // View function in util/utils
 //initDefaultBasicLight(scene, 1, new THREE.Vector3(0, 0, 25)); // Adds some light to the scene
 var information = new SecondaryBox(""); // to display the secondary information later
+var objectsCompletion = 0;
 //-----------------------------------//
 // SCENE LIGHTS CONFIGURATION BEGIN  //
 //-----------------------------------//
@@ -357,6 +358,24 @@ createCheckPoints();
 // FLIGHT PATH CONFIGURATION END     //
 //-----------------------------------//
 
+//-----------------------------------//
+// START SCREEN CONFIGURATION BEGIN  //
+//-----------------------------------//
+var loadingScreen; // create to use later
+const loadingManager = new THREE.LoadingManager( () => {
+	
+    //var loadingScreen = document.getElementById( 'loading-screen' );
+    loadingScreen = document.getElementById( 'loading-screen' );
+    //loadingScreen.classList.add( 'fade-out' );
+    
+    // optional: remove loader from DOM via event listener
+    //loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
+    
+} );
+//-----------------------------------//
+// START SCREEN CONFIGURATION END    //
+//-----------------------------------//
+
 // Controls info boxes visibility
 function togglesInfoBoxVisibility(boxId){
     if (document.getElementById(boxId).style.display == "") { // if infobox is visible, hide it
@@ -418,9 +437,10 @@ function keyboardUpdate() {
         togglesSceneLights();
         updateSkybox(); // removes the sunny day from the scene background while inside the inspection mode
     }
-    if (keyboard.down("M")){ // TODO
-        // TODO
-        //music.pause();
+    if (keyboard.down("J")){ // Starts the game
+        if (objectsCompletion >= 300) {
+            loadingScreen.classList.add( 'fade-out' );
+        }
     }
     if (keyboard.down("P")){ // Controls ambient music
         if (music.getVolume() != 0.0) {
@@ -520,11 +540,11 @@ function checkHit(){
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
 var scale = 1.0; // adjust external objects scale
-var objectsCompletion = 0;
+
 // Penguim statue
 
 // instantiate a object loader
-const penguimStatueLoader = new OBJLoader();
+const penguimStatueLoader = new OBJLoader(loadingManager);
 // instantiate a texture loader
 const penguimStatueMtlLoader = new MTLLoader();
 penguimStatueMtlLoader.load('models/architecture/penguin.mtl', (mtl5) => {
@@ -567,7 +587,7 @@ penguimStatueLoader.load(
 // Penguim statue 2
 
 // instantiate a object loader
-const penguimStatueLoader2 = new OBJLoader();
+const penguimStatueLoader2 = new OBJLoader(loadingManager);
 // instantiate a texture loader
 const penguimStatueMtlLoader2 = new MTLLoader();
 penguimStatueMtlLoader2.load('models/architecture/penguin.mtl', (mtl6) => {
@@ -609,7 +629,7 @@ penguimStatueLoader2.load(
 // Cross
 
 // instantiate a object loader
-const crossLoader = new OBJLoader();
+const crossLoader = new OBJLoader(loadingManager);
 // instantiate a texture loader
 const crossMtlLoader = new MTLLoader();
 crossMtlLoader.load('models/cross/cross.mtl', (mtl7) => {
@@ -730,7 +750,7 @@ function showInformation()
 {
   // Use this to show information onscreen
     var controls = new InfoBox();
-    controls.add("Island Flight Simulator controls:");
+    controls.add("Flight Simulator controls:");
     controls.add("Press arrow keys to change airplane direction");
     controls.add("Press Q to move faster");
     controls.add("Press A to move slower");
