@@ -5,13 +5,9 @@ import KeyboardState from       '../libs/util/KeyboardState.js';
 import {ConvexGeometry} from '../build/jsm/geometries/ConvexGeometry.js';
 import {OBJLoader} from '../build/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from '../build/jsm/loaders/MTLLoader.js';
-//import {ColladaLoader} from '../build/jsm/loaders/ColladaLoader.js';
 import {initRenderer, 
         onWindowResize, 
         degreesToRadians,
-        //initCamera,
-        //BufferGeometry,
-        //ConvexGeometry,
         SecondaryBox,
         InfoBox,
         lightFollowingCamera} from "../libs/util/util.js";
@@ -569,7 +565,7 @@ penguimStatueLoader.load(
 	// called when loading is in progresses
 	function ( xhr ) {
         let percentage = xhr.loaded / xhr.total * 100;
-		console.log( 'Penguin statue ' + ( percentage ) + '% loaded' );
+		//console.log( 'Penguin statue ' + ( percentage ) + '% loaded' );
         if (percentage == 100.0) {
             objectsCompletion += percentage;
         }
@@ -612,7 +608,7 @@ penguimStatueLoader2.load(
 	// called when loading is in progresses
 	function ( xhr ) {
         let percentage = xhr.loaded / xhr.total * 100;
-		console.log( 'Penguin statue 2 ' + ( percentage ) + '% loaded' );
+		//console.log( 'Penguin statue 2 ' + ( percentage ) + '% loaded' );
         if (percentage == 100.0) {
             objectsCompletion += percentage;
         }
@@ -655,7 +651,7 @@ crossLoader.load(
 	// called when loading is in progresses
 	function ( xhr ) {
         let percentage = xhr.loaded / xhr.total * 100;
-		console.log( 'Cross ' + ( percentage ) + '% loaded' );
+		//console.log( 'Cross ' + ( percentage ) + '% loaded' );
         if (percentage == 100.0) {
             objectsCompletion += percentage;
         }
@@ -673,7 +669,7 @@ var loadingFinished = false;
 function onLoadExternalObjects(){
     if (objectsCompletion >= 300.0) {
         if (!loadingFinished) {
-            console.log("teste!!!! " + objectsCompletion);
+            //console.log("teste!!!! " + objectsCompletion);
         }
         loadingFinished = true;
     }
@@ -837,6 +833,14 @@ audioLoader.load( './sounds/pilot-have-a-nice-day.ogg', function ( buffer ) {
 // AUDIO CONFIGURATION END           //
 //-----------------------------------//
 
+function atualizaTextoLoader(){
+    if (objectsCompletion < 300.0) {
+        document.getElementById("loader-text").innerHTML = "Jogo " + Math.round(objectsCompletion / 3) + "% carregado";
+    } else {
+        document.getElementById("loader-text").innerHTML = "Pronto! Aperte J para começar";
+    }
+}
+
 var trackballControls = new TrackballControls( aviao.getCameraInspecao(), renderer.domElement );
 function render() {
     requestAnimationFrame( render );
@@ -852,5 +856,6 @@ function render() {
     checkHit(); // Checks if the airplane hit some check point
     lightFollowingCamera(spotLight, aviao.getCameraInspecao()); // enables the light inside inspection mode to follow the camera
     onLoadExternalObjects(); // Check if external objects are already loaded
+    atualizaTextoLoader(); // Mostra texto da tela inicial
 }
 render();
