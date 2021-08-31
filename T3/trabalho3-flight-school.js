@@ -338,7 +338,7 @@ function createCheckPoints(){
         vetCheckPoints[i] = generateOneCheckPoint(i);
         vetCheckPoints[i].position.copy(vetPathPoints[i]);
         vetCheckPointsPositions[i] = vetPathPoints[i];
-        //vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
+        vetCheckPoints[i].visible = false; // check points start hidden, they will be shown later
         
         if(i == 0 || i == 3 || i == (vetPathPoints.length - 1)){ // the three checkpoints that have fixed angles
             vetCheckPoints[i].rotateX(degreesToRadians(90));
