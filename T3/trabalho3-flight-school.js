@@ -103,7 +103,8 @@ groundPlane.add(axesHelper);
 // create the auxiliary ground plane
 var auxiliaryGroundPlaneGeometry = new THREE.PlaneGeometry(9000, 9000);
 var auxiliaryPlaneMaterial = new THREE.MeshLambertMaterial({
-    color: "rgb(160, 140, 90)", // to mimic sand
+    //color: "rgb(160, 140, 90)", // to mimic sand
+    color: "rgb(0, 80, 0)", // to mimic grass
 });
 var auxiliaryPlane = new THREE.Mesh(auxiliaryGroundPlaneGeometry, auxiliaryPlaneMaterial);
 auxiliaryPlane.position.set(0.0, 0.0, -1.0); // To avoid conflict with ground plane
@@ -519,7 +520,7 @@ function checkHit(){
 //-----------------------------------//
 // External reference URL: https://threejsfundamentals.org/threejs/lessons/threejs-load-obj.html
 var scale = 1.0; // adjust external objects scale
-
+var objectsCompletion = 0;
 // Penguim statue
 
 // instantiate a object loader
@@ -547,8 +548,11 @@ penguimStatueLoader.load(
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
-
-		console.log( 'Penguin statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        let percentage = xhr.loaded / xhr.total * 100;
+		console.log( 'Penguin statue ' + ( percentage ) + '% loaded' );
+        if (percentage == 100.0) {
+            objectsCompletion += percentage;
+        }
 
 	},
 	// called when loading has errors
@@ -587,9 +591,11 @@ penguimStatueLoader2.load(
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
-
-		console.log( 'Penguin statue 2 ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
+        let percentage = xhr.loaded / xhr.total * 100;
+		console.log( 'Penguin statue 2 ' + ( percentage ) + '% loaded' );
+        if (percentage == 100.0) {
+            objectsCompletion += percentage;
+        }
 	},
 	// called when loading has errors
 	function ( error ) {
@@ -628,9 +634,11 @@ crossLoader.load(
 	},
 	// called when loading is in progresses
 	function ( xhr ) {
-
-		console.log( 'Cross ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
+        let percentage = xhr.loaded / xhr.total * 100;
+		console.log( 'Cross ' + ( percentage ) + '% loaded' );
+        if (percentage == 100.0) {
+            objectsCompletion += percentage;
+        }
 	},
 	// called when loading has errors
 	function ( error ) {
@@ -640,211 +648,16 @@ crossLoader.load(
 	}
 )
 });
-/*
-// Cone
-
-// instantiate a object loader
-const coneLoader = new OBJLoader();
-// instantiate a texture loader
-const coneMtlLoader = new MTLLoader();
-coneMtlLoader.load('models/city/cone/cone.mtl', (mtl8) => {
-  mtl8.preload();
-  coneLoader.setMaterials(mtl8);
-
-// load a resource
-coneLoader.load(
-	// resource URL
-	'models/city/cone/cone.obj',
-	// called when resource is loaded
-	function ( cone ) {
-        cone.rotateX(degreesToRadians(90));
-        //cone.rotateY(degreesToRadians(90));
-        cone.position.set(0.0, 30.0, 0.1);
-        // object scale
-        cone.scale.set(  1.0 * scale,
-                         1.0 * scale,
-                         1.0 * scale);
-		mainSquarePlane.add( cone );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Cone ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Cone loading error' );
-
-	}
-)
-});
-
-// Concrete barrier
-
-// instantiate a object loader
-const concreteBarrierLoader = new OBJLoader();
-// instantiate a texture loader
-const concreteBarrierMtlLoader = new MTLLoader();
-concreteBarrierMtlLoader.load('models/city/concrete-barrier/concrete-barrier.mtl', (mtl9) => {
-  mtl9.preload();
-  concreteBarrierLoader.setMaterials(mtl9);
-
-// load a resource
-concreteBarrierLoader.load(
-	// resource URL
-	'models/city/concrete-barrier/concrete-barrier.obj',
-	// called when resource is loaded
-	function ( concreteBarrier ) {
-        concreteBarrier.rotateX(degreesToRadians(90));
-        //concreteBarrier.rotateY(degreesToRadians(90));
-        concreteBarrier.position.set(10.0, 50.0, 0.1);
-        // object scale
-        concreteBarrier.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        // as
-        let concreteBarrier2 = concreteBarrier.clone();
-        let concreteBarrier3 = concreteBarrier.clone();
-        let concreteBarrier4 = concreteBarrier.clone();
-        let concreteBarrier5 = concreteBarrier.clone();
-        let concreteBarrier6 = concreteBarrier.clone();
-        let concreteBarrier7 = concreteBarrier.clone();
-        let concreteBarrier8 = concreteBarrier.clone();
-        let concreteBarrier9 = concreteBarrier.clone();
-        let concreteBarrier10 = concreteBarrier.clone();
-        let concreteBarrier11 = concreteBarrier.clone();
-        concreteBarrier2.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier3.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier4.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier5.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier6.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier7.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier8.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier9.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier10.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-        concreteBarrier11.scale.set(  3.0 * scale, 3.0 * scale, 3.0 * scale);
-
-        concreteBarrier2.position.set(21.0, 50.0, 0.1);
-        concreteBarrier3.position.set(32.0, 50.0, 0.1);
-        concreteBarrier4.position.set(43.0, 50.0, 0.1);
-        concreteBarrier5.position.set(-1.0, 50.0, 0.1);
-        concreteBarrier6.position.set(-12.0, 50.0, 0.1);
-        concreteBarrier7.position.set(-23.0, 50.0, 0.1);
-        concreteBarrier8.position.set(-34.0, 50.0, 0.1);
-        concreteBarrier9.position.set(-45.0, 50.0, 0.1);
-        concreteBarrier10.position.set(-56.0, 50.0, 0.1);
-        concreteBarrier11.position.set(-67.0, 50.0, 0.1);
-
-		mainSquarePlane.add( concreteBarrier );
-        mainSquarePlane.add( concreteBarrier2 );
-        mainSquarePlane.add( concreteBarrier3 );
-        mainSquarePlane.add( concreteBarrier4 );
-        mainSquarePlane.add( concreteBarrier5 );
-        mainSquarePlane.add( concreteBarrier6 );
-        mainSquarePlane.add( concreteBarrier7 );
-        mainSquarePlane.add( concreteBarrier8 );
-        mainSquarePlane.add( concreteBarrier9 );
-        //mainSquarePlane.add( concreteBarrier10 );
-        //mainSquarePlane.add( concreteBarrier11 );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Concrete barrier ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Concrete barrier loading error' );
-
-	}
-)
-});
-
-// Cyclist Sign
-
-// instantiate a object loader
-const cyclingSignLoader = new OBJLoader();
-// instantiate a texture loader
-const cyclingSignMtlLoader = new MTLLoader();
-cyclingSignMtlLoader.load('models/sign-cycling/sign-cycling.mtl', (mtl10) => {
-  mtl10.preload();
-  cyclingSignLoader.setMaterials(mtl10);
-
-// load a resource
-cyclingSignLoader.load(
-	// resource URL
-	'models/sign-cycling/sign-cycling.obj',
-	// called when resource is loaded
-	function ( cyclingSign ) {
-        cyclingSign.rotateX(degreesToRadians(90));
-        //cyclingSign.rotateY(degreesToRadians(90));
-        cyclingSign.position.set(0.0, 35.0, 0.01);
-        // object scale
-        cyclingSign.scale.set(  1.05 * scale,
-                                1.05 * scale,
-                                1.05 * scale);
-		landingTrack.add( cyclingSign );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Cyclist sign ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Cyclist sign loading error' );
-
-	}
-)
-});
-
-// Give way Sign // Placa de de a preferencia
-
-// instantiate a object loader
-const giveWaySignLoader = new OBJLoader();
-// instantiate a texture loader
-const giveWaySignMtlLoader = new MTLLoader();
-giveWaySignMtlLoader.load('models/city/sign-give-way/sign-give-way.mtl', (mtl11) => {
-  mtl11.preload();
-  giveWaySignLoader.setMaterials(mtl11);
-
-// load a resource
-giveWaySignLoader.load(
-	// resource URL
-	'models/city/sign-give-way/sign-give-way.obj',
-	// called when resource is loaded
-	function ( giveWaySign ) {
-        giveWaySign.rotateX(degreesToRadians(90));
-        giveWaySign.rotateY(degreesToRadians(90));
-        giveWaySign.position.set(49.5, 49.0, 0.01);
-        // object scale
-        giveWaySign.scale.set(  5.0 * scale,
-                                5.0 * scale,
-                                5.0 * scale);
-		mainSquarePlane.add( giveWaySign );
-
-	},
-	// called when loading is in progresses
-	function ( xhr ) {
-
-		console.log( 'Give way sign ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-	},
-	// called when loading has errors
-	function ( error ) {
-
-		console.log( 'Give way sign loading error' );
-
-	}
-)
-});*/
+// Function to check if external objects are already loaded
+var loadingFinished = false;
+function onLoadExternalObjects(){
+    if (objectsCompletion >= 300.0) {
+        if (!loadingFinished) {
+            console.log("teste!!!! " + objectsCompletion);
+        }
+        loadingFinished = true;
+    }
+}
 //-----------------------------------//
 // EXTERNAL OBJECTS CONFIG END       //
 //-----------------------------------//
@@ -1018,5 +831,6 @@ function render() {
     keyboardUpdate(); // listens to keyboard inputs and controls some objects
     checkHit(); // Checks if the airplane hit some check point
     lightFollowingCamera(spotLight, aviao.getCameraInspecao()); // enables the light inside inspection mode to follow the camera
+    onLoadExternalObjects(); // Check if external objects are already loaded
 }
 render();
