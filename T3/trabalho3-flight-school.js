@@ -365,9 +365,14 @@ const loadingManager = new THREE.LoadingManager( () => {
     //loadingScreen.classList.add( 'fade-out' );
     
     // optional: remove loader from DOM via event listener
-    //loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
+    loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
     
 } );
+function onTransitionEnd( event ) {
+
+	event.target.remove();
+	
+}
 //-----------------------------------//
 // START SCREEN CONFIGURATION END    //
 //-----------------------------------//
@@ -832,12 +837,15 @@ audioLoader.load( './sounds/pilot-have-a-nice-day.ogg', function ( buffer ) {
 //-----------------------------------//
 // AUDIO CONFIGURATION END           //
 //-----------------------------------//
-
+let varTexto = true;
 function atualizaTextoLoader(){
-    if (objectsCompletion < 300.0) {
-        document.getElementById("loader-text").innerHTML = "Jogo " + Math.round(objectsCompletion / 3) + "% carregado";
-    } else {
-        document.getElementById("loader-text").innerHTML = "Pronto! Aperte J para começar";
+    if (varTexto) {
+        if (objectsCompletion < 300.0) {
+            document.getElementById("loader-text").innerHTML = "Jogo " + Math.round(objectsCompletion / 3) + "% carregado";
+        } else {
+            document.getElementById("loader-text").innerHTML = "Pronto! Aperte J para começar";
+            varTexto = false;
+        }
     }
 }
 
