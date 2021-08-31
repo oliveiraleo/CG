@@ -21,6 +21,26 @@ var leftBlade;
 var rightHub;
 var rightBlade;
 
+//*-----------------------Luz Dinamica ----------------------------
+var dynamicLight = new THREE.DirectionalLight(0xffffff);
+dynamicLight.intensity = 0.5; // No need to iluminate, just used to drop shadow.
+dynamicLight.position.set(0, 0, 30);
+dynamicLight.shadow.mapSize.width = 128;
+dynamicLight.shadow.mapSize.height = 128;
+dynamicLight.castShadow = true;
+dynamicLight.shadow.camera.left = -7;
+dynamicLight.shadow.camera.right = 7;
+dynamicLight.shadow.camera.top = 7;
+dynamicLight.shadow.camera.bottom = -7;
+
+// Create helper for the dynamicLight
+var dynamicLightHelper = new THREE.CameraHelper(dynamicLight.shadow.camera, 0xFF8C00);
+dynamicLightHelper.visible = false;
+//dynamicLightHelper.position.set(0,0,20);
+//scene.add(dynamicLightHelper); 
+
+
+
 //Cameras
 // Camera configs
 // Camera do modo simulacao
@@ -755,6 +775,11 @@ backRudderFlapTopAdhesive.material.map = airplaneBackFlapsMetalSideSmall; // app
 //-----------------------------------//
 // TEXTURES CONFIGURATION END        //
 //-----------------------------------//
+
+///Luz
+mockPlane.add(dynamicLight);
+mockPlane.add(dynamicLightHelper);
+
 }
 
 //-----------------------------------//
