@@ -902,7 +902,7 @@ policeCarLoader.load(
 	// called when loading is in progresses
 	function ( xhr ) {
 
-		console.log( 'Police car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		//console.log( 'Police car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	},
 	// called when loading has errors
@@ -943,7 +943,7 @@ racingCarLoader.load(
 	// called when loading is in progresses
 	function ( xhr ) {
 
-		console.log( 'Racing car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		//console.log( 'Racing car ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	},
 	// called when loading has errors
@@ -983,7 +983,7 @@ statueLoader.load(
 	// called when loading is in progresses
 	function ( xhr ) {
 
-		console.log( 'Statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		//console.log( 'Statue ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	},
 	// called when loading has errors

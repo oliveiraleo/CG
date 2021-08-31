@@ -18,7 +18,7 @@ const folhaTexture = loader.load('../../T3/textures/folhas.jpg', function ( folh
 
     folhaTexture.wrapS = folhaTexture.wrapT = THREE.RepeatWrapping;
     folhaTexture.offset.set( 2, 0 );
-    folhaTexture.repeat.set( 8, 8 );
+    folhaTexture.repeat.set( 1, 2 );
 
 } );
 var folhaMaterial = new THREE.MeshLambertMaterial({
@@ -70,8 +70,8 @@ export function gerarArvores(scene){
         } else if ((positionX > 400 ) &&
                     (positionY > 0 && positionY < 100)) { // do not spawn on ice circle area
             treeSpawn = false;
-        } else if ((positionX > -200 && positionX < 200) &&
-                    (positionY > -200 && positionY < 200)) { // do not spawn inside the city
+        } else if ((positionX > -230 && positionX < 230) &&
+                    (positionY > -230 && positionY < 230)) { // do not spawn inside the city
             treeSpawn = false;
         }
 
