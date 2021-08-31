@@ -8,7 +8,6 @@ import {initRenderer,
 import {OBJLoader} from '../../build/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
 
-
     var plane;
     var tamanho = 400;
     var tamanhoRua = 20;
@@ -55,35 +54,38 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
 
     function gerarRuas(){
         var posicaoRua = [(-tamanho/2),(-tamanho/6),(tamanho/6),(tamanho/2)];
-        var landingTrackGeometry = new THREE.BoxGeometry(tamanhoRua, tamanho+20, 0.0);
+        var ruaGeometry = new THREE.PlaneGeometry(tamanhoRua, tamanho+20);
         
         var asphaultTexture = loader.load('../../T3/textures/asphalt.png', function ( asphaultTexture ) {
 
             asphaultTexture.wrapS = asphaultTexture.wrapT = THREE.RepeatWrapping;
-            //asphaultTexture.offset.set( 0, 0 );
+            asphaultTexture.offset.set( 0, 0 );
             asphaultTexture.repeat.set( 4, 64 );
         
         } );
         
-        var asphaultMaterial = new THREE.MeshPhongMaterial( { map: asphaultTexture, side: THREE.FrontSide } );
+        var asphaultMaterial = new THREE.MeshLambertMaterial( { map: asphaultTexture, side: THREE.FrontSide } );
 
-        var landingTrackMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
+        var ruaMaterial = new THREE.MeshLambertMaterial({color:"rgb(60, 60, 60)"}); // light grey
         // create the landing track
-        var landingTrack = [];
+        var rua = [];
         for(let i=0;i<8;i++){
-            landingTrack[i] = new THREE.Mesh(landingTrackGeometry, asphaultMaterial);
+            rua[i] = new THREE.Mesh(ruaGeometry, ruaMaterial);
             
             if(i>=4){
-                landingTrack[i].rotateZ(degreesToRadians(-90));
-                landingTrack[i].position.set(0,posicaoRua[i%4],0.02);
+                rua[i].rotateZ(degreesToRadians(-90));
+                rua[i].position.set(0,posicaoRua[i%4],0.02);
             } else {
-                landingTrack[i].position.set(posicaoRua[i%4],0,0);
+                rua[i].position.set(posicaoRua[i%4],0,0);
             }
-
-
-
-            plane.add(landingTrack[i]);
+            rua[i].receiveShadow = true;
+            rua[i].material.map = asphaultTexture;
+            plane.add(rua[i]);
+            plane.receiveShadow = true;
         }
+
+
+
         //var landingTrack = new THREE.Mesh(landingTrackGeometry, landingTrackMaterial); 
     }
 
@@ -96,9 +98,9 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         //
         const calcadaTexture = loader.load('../../T3/textures/city/calcada.jpg');
 
-        var calcadaMaterial = new THREE.MeshPhongMaterial( { map: calcadaTexture, side: THREE.FrontSide } );
+        //var calcadaMaterial = new THREE.MeshPhongMaterial( { map: calcadaTexture, side: THREE.FrontSide } );
 
-
+        var calcadaMaterial = new THREE.MeshLambertMaterial({color:"rgb(120, 120, 120)"});
         calcadaGeometry.translate(0.0, 0.0, -0.02); // To avoid conflict with the axeshelper
         //let calcadaMaterial = new THREE.MeshLambertMaterial({color:"rgb(200, 200, 200)"}); // light grey
         var posicaoCalcada = [(-tamanho/3),0,(tamanho/3)];
@@ -114,7 +116,11 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
                 calcada[i].position.set(posicaoCalcada[1],posicaoCalcada[i%3],0);
             } else {
                 calcada[i].position.set(posicaoCalcada[2],posicaoCalcada[i%3],0);
-            }
+            }   
+            
+            calcada[i].material.map = calcadaTexture;
+            calcada[i].receiveShadow = true;
+
                     // create a cube
             var cubeGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             var cubeMaterial = new THREE.MeshNormalMaterial();
@@ -215,16 +221,17 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         parede[0].material.side = THREE.DoubleSide;
 
         for(let i=1;i<5;i++){
-            
             parede[i] = new THREE.Mesh(paredeGeometry, predioMaterial);
             parede[i].side = THREE.DoubleSide;
             parede[i].material.side = THREE.DoubleSide;
+            parede[i].castShadow = true;
         }
 
         //topo
         parede[5] = new THREE.Mesh(tetoGeometry, tetoMaterial);
         parede[5].side = THREE.DoubleSide;
         parede[5].material.side = THREE.DoubleSide;
+        parede[5].receiveShadow = true;
 
         //Formar um cubo
         parede[1].position.set(0.0, (tamanho/9)/2, (tamanho/9));
@@ -302,12 +309,14 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
             parede[i] = new THREE.Mesh(paredeGeometry, predioMaterial);
             parede[i].side = THREE.DoubleSide;
             parede[i].material.side = THREE.DoubleSide;
+            parede[i].castShadow = true;
         }
 
         //topo
         parede[5] = new THREE.Mesh(tetoGeometry, tetoMaterial);
         parede[5].side = THREE.DoubleSide;
         parede[5].material.side = THREE.DoubleSide;
+        parede[5].receiveShadow = true;
 
         //Formar um cubo
         parede[1].position.set(0.0, (tamanho/9)/2, (tamanho/9));
@@ -372,6 +381,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         paredeTorre[5] = new THREE.Mesh(tetoTorreGeometry, tetoMaterial);
         paredeTorre[5].side = THREE.DoubleSide;
         paredeTorre[5].material.side = THREE.DoubleSide;
+        paredeTorre[5].receiveShadow = true;
 
         //Formar um cubo
         paredeTorre[1].position.set(0.0, (tamanho/18)/2, (tamanho/18));
@@ -495,6 +505,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         //circle2.rotation.x = Math.PI / 2;
 
         cylinder.add(circle);
+        circle.receiveShadow = true;
         //cylinder.add(circle2);
 
         parede[5].add(cylinder);
@@ -540,7 +551,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         circle.rotation.x = -Math.PI / 2;
         //circle2.position.set(0.0, -5, 0);
         //circle2.rotation.x = Math.PI / 2;
-
+        circle.receiveShadow = true;
         cylinder.add(circle);
         //cylinder.add(circle2);
 
@@ -600,12 +611,14 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
             parede[i] = new THREE.Mesh(paredeGeometry, predioMaterial);
             parede[i].side = THREE.DoubleSide;
             parede[i].material.side = THREE.DoubleSide;
+            parede[i].castShadow = true;
         }
 
         //topo
         parede[5] = new THREE.Mesh(tetoGeometry, tetoMaterial);
         parede[5].side = THREE.DoubleSide;
         parede[5].material.side = THREE.DoubleSide;
+        parede[5].receiveShadow = true;
 
         //Formar um cubo
         parede[1].position.set(0.0, (tamanho/9)/2, (tamanho/9));
@@ -671,6 +684,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
                 paredeTorre[i].side = THREE.DoubleSide;
                 paredeTorre[i].material.side = THREE.DoubleSide;
             }
+            paredeTorre[i].castShadow = true;
 
         }
 
@@ -678,6 +692,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         paredeTorre[5] = new THREE.Mesh(tetoTorreGeometry, tetoMaterial);
         paredeTorre[5].side = THREE.DoubleSide;
         paredeTorre[5].material.side = THREE.DoubleSide;
+        paredeTorre[5].receiveShadow = true;
 
         //Formar um cubo
         paredeTorre[1].position.set(0.0, (tamanho/18), (tamanho/18));
@@ -746,6 +761,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         //circle2.position.set(0.0, -5, 0);
         //circle2.rotation.x = Math.PI / 2;
 
+        circle.receiveShadow = true;
         cylinder.add(circle);
         //cylinder.add(circle2);
 
@@ -765,7 +781,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         circle2.rotation.x = -Math.PI / 2;
         //circle2.position.set(0.0, -5, 0);
         //circle2.rotation.x = Math.PI / 2;
-
+        circle2.receiveShadow = true;
         cylinder2.add(circle2);
         var cubeGeometry = new THREE.BoxGeometry(20, 15, 20);
         var cubeMaterial = new THREE.MeshNormalMaterial();
@@ -775,6 +791,7 @@ import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
         cube.add(cylinder2);
         cube.position.set(0,0,-4);
         cubo.add(cube);
+        cube.receiveShadow = true;
     }
 
     function modeloPraca(cubo){
