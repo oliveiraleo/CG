@@ -10,7 +10,8 @@ import {initRenderer,
         degreesToRadians,
         SecondaryBox,
         InfoBox,
-        lightFollowingCamera} from '../libs/util/util.js';
+        //lightFollowingCamera} from '../libs/util/util.js';
+        lightFollowingCamera} from './util.js';
 
 import { gerarArvores } from './classes/arvore.js';
 import {Aviao} from './classes/aviao.js';
