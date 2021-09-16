@@ -365,7 +365,7 @@ const loadingManager = new THREE.LoadingManager( () => {
     //loadingScreen.classList.add( 'fade-out' );
     
     // optional: remove loader from DOM via event listener
-    //loadingScreen.addEventListener( 'transitionend', onTransitionEnd ); #Loading
+    loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
     
 } );
 function onTransitionEnd( event ) {
@@ -768,11 +768,6 @@ function showInformation()
     controls.addParagraph();
     controls.add("Music controls:");
     controls.add("Press P to play / pause the sound track");
-    controls.addParagraph();
-    controls.add("To enable the loading screen:");
-    controls.add("Clone the repo locally and uncomment");
-    controls.add("all lines with the #Loading keyword");
-    controls.add("(inside both .html and .js files) then reload");
     controls.show();
 }
 
@@ -869,6 +864,6 @@ function render() {
     checkHit(); // Checks if the airplane hit some check point
     lightFollowingCamera(spotLight, aviao.getCameraInspecao()); // enables the light inside inspection mode to follow the camera
     onLoadExternalObjects(); // Check if external objects are already loaded
-    //atualizaTextoLoader(); // Mostra texto da tela inicial #Loading
+    atualizaTextoLoader(); // Mostra texto da tela inicial
 }
 render();
