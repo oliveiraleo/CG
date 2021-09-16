@@ -1,6 +1,12 @@
 import * as THREE from '../../build/three.module.js';
 import {TrackballControls} from '../../build/jsm/controls/TrackballControls.js';
 
+var myHeaders = new Headers();
+
+myHeaders.append('Content-Type', 'application/javascript');
+//myHeaders.get('Content-Type') // should return 'text/xml'
+
+
 /**
  * Get ASCII table code of a given character
  * Use character in uppercase
