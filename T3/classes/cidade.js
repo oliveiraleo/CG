@@ -4,7 +4,7 @@ import {initRenderer,
     onWindowResize, 
     degreesToRadians,
     //initDefaultBasicLight,
-    InfoBox} from "/libs/util/util.js";
+    InfoBox} from "./util.js";
 import {OBJLoader} from '../../build/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from '../../build/jsm/loaders/MTLLoader.js';
 
